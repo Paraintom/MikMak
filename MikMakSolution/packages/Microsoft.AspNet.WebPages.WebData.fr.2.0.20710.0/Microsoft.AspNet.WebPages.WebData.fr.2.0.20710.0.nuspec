@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNet.WebPages.WebData.fr</id>
+    <version>2.0.20710.0</version>
+    <title>Ressources en français pour Microsoft ASP.NET Web Pages 2 Web Data</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/WebPages_2_eula_FRA.htm</licenseUrl>
+    <projectUrl>http://www.asp.net/web-pages</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Ce package inclut les assemblys satellites Français pour ASP.NET Web Pages 2 Web Data.</description>
+    <summary>Ressources Français pour le package Microsoft.AspNet.WebPages.WebData</summary>
+    <language>fr</language>
+    <tags>Microsoft AspNet WebPages AspNetWebPages</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebPages.WebData" version="[2.0.20710.0]" />
+    </dependencies>
+  </metadata>
+</package>
