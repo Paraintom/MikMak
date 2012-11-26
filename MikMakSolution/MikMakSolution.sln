@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morpion", "Morpion\Morpion.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorpionTester", "MorpionTester\MorpionTester.csproj", "{409E34B1-96AF-4D4A-A23A-5B5E12D39116}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Main", "MikMak.Main\MikMak.Main.csproj", "{D02AE43B-D6A0-4013-A893-E06846923615}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,16 @@ Global
 		{409E34B1-96AF-4D4A-A23A-5B5E12D39116}.Release|Mixed Platforms.Build.0 = Release|x86
 		{409E34B1-96AF-4D4A-A23A-5B5E12D39116}.Release|x86.ActiveCfg = Release|x86
 		{409E34B1-96AF-4D4A-A23A-5B5E12D39116}.Release|x86.Build.0 = Release|x86
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D02AE43B-D6A0-4013-A893-E06846923615}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

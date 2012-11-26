@@ -19,7 +19,8 @@ namespace MorpionTester
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MikMak.Interfaces.IGameManager manager;
+        private string gameID = "test";
+        private MikMak.Interfaces.IGame manager;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,8 +34,19 @@ namespace MorpionTester
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            var a = manager.GetState("test");
-            ShowResult(a);
+            try
+            {
+                var a = manager.GetState(gameID);
+                ShowResult(a);
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception" + ex.ToString());
+            }
+            gameID = manager.GetNewGame();
+            var newState = manager.GetState(gameID);
+            ShowResult(newState);
         }
 
         private String GetString(MikMak.Commons.GridState a)

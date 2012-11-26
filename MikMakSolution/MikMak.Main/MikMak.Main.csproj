@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{734C7FDE-FA2A-4B22-993E-2890243F3430}</ProjectGuid>
+    <ProjectGuid>{D02AE43B-D6A0-4013-A893-E06846923615}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MikMak.Commons</RootNamespace>
-    <AssemblyName>MikMak.Commons</AssemblyName>
+    <RootNamespace>MikMak.Main</RootNamespace>
+    <AssemblyName>MikMak.Main</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,19 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commons\GameOverview.cs" />
-    <Compile Include="Commons\GridState.cs" />
-    <Compile Include="Commons\Message.cs" />
-    <Compile Include="Commons\Move.cs" />
-    <Compile Include="Commons\Pawn.cs" />
-    <Compile Include="Commons\Point.cs" />
-    <Compile Include="Commons\Session.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
-    <Compile Include="Interfaces\IGamesLookup.cs" />
-    <Compile Include="Interfaces\IGamesManager.cs" />
-    <Compile Include="Interfaces\IPersistenceManager.cs" />
-    <Compile Include="Interfaces\ISessionManager.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="GamesManagement\GameManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MikMakCommons\MikMakCommons.csproj">
+      <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>
+      <Name>MikMakCommons</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

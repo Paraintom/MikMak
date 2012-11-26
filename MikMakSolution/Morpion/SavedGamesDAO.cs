@@ -81,29 +81,13 @@ namespace Morpion
             {
                 return allGamesE[0];
             }
-
-            var newState = GetNewGameGridState();
-            allGames.Add(newState);
-            return newState;
+            throw new Exception("Game does not exist!");
         }
 
         public void SaveState(string gameId, GridState toSave)
         {
             var current = new List<GridState>() { toSave };
             Serialiser(current);
-        }
-
-        private static GridState GetNewGameGridState()
-        {
-            return new GridState()
-            {
-                CurrentMessage = Message.GetMessage(MorpionMessage.NewGame),
-                IsGridShifted = false,
-                MoveNumber = 1,
-                NextPlayerToPlay = 1,
-                NumberColumns = 3,
-                NumberLines = 3
-            };
-        }
+        }        
     }
 }
