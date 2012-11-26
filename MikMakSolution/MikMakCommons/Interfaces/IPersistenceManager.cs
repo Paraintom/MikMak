@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MikMak.Commons;
 
-namespace MikMakCommons.Interfaces
+namespace MikMak.Interfaces
 {
     public interface IPersistenceManager
     {

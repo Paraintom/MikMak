@@ -19,7 +19,7 @@ namespace MorpionTester
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MikMakCommons.Interfaces.IGameManager manager;
+        private MikMak.Interfaces.IGameManager manager;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,17 +37,17 @@ namespace MorpionTester
             ShowResult(a);
         }
 
-        private String GetString(MikMakCommons.GridState a)
+        private String GetString(MikMak.Commons.GridState a)
         {
             char[] allData = new char[9];
             for (int i = 0; i < 9; i++)
-			{
+            {
                 allData[i] = 'O';
-			}
+            }
 
             foreach (var item in a.PawnLocations)
             {
-                int i = item.Coord.x-1 + 3*(item.Coord.y-1);
+                int i = item.Coord.x - 1 + 3 * (item.Coord.y - 1);
                 allData[i] = item.Name;
             }
             return new string(allData);
@@ -59,14 +59,14 @@ namespace MorpionTester
 
             if (Int32.TryParse(textBoxjoueur.Text, out joueur) && Int32.TryParse(textBoxx.Text, out x) && Int32.TryParse(textBoxy.Text, out y))
             {
-                var move = new MikMakCommons.Move()
+                var move = new MikMak.Commons.Move()
                 {
                     PlayerId = joueur,
-                    Positions = new List<MikMakCommons.Pawn>(){
-                        new MikMakCommons.Pawn('e', x,y)
+                    Positions = new List<MikMak.Commons.Pawn>(){
+                        new MikMak.Commons.Pawn('e', x , y)
                     }
                 };
-                var d = manager.Play("test", move); 
+                var d = manager.Play("test", move);
                 ShowResult(d);
 
             }
@@ -77,7 +77,7 @@ namespace MorpionTester
             }
         }
 
-        private void ShowResult(MikMakCommons.GridState d)
+        private void ShowResult(MikMak.Commons.GridState d)
         {
             this.textBox1.Text = GetString(d);
             this.textBoxshowRes.Text = d.CurrentMessage.Information;

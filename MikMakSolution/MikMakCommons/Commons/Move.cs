@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MikMakCommons
+namespace MikMak.Commons
 {
     /// <summary>
     /// A move come for a player and has to be forwarded to a <code>IGameManager</code>.
@@ -15,6 +15,7 @@ namespace MikMakCommons
         /// The player Id (1 or 2) for Tic tac toe for example
         /// </summary>
         public int PlayerId { get; set; }
+
         /// <summary>
         /// Position taken by the Pawn played.
         /// For Tic tac toe, this list has length of 1,

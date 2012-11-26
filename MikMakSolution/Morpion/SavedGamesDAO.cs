@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MikMakCommons;
-using MikMakCommons.Interfaces;
+using MikMak.Commons;
+using MikMak.Interfaces;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -10,14 +10,14 @@ namespace Morpion
 {
     internal class SavedGamesDAO : IPersistenceManager
     {
-        private string path = @".\datas.bin";
+        //private string path = @".\datas.bin";
         private List<GridState> allGames;
 
         public SavedGamesDAO()
         {
             try
-            {                    
-            allGames = Deserialiser();
+            {
+                allGames = Deserialiser();
             }
             catch (Exception e)
             {
@@ -38,7 +38,7 @@ namespace Morpion
                     toReturn = (List<GridState>)serializer.Deserialize(reader);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Exception : " + e);
             }
@@ -61,7 +61,7 @@ namespace Morpion
                     serializer.Serialize(writer, toReturn);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Exception : " + e);
                 // do nothing, just ignore any possible errors
@@ -77,7 +77,7 @@ namespace Morpion
         public GridState GetState(string gameId)
         {
             var allGamesE = Deserialiser();
-            if (allGamesE.Count !=0)
+            if (allGamesE.Count != 0)
             {
                 return allGamesE[0];
             }

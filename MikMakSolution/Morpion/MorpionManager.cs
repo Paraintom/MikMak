@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using MikMakCommons;
-using MikMakCommons.Interfaces;
+using MikMak.Commons;
+using MikMak.Interfaces;
 using System.ComponentModel;
 
 namespace Morpion

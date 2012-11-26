@@ -8,8 +8,8 @@
     <ProjectGuid>{734C7FDE-FA2A-4B22-993E-2890243F3430}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MikMakCommons</RootNamespace>
-    <AssemblyName>MikMakCommons</AssemblyName>
+    <RootNamespace>MikMak.Commons</RootNamespace>
+    <AssemblyName>MikMak.Commons</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,13 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\GameOverview.cs" />
     <Compile Include="Commons\GridState.cs" />
     <Compile Include="Commons\Message.cs" />
     <Compile Include="Commons\Move.cs" />
     <Compile Include="Commons\Pawn.cs" />
     <Compile Include="Commons\Point.cs" />
+    <Compile Include="Commons\Session.cs" />
     <Compile Include="Interfaces\IGameManager.cs" />
+    <Compile Include="Interfaces\IGamesLookup.cs" />
     <Compile Include="Interfaces\IPersistenceManager.cs" />
+    <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

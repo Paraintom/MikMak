@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MikMakCommons
+namespace MikMak.Commons
 {
     /// <summary>
     /// That class represent the state of a game.    
@@ -40,7 +40,8 @@ namespace MikMakCommons
         /// </summary>        
         public Message CurrentMessage { get; set; }
 
-        public GridState() {
+        public GridState()
+        {
             PawnLocations = new List<Pawn>();
             CurrentMessage = Message.GetMessage(ClassicMessage.Default);
         }

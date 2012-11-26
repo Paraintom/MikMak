@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MikMakCommons
+namespace MikMak.Commons
 {
     /// <summary>
     /// No comment

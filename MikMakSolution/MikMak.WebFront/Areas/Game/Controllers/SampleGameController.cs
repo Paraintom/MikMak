@@ -24,8 +24,8 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         // POST api/samplegame
         public Map Post([FromBody]int id)
         {
-            if(id==2)
-            return new Map();
+            if (id == 2)
+                return new Map();
 
             return null;
         }
@@ -58,13 +58,10 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             public Map()
             {
                 Coords = new List<Coord>();
-                Coords.Add(new Coord(1,1));
+                Coords.Add(new Coord(1, 1));
                 Coords.Add(new Coord(6, 2));
                 Coords.Add(new Coord(5, 3));
             }
-            
         }
-
-
     }
 }

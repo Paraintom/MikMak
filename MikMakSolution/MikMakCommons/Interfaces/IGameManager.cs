@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MikMak.Commons;
 
-namespace MikMakCommons.Interfaces
+namespace MikMak.Interfaces
 {
     /// <summary>
-    /// Very Important interface that each .dll game should implement only Once.
+    /// Very Important interface that each game library should implement only once.
     /// </summary>
     public interface IGameManager
     {
