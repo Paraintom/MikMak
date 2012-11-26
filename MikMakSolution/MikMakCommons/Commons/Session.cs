@@ -13,6 +13,11 @@ namespace MikMak.Commons
     public class Session
     {
         /// <summary>
+        /// The Session Id
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// Player number in the game, by convention start at 1.
         /// 0 = not defined
         /// </summary>
@@ -27,7 +32,7 @@ namespace MikMak.Commons
         /// <summary>
         /// The unique id of the game
         /// </summary>
-        public string gameId { get; set; }
+        public string GameId { get; set; }
 
         /// <summary>
         /// Date when the session expire.

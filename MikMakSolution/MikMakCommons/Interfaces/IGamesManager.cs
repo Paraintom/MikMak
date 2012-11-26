@@ -23,16 +23,16 @@ namespace MikMak.Interfaces
         /// <summary>
         /// Return the State of the game link with the session 
         /// </summary>
-        /// <param name="sessionId">the sessionId</param>
+        /// <param name="session">the sessionId</param>
         /// <returns>The current game state</returns>
-        GridState GetState(Session sessionId);       
+        GridState GetState(Session session);       
 
         /// <summary>
         /// Play a move durring a session
         /// </summary>
-        /// <param name="sessionId">the sessionId</param>
+        /// <param name="session">the sessionId</param>
         /// <param name="move">The move played</param>
         /// <returns>The next game state</returns>
-        GridState Play(Session sessionId, Move move);
+        GridState Play(Session session, Move move);
     }
 }

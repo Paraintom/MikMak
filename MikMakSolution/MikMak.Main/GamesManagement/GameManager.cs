@@ -4,24 +4,39 @@ using System.Linq;
 using System.Text;
 using MikMak.Interfaces;
 using MikMak.Commons;
+using MikMak.Main.InternalInterfaces;
 
 namespace MikMak.Main.GamesManagement
 {
     public class GameManager : IGamesManager
     {
+        private int defaultPlayerNumber = 1;
+        private ITypeGameMapping typeMapping;
+        private ISessionManager sessionManager;
+
+        public GameManager()
+        {
+            // TODO Initialize the field typeMapping and sessionManager.
+        }
+
         public string GetNewGame(Session initialSession, int gameType, string opponent)
         {
-            throw new NotImplementedException();
+            var game = typeMapping.GetGame(gameType);
+            string gameId = game.GetNewGame();
+            Session newSession = sessionManager.CreateSession(initialSession, gameId, gameType, defaultPlayerNumber);
+            return newSession.Id;
         }
 
-        public GridState GetState(Session sessionId)
+        public GridState GetState(Session session)
         {
-            throw new NotImplementedException();
+            var game = typeMapping.GetGame(session.GameType);
+            return game.GetState(session.GameId);
         }
 
-        public GridState Play(Session sessionId, Move move)
+        public GridState Play(Session session, Move move)
         {
-            throw new NotImplementedException();
+            var game = typeMapping.GetGame(session.GameType);
+            return game.Play(session.GameId, move);
         }
     }
 }
