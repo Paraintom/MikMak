@@ -24,6 +24,11 @@ namespace MikMak.Commons
         public int PlayerNumber { get; set; }
 
         /// <summary>
+        /// Player Id.
+        /// </summary>
+        public int PlayerId { get; set; }
+
+        /// <summary>
         /// The game type can be Morpion, Go or Chess.
         /// 0 = not defined
         /// </summary>

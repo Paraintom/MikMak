@@ -6,9 +6,68 @@ using MikMak.Commons;
 
 namespace MikMak.Interfaces
 {
+    /// <summary>
+    /// Link Between Application and Persisted Data
+    /// </summary>
     public interface IPersistenceManager
     {
+        /// <summary>
+        /// No Comment
+        /// </summary>
+        /// <param name="login">The login</param>
+        /// <param name="password">The Password</param>
+        /// <returns>The player id</returns>
+        int CreateAccout(string login, string password);
+
+        /// <summary>
+        /// Test if the credentials exist and match persisted ones, throw Exceptions if something wrong
+        /// </summary>
+        /// <param name="login">the login to test</param>
+        /// <param name="password">the password to test</param>
+        /// <returns>The player Id</returns>
+        int SubmitCredential(string login, string password);
+
+        /// <summary>
+        /// Get the player Id from the login
+        /// </summary>
+        /// <param name="login">The login</param>
+        /// <returns>The player's Id</returns>
+        int GetAccount(string login);
+
+        /// <summary>
+        /// Persist a Game with the link with players involved
+        /// </summary>
+        /// <param name="gameId">the game id</param>
+        /// <param name="initialState">the initial state</param>
+        /// <param name="playerInvolved">The list of player involved (better to persist starting at 1 instead of 0)</param>
+        void CreateGame(string gameId, GridState initialState, List<int> playerInvolved);
+
+        /// <summary>
+        /// Return all the active game of a player
+        /// </summary>
+        /// <param name="playerId">The player id</param>
+        /// <returns>All the games</returns>
+        List<GameOverview> GetAllGames(int playerId);
+
+        /// <summary>
+        /// No Comment, update also the last update of a game
+        /// </summary>
+        /// <param name="GameId">The game Id</param>
+        /// <param name="newState">The new state</param>
+        void UpdateState(string gameId, GridState newState);
+
+        /// <summary>
+        /// No comment
+        /// </summary>
+        /// <param name="gameId">The game id</param>
+        /// <returns>The current state</returns>
         GridState GetState(string gameId);
-        void SaveState(string gameId, GridState toSave);
+
+        /// <summary>
+        /// No comment
+        /// </summary>
+        /// <param name="gameId">The game id</param>
+        /// <returns>The game overview</returns>
+        GameOverview GetGameOverview(string gameId);
     }
 }

@@ -30,8 +30,8 @@ namespace MikMak.Commons
         public DateTime LastUpdate { get; set; }
 
         /// <summary>
-        /// List of all other players involved
+        /// List of all other players id involved
         /// </summary>
-        public List<string> Players { get; set; }
+        public List<int> Players { get; set; }
     }
 }
