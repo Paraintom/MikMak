@@ -32,7 +32,31 @@ namespace MikMak.Main.Security
 
         public Session GetSession(string login, string password)
         {
-            int playerId = persistenceManager.SubmitCredential(login, password);
+            AccountOverview playerOverview = null;
+            try
+            {
+                playerOverview = persistenceManager.GetAccountOverview(login);
+            }
+            catch (Exception e)
+            {                
+                // Exception caugth from persistenceManager, technical raison, not buiness
+                var toRethrow = new InvalidCredentialException(e.Message);
+                throw toRethrow;
+            }
+
+            // No result found
+            if (playerOverview == null)
+            {
+                throw new InvalidCredentialException(InvalidCredentialEnum.NoLoginFound);
+            }
+
+            // Invalid Password
+            if (playerOverview.Password !=password)
+            {
+                throw new InvalidCredentialException(InvalidCredentialEnum.BadPassword);
+            }
+
+            int playerId = playerOverview.PlayerId;
 
             var session = new Session
             {

@@ -20,19 +20,11 @@ namespace MikMak.Interfaces
         int CreateAccout(string login, string password);
 
         /// <summary>
-        /// Test if the credentials exist and match persisted ones, throw Exceptions if something wrong
+        /// Get the credentials persisted from a login, throw Exceptions if something wrong
         /// </summary>
-        /// <param name="login">the login to test</param>
-        /// <param name="password">the password to test</param>
-        /// <returns>The player Id</returns>
-        int SubmitCredential(string login, string password);
-
-        /// <summary>
-        /// Get the player Id from the login
-        /// </summary>
-        /// <param name="login">The login</param>
-        /// <returns>The player's Id</returns>
-        int GetAccount(string login);
+        /// <param name="login">the login</param>
+        /// <returns>All player Infos</returns>
+        AccountOverview GetAccountOverview(string login);
 
         /// <summary>
         /// Persist a Game with the link with players involved

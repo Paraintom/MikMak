@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\AccountOverview.cs" />
     <Compile Include="Commons\GameOverview.cs" />
     <Compile Include="Commons\GridState.cs" />
     <Compile Include="Commons\Message.cs" />

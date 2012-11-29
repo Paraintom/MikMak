@@ -84,10 +84,40 @@ namespace Morpion
             throw new Exception("Game does not exist!");
         }
 
-        public void SaveState(string gameId, GridState toSave)
+        private void SaveState(string gameId, GridState toSave)
         {
             var current = new List<GridState>() { toSave };
             Serialiser(current);
-        }        
+        }
+
+        public int CreateAccout(string login, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AccountOverview GetAccountOverview(string login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateGame(string gameId, GridState initialState, List<int> playerInvolved)
+        {
+            SaveState(gameId, initialState);
+        }
+
+        public List<GameOverview> GetAllGames(int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateState(string gameId, GridState newState)
+        {
+            SaveState(gameId, newState);
+        }
+
+        public GameOverview GetGameOverview(string gameId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

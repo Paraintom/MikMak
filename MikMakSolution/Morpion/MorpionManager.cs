@@ -8,7 +8,7 @@ namespace Morpion
 {
     public class MorpionManager : IGame
     {
-        private SavedGamesDAO dao = new SavedGamesDAO();
+        private IPersistenceManager dao = new SavedGamesDAO();
         private static int counter = 0;
 
         public GridState GetState(string gameId)
@@ -54,7 +54,7 @@ namespace Morpion
                 currentState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
                 currentState.CurrentMessage = Message.GetMessage((currentState.NextPlayerToPlay == 2) ? MorpionMessage.J2 : MorpionMessage.J1);
             }
-            dao.SaveState(gameId, currentState);
+            dao.UpdateState(gameId, currentState);
             return currentState;
         }
 
@@ -73,7 +73,7 @@ namespace Morpion
             lock(dao){
                 string gameId = DateTime.Now.Ticks.ToString() + counter;
                 counter++;
-                dao.SaveState(gameId, GetNewGameGridState());
+                dao.CreateGame(gameId, GetNewGameGridState(), new System.Collections.Generic.List<int>() {339, 440 });
                 return gameId;
             }
         }

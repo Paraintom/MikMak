@@ -10,10 +10,17 @@ namespace MikMak.Main.Security
     public class InvalidCredentialException : Exception
     {
         public InvalidCredentialEnum  InvalidCredentialNumber { get; set; }
-        
-        public InvalidCredentialException(InvalidCredentialEnum raison) : base(raison.Description()) 
+
+        public InvalidCredentialException(InvalidCredentialEnum raison)
+            : base(raison.Description())
         {
             InvalidCredentialNumber = raison;
+        }
+
+        public InvalidCredentialException(string message)
+            : base(message)
+        {
+            InvalidCredentialNumber = InvalidCredentialEnum.UnknowRaison;
         }
     }
 

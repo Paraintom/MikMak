@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,12 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="GamesManagement\GameManager.cs" />
+    <Compile Include="MyConfiguration.cs" />
+    <Compile Include="Security\InvalidCredentialException.cs" />
+    <Compile Include="Security\SessionManager.cs" />
     <Compile Include="InternalInterfaces\ITypeGameMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MikMakCommons\MikMakCommons.csproj">
       <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>
