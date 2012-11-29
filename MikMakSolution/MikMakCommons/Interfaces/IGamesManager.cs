@@ -16,9 +16,9 @@ namespace MikMak.Interfaces
         /// </summary>
         /// <param name="initialSession">a valid session</param>
         /// <param name="gameType">the type of game</param>
-        /// <param name="opponent">the name of the opponent</param>
+        /// <param name="opponent">the id of the opponent</param>
         /// <returns>a session id of the new Game</returns>
-        string GetNewGame(Session initialSession, int gameType, string opponent);
+        string GetNewGame(Session initialSession, int gameType, int opponentId);
 
         /// <summary>
         /// Return the State of the game link with the session 

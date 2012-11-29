@@ -10,20 +10,26 @@ namespace MikMak.Main.GamesManagement
 {
     public class GameManager : IGamesManager
     {
-        private int defaultPlayerNumber = 1;
         private ITypeGameMapping typeMapping;
+        private ILinkPlayersGames linkManager;
         private ISessionManager sessionManager;
 
         public GameManager()
         {
-            // TODO Initialize the field typeMapping and sessionManager.
+            // TODO Initialize the field typeMapping and sessionManager. (UNITY)
         }
 
-        public string GetNewGame(Session initialSession, int gameType, string opponent)
+        public string GetNewGame(Session initialSession, int gameType, int opponent)
         {
+            int playerId = initialSession.PlayerId;
+            // 1-Create The game
             var game = typeMapping.GetGame(gameType);
             string gameId = game.GetNewGame();
-            Session newSession = sessionManager.CreateSession(initialSession, gameId, gameType, defaultPlayerNumber);
+            // 2-Link the players Id with player numbers
+            List<int> listPlayers = new List<int> { initialSession.PlayerId, opponent };
+            linkManager.LinkedPlayersToGame(listPlayers, gameId);
+            // 3-Create a new Session to be ready to play
+            Session newSession = sessionManager.CreateSession(initialSession, gameId, gameType, listPlayers.IndexOf(playerId));
             return newSession.Id;
         }
 
