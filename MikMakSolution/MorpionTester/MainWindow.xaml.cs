@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Morpion;
+using MikMak.Main.GamesManagement;
 
 namespace MorpionTester
 {
@@ -21,10 +21,13 @@ namespace MorpionTester
     {
         private string gameID = "test";
         private MikMak.Interfaces.IGame manager;
+        private TypeGameMappingByReflection loader;
         public MainWindow()
         {
+
             InitializeComponent();
-            manager = new MorpionManager();
+            loader = new TypeGameMappingByReflection();
+            manager = loader.GetGame(1);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -93,6 +96,11 @@ namespace MorpionTester
         {
             this.textBox1.Text = GetString(d);
             this.textBoxshowRes.Text = d.CurrentMessage.Information;
+        }
+
+        private void buttonLoadAssembly_Click(object sender, RoutedEventArgs e)
+        {
+            //MikMak.
         }
     }
 }

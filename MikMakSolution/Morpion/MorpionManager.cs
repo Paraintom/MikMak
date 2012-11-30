@@ -89,6 +89,11 @@ namespace Morpion
                 NumberLines = 3
             };
         }
+
+        public int GetGameType()
+        {
+            return 1;
+        }
     }
 
     public static class MyExtensionMethods

@@ -86,6 +86,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,13 +94,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MikMak.Main\MikMak.Main.csproj">
+      <Project>{D02AE43B-D6A0-4013-A893-E06846923615}</Project>
+      <Name>MikMak.Main</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MikMakCommons\MikMakCommons.csproj">
       <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>
       <Name>MikMakCommons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Morpion\Morpion.csproj">
-      <Project>{C0B80D70-C0B5-4D73-8763-30F0EE73DD41}</Project>
-      <Name>Morpion</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
