@@ -14,7 +14,7 @@ namespace MikMak.Commons
         /// <summary>
         /// The player Id (1 or 2) for Tic tac toe for example
         /// </summary>
-        public int PlayerId { get; set; }
+        public int PlayerNumber { get; set; }
 
         /// <summary>
         /// Position taken by the Pawn played.

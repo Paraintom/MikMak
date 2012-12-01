@@ -8,7 +8,7 @@ namespace MikMak.Main.InternalInterfaces
     /// <summary>
     /// This interface is used for defining and retrieving the link between a game and the players.
     /// </summary>
-    public interface ILinkPlayersGames
+    internal interface ILinkPlayersGames
     {
         /// <summary>
         /// Link players to a game.

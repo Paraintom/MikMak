@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MikMak.Main.GamesManagement;
+using MikMak.Main.Security;
+using MikMak.Commons;
 
 namespace MorpionTester
 {
@@ -20,14 +22,16 @@ namespace MorpionTester
     public partial class MainWindow : Window
     {
         private string gameID = "test";
-        private MikMak.Interfaces.IGame manager;
-        private TypeGameMappingByReflection loader;
+        private GameManager manager;
+        private SessionManager sessionManager;
+        private Session currentSession;
+
         public MainWindow()
         {
-
+            var persist = new PersistenceManager();
+            sessionManager = new SessionManager(persist);
+            manager = new GameManager(persist);
             InitializeComponent();
-            loader = new TypeGameMappingByReflection();
-            manager = loader.GetGame(1);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -39,17 +43,23 @@ namespace MorpionTester
         {
             try
             {
-                var a = manager.GetState(gameID);
+                var a = manager.GetState(currentSession);
                 ShowResult(a);
                 return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception" + ex.ToString());
+                if (ex.Message.StartsWith("Game"))
+                {
+                    gameID = manager.GetNewGame(currentSession, 1, PersistenceManager.GetPlayerId("tom"));
+                    var newState = manager.GetState(currentSession);
+                    ShowResult(newState);
+                }
+                else
+                {
+                    MessageBox.Show("Exception" + ex.ToString());
+                }
             }
-            gameID = manager.GetNewGame();
-            var newState = manager.GetState(gameID);
-            ShowResult(newState);
         }
 
         private String GetString(MikMak.Commons.GridState a)
@@ -70,25 +80,31 @@ namespace MorpionTester
 
         private void buttonpl_Click(object sender, RoutedEventArgs e)
         {
-            int joueur, x, y;
-
-            if (Int32.TryParse(textBoxjoueur.Text, out joueur) && Int32.TryParse(textBoxx.Text, out x) && Int32.TryParse(textBoxy.Text, out y))
+            int  x, y;
+            try
             {
-                var move = new MikMak.Commons.Move()
+                if (Int32.TryParse(textBoxx.Text, out x) && Int32.TryParse(textBoxy.Text, out y))
                 {
-                    PlayerId = joueur,
-                    Positions = new List<MikMak.Commons.Pawn>(){
+                    var move = new MikMak.Commons.Move()
+                    {
+                        PlayerNumber = currentSession.PlayerNumber,
+                        Positions = new List<MikMak.Commons.Pawn>(){
                         new MikMak.Commons.Pawn('e', x , y)
                     }
-                };
-                var d = manager.Play("test", move);
-                ShowResult(d);
+                    };
+                    var d = manager.Play(currentSession, move);
+                    //Play("test", move);
+                    ShowResult(d);
 
+                }
+                else
+                {
+                    this.textBox1.Text = "Err of parsing";
+                }
             }
-            else
+            catch (Exception u)
             {
-
-                this.textBox1.Text = "Err";
+                MessageBox.Show("Exception : " + u.ToString());
             }
         }
 
@@ -98,9 +114,18 @@ namespace MorpionTester
             this.textBoxshowRes.Text = d.CurrentMessage.Information;
         }
 
-        private void buttonLoadAssembly_Click(object sender, RoutedEventArgs e)
+        private void buttonConnect_Click(object sender, RoutedEventArgs e)
         {
-            //MikMak.
+            try
+            {
+                currentSession = sessionManager.GetSession(textBoxLogin.Text, textBoxPassword.Text);
+                currentSession = sessionManager.GetSession(currentSession, gameID);
+                MessageBox.Show("You are connected : " + currentSession.Id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception : " + ex.ToString());
+            }
         }
     }
 }

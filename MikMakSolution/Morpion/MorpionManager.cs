@@ -25,7 +25,7 @@ namespace Morpion
                 return currentState;
             }
             //1-Not Your turn
-            if (move.PlayerId != currentState.NextPlayerToPlay)
+            if (move.PlayerNumber != currentState.NextPlayerToPlay)
             {
                 currentState.CurrentMessage = Message.GetMessage(ClassicMessage.NotYourTurn);
                 return currentState;
@@ -40,7 +40,7 @@ namespace Morpion
                 return currentState;
             }
             //3-Case Ok, 
-            var PawnToAdd = new Pawn(move.PlayerId == 1 ? 'B' : 'W', choosenX, choosenY);
+            var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? 'B' : 'W', choosenX, choosenY);
             currentState.PawnLocations.Add(PawnToAdd);
             if (IsFinished(currentState, PawnToAdd))
             {

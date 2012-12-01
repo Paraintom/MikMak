@@ -5,6 +5,7 @@ using System.Text;
 using MikMak.Interfaces;
 using MikMak.Commons;
 using MikMak.Main.InternalInterfaces;
+using MikMak.Main.Security;
 
 namespace MikMak.Main.GamesManagement
 {
@@ -17,6 +18,13 @@ namespace MikMak.Main.GamesManagement
         public GameManager()
         {
             // TODO Initialize the field typeMapping and sessionManager. (UNITY)
+        }
+
+        public GameManager(IPersistenceManager persistenceManager)
+        {
+            typeMapping = new TypeGameMappingByReflection();
+            linkManager = new LinkPlayersGamesByTextFile();
+            sessionManager = new SessionManager(persistenceManager);
         }
 
         public string GetNewGame(Session initialSession, int gameType, int opponent)

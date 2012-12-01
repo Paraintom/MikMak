@@ -12,7 +12,7 @@ namespace MikMak.Main.GamesManagement
     /// <summary>
     /// Implementation of the interface ITypeGameMapping using reflection
     /// </summary>
-    public class TypeGameMappingByReflection : ITypeGameMapping
+    internal class TypeGameMappingByReflection : ITypeGameMapping
     {
         /// <summary>
         /// The path where are stocked the assemblies of the games
