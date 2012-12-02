@@ -14,12 +14,11 @@
         /// <summary>
         /// There is two Queen, give the pawn's owner number
         /// </summary>
-        public int PlayerOwner { get; set; }
+        public Player Player { get; set; }
 
         public Coord Coord { get; set; }
 
-        public Pawn(char name, int x, int y)
-            : this()
+        public Pawn(char name, int x, int y): this()
         {
             this.Name = name;
             Coord.x = x;
