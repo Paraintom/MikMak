@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace MikMak.Game.Entities
+﻿namespace MikMak.DomainModel.Entities
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// That class represent the state of a game.    
     /// </summary>

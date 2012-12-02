@@ -3,4 +3,4 @@ MikMak
 
 Site & plateforme d'h&eacute;bergement de jeux de plateau
 
-Technologies utilisées: .Net Framework, ASP.Net MVC4
+Technologies utilis&eacute;es: .Net Framework, ASP.Net MVC4

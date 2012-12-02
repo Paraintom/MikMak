@@ -46,6 +46,12 @@
     <Compile Include="ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj">
+      <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
+      <Name>MikMak.DomainModel.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

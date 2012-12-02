@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MikMak.Game.Entities
+﻿namespace MikMak.DomainModel.Entities
 {
+
     /// <summary>
     /// This is a class that represent or an Existant Pawn, or a click where you want a pawn to be set.
     /// </summary>

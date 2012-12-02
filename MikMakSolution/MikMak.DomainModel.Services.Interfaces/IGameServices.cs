@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MikMak.Game.Entities;
-
-namespace MikMak.Interfaces
+﻿namespace MikMak.Interfaces
 {
+    using System.Collections.Generic;
+    using MikMak.DomainModel.Entities;
+
     /// <summary>
     /// Very Important interface that each game library should implement only once.
     /// </summary>

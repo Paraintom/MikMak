@@ -1,0 +1,3 @@
+Modèle d'architecture par couche 
+[Services Layer]
+http://msdn.microsoft.com/en-us/library/ee658109.aspx

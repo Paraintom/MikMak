@@ -31,6 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Repository.EntityFra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Repository.Interfaces", "MikMak.Repository.Interfaces\MikMak.Repository.Interfaces.csproj", "{7C623D40-51F5-47BF-A2FE-CBAA94FDFF0D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Doc", "_Doc", "{D28A02A8-72EC-48F2-846B-5E7F033DA0AE}"
+	ProjectSection(SolutionItems) = preProject
+		references.txt = references.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

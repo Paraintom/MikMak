@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MikMak.Game.Entities
+﻿namespace MikMak.DomainModel.Entities
 {
+    using System;
+
     /// <summary>
     /// Class that help to get a rid of authentification.
     /// A session exist in the system only for a certain amount of time and expire.

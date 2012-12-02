@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MikMak.Game.Entities
+﻿namespace MikMak.DomainModel.Entities
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// This class store some meta-data about a game.
     /// </summary>
