@@ -7,7 +7,7 @@
     /// A session exist in the system only for a certain amount of time and expire.
     /// Then the player has to reconnect.
     /// </summary>
-    public class Session
+    public class PlayerInBattle
     {
         /// <summary>
         /// The Session Id
@@ -23,22 +23,12 @@
         /// <summary>
         /// Player Id.
         /// </summary>
-        public int PlayerId { get; set; }
+        public Player Player { get; set; }
 
         /// <summary>
         /// The game type can be Morpion, Go or Chess.
         /// 0 = not defined
         /// </summary>
-        public int GameType { get; set; }
-
-        /// <summary>
-        /// The unique id of the game
-        /// </summary>
-        public string GameId { get; set; }
-
-        /// <summary>
-        /// Date when the session expire.
-        /// </summary>
-        public DateTime MaxValidity { get; set; }
+        public Battle Battle { get; set; }
     }
 }
