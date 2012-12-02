@@ -7,6 +7,12 @@
     /// </summary>
     public class Grid
     {
+        public Grid()
+        {
+            PawnLocations = new List<Pawn>();
+            CurrentMessage = Message.GetMessage(ClassicMessage.Default);
+        }
+
         /// <summary>
         /// Number of lines in the grid
         /// </summary>
@@ -36,11 +42,5 @@
         /// Give a message.  
         /// </summary>        
         public Message CurrentMessage { get; set; }
-
-        public GridState()
-        {
-            PawnLocations = new List<Pawn>();
-            CurrentMessage = Message.GetMessage(ClassicMessage.Default);
-        }
     }
 }

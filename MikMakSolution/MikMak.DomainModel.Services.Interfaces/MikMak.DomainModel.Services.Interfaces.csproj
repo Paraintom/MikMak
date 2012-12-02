@@ -43,7 +43,6 @@
     <Compile Include="IGameServices.cs" />
     <Compile Include="IGamesManager.cs" />
     <Compile Include="IPersistenceManager.cs" />
-    <Compile Include="ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

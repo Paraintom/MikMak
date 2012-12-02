@@ -10,11 +10,6 @@
     public class PlayerInBattle
     {
         /// <summary>
-        /// The Session Id
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
         /// Player number in the game, by convention start at 1.
         /// 0 = not defined
         /// </summary>

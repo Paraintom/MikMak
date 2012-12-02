@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace MikMak.Commons
+namespace MikMak.DomainModel.Entities
 {
     /// <summary>
     /// This class is used for displaying a human readable state of the Game.

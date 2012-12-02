@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using MikMak.Main.InternalInterfaces;
+using MikMak.Configuration;
 
 namespace MikMak.Main.GamesManagement
 {

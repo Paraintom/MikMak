@@ -2,55 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Interfaces;
-using MikMak.Commons;
+using MikMak.DomainModel.Entities;
 using MikMak.Main.InternalInterfaces;
-using MikMak.Main.Security;
+using MikMak.Interfaces;
 
 namespace MikMak.Main.GamesManagement
 {
     public class GameManager : IGamesManager
     {
         private ITypeGameMapping typeMapping;
-        private ILinkPlayersGames linkManager;
-        private ISessionManager sessionManager;
+        private Random ran;
 
         public GameManager()
         {
-            // TODO Initialize the field typeMapping and sessionManager. (UNITY)
-        }
-
-        public GameManager(IPersistenceManager persistenceManager)
-        {
+            // TODO Logs. (UNITY)
             typeMapping = new TypeGameMappingByReflection();
-            linkManager = new LinkPlayersGamesByTextFile();
-            sessionManager = new SessionManager(persistenceManager);
+            ran = new Random();
         }
 
-        public string GetNewGame(Session initialSession, int gameType, int opponent)
+        public Grid Play(PlayerInBattle playerInBattle, Move move)
         {
-            int playerId = initialSession.PlayerId;
+            var game = typeMapping.GetGame(playerInBattle.Battle.GameType);
+            return game.Play(playerInBattle.Battle.GameId, move);
+        }
+
+        public PlayerInBattle GetNewGame(Player firstPlayer, int gameType, List<Player> opponents)
+        {
             // 1-Create The game
             var game = typeMapping.GetGame(gameType);
             string gameId = game.GetNewGame();
+
+            // 2-Preparing listOfPlayers
+            var listPlayers = opponents.Select(p=>p.PlayerId).ToList();
+            listPlayers.Insert(0, firstPlayer.PlayerId);
+            
             // 2-Link the players Id with player numbers
-            List<int> listPlayers = new List<int> { initialSession.PlayerId, opponent };
-            linkManager.LinkedPlayersToGame(listPlayers, gameId);
-            // 3-Create a new Session to be ready to play
-            Session newSession = sessionManager.CreateSession(initialSession, gameId, gameType, listPlayers.IndexOf(playerId));
-            return newSession.Id;
+            PlayerInBattle toReturn = new PlayerInBattle()
+            {
+                Battle = new Battle
+                {
+                    CreationTime = DateTime.Now,
+                    GameId = String.Format("{0}_{1}_{2}_{3}", game.GetGameType(), firstPlayer.PlayerId, GetElapsedSecondsSinceLastNewYear(), ran.Next(99)),
+                    GameType = gameType,
+                    GameTypeString = game.ToString(),
+                    LastUpdate = DateTime.Now,
+                    Players = listPlayers
+                },
+                Player = firstPlayer,
+                PlayerNumber = 1
+            };
+            return toReturn;
         }
 
-        public GridState GetState(Session session)
+        private string GetElapsedSecondsSinceLastNewYear()
         {
-            var game = typeMapping.GetGame(session.GameType);
-            return game.GetState(session.GameId);
+            DateTime centuryBegin = new DateTime(DateTime.Now.Year, 1, 1);
+            DateTime currentDate = DateTime.Now;
+
+            long elapsedTicks = currentDate.Ticks - centuryBegin.Ticks;
+            TimeSpan elapsedSpan = new TimeSpan(elapsedTicks);
+            return elapsedSpan.TotalSeconds.ToString();
         }
 
-        public GridState Play(Session session, Move move)
+        public Grid GetState(Battle battle)
         {
-            var game = typeMapping.GetGame(session.GameType);
-            return game.Play(session.GameId, move);
+            var game = typeMapping.GetGame(battle.GameType);
+            return game.GetState(battle.GameId);
         }
     }
 }

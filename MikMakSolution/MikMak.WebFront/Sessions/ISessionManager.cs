@@ -1,5 +1,6 @@
-﻿namespace MikMak.Interfaces
+﻿namespace MikMak.WebFront.Sessions
 {
+    using MikMak.DomainModel.Entities;
     public interface ISessionManager
     {
         /// <summary>
@@ -26,6 +27,6 @@
         /// <returns></returns>
         Session GetSession(Session otherSession, string gameId);
 
-        Session CreateSession(Session otherSession, string gameId, int gameType, int playerNumber);
+        //Session GetSession(Session otherSession, string gameId, int gameType, int playerNumber);
     }
 }

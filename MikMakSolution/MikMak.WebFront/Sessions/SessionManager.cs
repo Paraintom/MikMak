@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Interfaces;
-using MikMak.Commons;
 using System.Timers;
+using MikMak.DomainModel.Entities;
+using MikMak.Repository.Interfaces;
+using MikMak.Configuration;
 
-namespace MikMak.Main.Security
+namespace MikMak.WebFront.Sessions
 {
     /// <summary>
     /// Class for creating session and managing life cycle.
@@ -19,11 +20,13 @@ namespace MikMak.Main.Security
         private object internalLock = new object();
         private Dictionary<string, Session> allSessions = new Dictionary<string, Session>();
         private Timer cleanUpTimer;
-        private IPersistenceManager persistenceManager;
+        private IPlayerRepository daoPlayer;
+        private IPlayerInBattleRepository daoPlayerInBattle;
 
-        public SessionManager(IPersistenceManager persistenceManager)
+        public SessionManager(IPlayerRepository daoPlayer, IPlayerInBattleRepository daoPlayerInBattle)
         {
-            this.persistenceManager = persistenceManager;
+            this.daoPlayer = daoPlayer;
+            this.daoPlayerInBattle = daoPlayerInBattle;
             cleanUpTimer = new Timer(numberOfMillisecondsBetweenCleanup);
             cleanUpTimer.Elapsed += CleanUpTimer_Elapsed;
             cleanUpTimer.AutoReset = true;
@@ -32,10 +35,10 @@ namespace MikMak.Main.Security
 
         public Session GetSession(string login, string password)
         {
-            AccountOverview playerOverview = null;
+            Player playerOverview = null;
             try
             {
-                playerOverview = persistenceManager.GetAccountOverview(login);
+                playerOverview = daoPlayer.Get(login);
             }
             catch (Exception e)
             {                
@@ -56,16 +59,15 @@ namespace MikMak.Main.Security
                 throw new InvalidCredentialException(InvalidCredentialEnum.BadPassword);
             }
 
-            int playerId = playerOverview.PlayerId;
-
             var session = new Session
             {
-                GameId = string.Empty,
-                GameType = -1,
+                PlayerInBattle = new PlayerInBattle
+                {
+                    Battle = null,
+                    Player = playerOverview
+                },
                 Id = Guid.NewGuid().ToString(),
-                MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut),
-                PlayerId = playerId,
-                PlayerNumber = -1
+                MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut)
             };
 
             Add(session);
@@ -91,40 +93,36 @@ namespace MikMak.Main.Security
 
         public Session GetSession(Session otherSession, string gameId)
         {
-            var gameOverview = this.persistenceManager.GetGameOverview(gameId);
-            if (!gameOverview.Players.Contains(otherSession.PlayerId))
+            var gameOverview = this.daoPlayerInBattle.Get(gameId, otherSession.PlayerInBattle.Player.PlayerId);
+            if (gameOverview == null)
             {
                 throw new InvalidCredentialException(InvalidCredentialEnum.PlayerNotInvolvedInGame);
             }
 
             var session = new Session
             {
-                GameId = gameId,
-                GameType = gameOverview.GameType,
+                PlayerInBattle = gameOverview,
                 Id = Guid.NewGuid().ToString(),
-                MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut),
-                PlayerId = otherSession.PlayerId,
-                //// (Lists index start at 0)
-                PlayerNumber = gameOverview.Players.IndexOf(otherSession.PlayerId) + 1
+                MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut)
             };
             Add(session);
             return session;
         }
 
-        public Session CreateSession(Session otherSession, string gameId, int gameType, int playerNumber)
-        {
-            var session = new Session
-            {
-                GameId = gameId,
-                GameType = gameType,
-                Id = Guid.NewGuid().ToString(),
-                MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut),
-                PlayerId = otherSession.PlayerId,
-                PlayerNumber = playerNumber
-            };
-            Add(session);
-            return session;
-        }
+        //public Session GetSession(Session otherSession, string gameId, int gameType, int playerNumber)
+        //{
+        //    var session = new Session
+        //    {
+        //        GameId = gameId,
+        //        GameType = gameType,
+        //        Id = Guid.NewGuid().ToString(),
+        //        MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut),
+        //        PlayerId = otherSession.PlayerId,
+        //        PlayerNumber = playerNumber
+        //    };
+        //    Add(session);
+        //    return session;
+        //}
 
         private void Add(Session session)
         {

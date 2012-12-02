@@ -14,13 +14,13 @@ namespace MikMak.Main.InternalInterfaces
         /// Retrieve all the mappings between a game type and a game.
         /// </summary>
         /// <returns>All values</returns>
-        Dictionary<int, IGame> GetAllMappings();
+        Dictionary<int, IGameServices> GetAllMappings();
 
         /// <summary>
         /// Retrieve a game based on his game type
         /// </summary>
         /// <param name="typeGame">The game's type</param>
         /// <returns>The game</returns>
-        IGame GetGame(int typeGame);
+        IGameServices GetGame(int typeGame);
     }
 }

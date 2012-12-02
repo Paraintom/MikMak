@@ -12,7 +12,14 @@ namespace MikMak.WebFront
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "Game/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { id = RouteParameter.Optional}
+            );
+            config.Routes.MapHttpRoute(
+                name: "Connect",
+                routeTemplate: "api/{action}",
+                defaults: new { 
+                    controller = "Mikmak"
+                }
             );
         }
     }

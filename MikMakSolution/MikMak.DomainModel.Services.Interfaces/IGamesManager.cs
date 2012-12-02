@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Commons;
+using MikMak.DomainModel.Entities;
 
 namespace MikMak.Interfaces
 {
@@ -12,27 +12,27 @@ namespace MikMak.Interfaces
     public interface IGamesManager
     {
         /// <summary>
-        /// Return the sessionId of a new game
+        /// Create the battle and assign to each player a place in the game.
         /// </summary>
-        /// <param name="initialSession">a valid session</param>
+        /// <param name="initialSession">The player who create the game</param>
         /// <param name="gameType">the type of game</param>
-        /// <param name="opponent">the id of the opponent</param>
-        /// <returns>a session id of the new Game</returns>
-        string GetNewGame(Session initialSession, int gameType, int opponentId);
+        /// <param name="opponents">the list of all opponents</param>
+        /// <returns>Return the information about the link between a player and the new game created</returns>
+        PlayerInBattle GetNewGame(Player firstPlayer, int gameType, List<Player> opponents);
 
         /// <summary>
-        /// Return the State of the game link with the session 
+        /// Return the State of the battle 
         /// </summary>
-        /// <param name="session">the sessionId</param>
+        /// <param name="battle">the battle</param>
         /// <returns>The current game state</returns>
-        GridState GetState(Session session);       
+        Grid GetState(Battle battle);       
 
         /// <summary>
         /// Play a move durring a session
         /// </summary>
-        /// <param name="session">the sessionId</param>
+        /// <param name="player">the player and the battle</param>
         /// <param name="move">The move played</param>
-        /// <returns>The next game state</returns>
-        GridState Play(Session session, Move move);
+        /// <returns>The new game state</returns>
+        Grid Play(PlayerInBattle player, Move move);
     }
 }

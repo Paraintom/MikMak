@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MikMak.Commons
+﻿namespace MikMak.DomainModel.Entities
 {
+
     /// <summary>
     /// This is a class that represent or an Existant Pawn, or a click where you want a pawn to be set.
     /// </summary>
@@ -18,12 +14,11 @@ namespace MikMak.Commons
         /// <summary>
         /// There is two Queen, give the pawn's owner number
         /// </summary>
-        public int PlayerOwner { get; set; }
+        public Player Player { get; set; }
 
-        public Point Coord { get; set; }
+        public Coord Coord { get; set; }
 
-        public Pawn(char name, int x, int y)
-            : this()
+        public Pawn(char name, int x, int y): this()
         {
             this.Name = name;
             Coord.x = x;
@@ -32,7 +27,7 @@ namespace MikMak.Commons
 
         public Pawn()
         {
-            Coord = new Point();
+            Coord = new Coord();
         }
     }
 }

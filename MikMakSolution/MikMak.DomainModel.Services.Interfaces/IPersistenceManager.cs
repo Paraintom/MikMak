@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Game.Entities;
+using MikMak.DomainModel.Entities;
 
 namespace MikMak.Interfaces
 {
@@ -24,7 +24,7 @@ namespace MikMak.Interfaces
         /// </summary>
         /// <param name="login">the login</param>
         /// <returns>All player Infos</returns>
-        Gamer GetAccountOverview(string login);
+        Player GetAccountOverview(string login);
 
         /// <summary>
         /// Persist a Game with the link with players involved
@@ -39,27 +39,27 @@ namespace MikMak.Interfaces
         /// </summary>
         /// <param name="playerId">The player id</param>
         /// <returns>All the games</returns>
-        List<MikMak.Game.Entities.Game> GetAllGames(int playerId);
+        List<Battle> GetAllGames(int playerId);
 
         /// <summary>
         /// No Comment, update also the last update of a game
         /// </summary>
         /// <param name="GameId">The game Id</param>
         /// <param name="newState">The new state</param>
-        void UpdateState(string gameId, GridState newState);
+        void UpdateState(string gameId, Grid newState);
 
         /// <summary>
         /// No comment
         /// </summary>
         /// <param name="gameId">The game id</param>
         /// <returns>The current state</returns>
-        GridState GetState(string gameId);
+        Grid GetState(string gameId);
 
         /// <summary>
         /// No comment
         /// </summary>
         /// <param name="gameId">The game id</param>
         /// <returns>The game overview</returns>
-        GameOverview GetGameOverview(string gameId);
+        Battle GetGameOverview(string gameId);
     }
 }

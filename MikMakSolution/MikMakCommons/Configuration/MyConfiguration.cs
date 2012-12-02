@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 
-namespace MikMak.Main
+namespace MikMak.Configuration
 {
     /// <summary>
     /// See : http://www.olivettom.com/?p=481

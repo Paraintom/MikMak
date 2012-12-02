@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using MikMak.Main.InternalInterfaces;
 using MikMak.Interfaces;
+using MikMak.Configuration;
 
 namespace MikMak.Main.GamesManagement
 {
@@ -22,7 +23,7 @@ namespace MikMak.Main.GamesManagement
         /// <summary>
         /// Internal representation of the data
         /// </summary>
-        private Dictionary<int, IGame> datas = new Dictionary<int, IGame>();
+        private Dictionary<int, IGameServices> datas = new Dictionary<int, IGameServices>();
 
         /// <summary>
         /// No comment
@@ -36,7 +37,7 @@ namespace MikMak.Main.GamesManagement
         /// See Interface
         /// </summary>
         /// <returns>See Interface</returns>
-        public Dictionary<int, IGame> GetAllMappings()
+        public Dictionary<int, IGameServices> GetAllMappings()
         {
             var exposedDictionary = datas.ToDictionary(entry => entry.Key, entry => entry.Value);
             return exposedDictionary;
@@ -49,7 +50,7 @@ namespace MikMak.Main.GamesManagement
         /// </summary>
         /// <param name="typeGame">See Interface</param>
         /// <returns>See Interface</returns>
-        public IGame GetGame(int typeGame)
+        public IGameServices GetGame(int typeGame)
         {
             return datas[typeGame];
         }
@@ -68,7 +69,7 @@ namespace MikMak.Main.GamesManagement
                 Type typeMatch = null;
                 foreach (Type currentType in assembly.GetTypes())
                 {
-                    if (currentType.GetInterface(typeof(IGame).FullName, false) != null)
+                    if (currentType.GetInterface(typeof(IGameServices).FullName, false) != null)
                     {
                         if (typeMatch != null)
                         {
@@ -88,7 +89,7 @@ namespace MikMak.Main.GamesManagement
                 {
                     // Instance dynamique à  partir du type donné
                     object objInstanceDynamique = System.Activator.CreateInstance(typeMatch);
-                    var myGame = objInstanceDynamique as IGame;
+                    var myGame = objInstanceDynamique as IGameServices;
                     if (myGame != null)
                     {
                         if (!datas.ContainsKey(myGame.GetGameType()))

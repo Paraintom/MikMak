@@ -8,6 +8,7 @@ namespace MikMak.Repository.Interfaces
 {
     public interface IPlayerRepository
     {
-         string CreateGamer(Player gamer);
+        string CreateGamer(Player gamer);
+        Player Get(string login);
     }
 }

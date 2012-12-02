@@ -35,6 +35,7 @@
         /// <returns>The next game state</returns>
         Grid Play(string gameId, Move move);
 
-        List<Battle> GetAllGames(Session sessionId);
+        ///???
+        List<Battle> GetAllGames(Player player);
     }
 }

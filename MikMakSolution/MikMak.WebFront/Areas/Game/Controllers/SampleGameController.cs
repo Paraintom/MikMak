@@ -15,6 +15,11 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             return DateTime.Now.ToString("hh:mm:ss:fffffff");
         }
 
+        public string Connect(string login, string password)
+        {
+            return login + password;
+        }
+
         // GET api/samplegame/5
         public Map Get(int id)
         {

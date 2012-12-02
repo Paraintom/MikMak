@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Commons;
+using MikMak.DomainModel.Entities;
 using System.ComponentModel;
 
-namespace MikMak.Main.Security
+namespace MikMak.WebFront.Sessions
 {
     public class InvalidCredentialException : Exception
     {
