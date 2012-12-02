@@ -30,8 +30,6 @@ namespace MikMak.Interfaces
         /// <param name="otherSession">other validSession</param>
         /// <param name="gameId">GameId that we want to connect</param>
         /// <returns></returns>
-        Session GetSession(Session otherSession, string gameId);
-
-        Session CreateSession(Session otherSession, string gameId, int gameType, int playerNumber);
+        Session GetSession(Session otherSession, string gameId);        
     }
 }

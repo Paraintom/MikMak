@@ -8,7 +8,7 @@ using MikMak.Infrastructure.Ressource;
 
 namespace MikMak.Repository.EntityFramework
 {
-    class GamerRepository : IGamerRepository
+    class GamerRepository : IPlayerRepository
     {
         private Context _Context;
 

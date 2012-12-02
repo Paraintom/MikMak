@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MikMak.Game.Entities;
+using MikMak.DomainModel.Entities;
 
 namespace MikMak.Repository.Interfaces
 {
-    public interface IGamerRepository
+    public interface IPlayerRepository
     {
-         string CreateGamer(Gamer gamer);
+         string CreateGamer(Player gamer);
     }
 }

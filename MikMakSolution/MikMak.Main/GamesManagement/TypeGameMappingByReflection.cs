@@ -68,7 +68,7 @@ namespace MikMak.Main.GamesManagement
                 Type typeMatch = null;
                 foreach (Type currentType in assembly.GetTypes())
                 {
-                    if (currentType.GetInterface("MikMak.Interfaces.IGame", false) != null)
+                    if (currentType.GetInterface(typeof(IGame).FullName, false) != null)
                     {
                         if (typeMatch != null)
                         {

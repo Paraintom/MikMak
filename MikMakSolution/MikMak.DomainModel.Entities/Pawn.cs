@@ -16,7 +16,7 @@
         /// </summary>
         public int PlayerOwner { get; set; }
 
-        public Point Coord { get; set; }
+        public Coord Coord { get; set; }
 
         public Pawn(char name, int x, int y)
             : this()
@@ -28,7 +28,7 @@
 
         public Pawn()
         {
-            Coord = new Point();
+            Coord = new Coord();
         }
     }
 }

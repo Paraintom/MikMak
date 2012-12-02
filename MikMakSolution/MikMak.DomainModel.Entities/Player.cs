@@ -4,7 +4,7 @@
     /// <summary>
     /// This class store some data about a player.
     /// </summary>
-    public class Gamer
+    public class Player
     {
         /// <summary>
         /// Unique id for a player

@@ -4,7 +4,7 @@
     /// <summary>
     /// No comment
     /// </summary>
-    public class Point
+    public class Coord
     {
         public int x;
         public int y;

@@ -6,7 +6,7 @@
     /// <summary>
     /// This class store some meta-data about a game.
     /// </summary>
-    public class Game
+    public class Battle
     {
         /// <summary>
         /// Unique id for a game

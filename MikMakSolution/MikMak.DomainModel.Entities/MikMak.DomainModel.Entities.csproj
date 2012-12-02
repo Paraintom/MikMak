@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
-    <Compile Include="Gamer.cs" />
+    <Compile Include="Battle.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Pawn.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Coord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session.cs" />
   </ItemGroup>
