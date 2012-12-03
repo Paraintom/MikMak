@@ -1,3 +1,11 @@
 Modèle d'architecture par couche 
 [Services Layer]
 http://msdn.microsoft.com/en-us/library/ee658109.aspx
+
+
+Appel pour Unity
+Depuis la Dll MikMakInfrastructure.InjectionDependancy=>
+
+I => Interface dont on souhaite récupérer une instance
+
+I objet = ServiceLocator.GetInstance<I>();

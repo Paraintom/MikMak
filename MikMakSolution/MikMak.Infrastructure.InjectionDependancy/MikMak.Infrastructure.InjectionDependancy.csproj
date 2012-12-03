@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{31631007-66D9-49B0-B0D5-1CCA15902F0A}</ProjectGuid>
+    <ProjectGuid>{6ECF99B6-5E19-41E4-A85B-284E365BEC26}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MikMak.Repository.EntityFramework</RootNamespace>
-    <AssemblyName>MikMak.Repository.EntityFramework</AssemblyName>
+    <RootNamespace>MikMak.Infrastructure.InjectionDependancy</RootNamespace>
+    <AssemblyName>MikMak.Infrastructure.InjectionDependancy</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,9 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,19 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
-    <Compile Include="PlayerInBattleRepository.cs" />
-    <Compile Include="PlayerRepository.cs" />
+    <Compile Include="ServiceLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj">
-      <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
-      <Name>MikMak.DomainModel.Entities</Name>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MikMak.DomainModel.Services.Interfaces\MikMak.DomainModel.Services.Interfaces.csproj">
+      <Project>{A47E2E33-851F-411C-8654-833C0F729A69}</Project>
+      <Name>MikMak.DomainModel.Services.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MikMak.Infrastructure.Ressource\MikMak.Infrastructure.Ressource.csproj">
-      <Project>{FA721A05-AABD-4896-A7EB-D1BE51D100D9}</Project>
-      <Name>MikMak.Infrastructure.Ressource</Name>
+    <ProjectReference Include="..\MikMak.DomainModel.Services\MikMak.DomainModel.Services.csproj">
+      <Project>{0EF17974-9A7C-44B1-B432-D8FEE96C77D4}</Project>
+      <Name>MikMak.DomainModel.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MikMak.Repository.EntityFramework\MikMak.Repository.EntityFramework.csproj">
+      <Project>{31631007-66D9-49B0-B0D5-1CCA15902F0A}</Project>
+      <Name>MikMak.Repository.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikMak.Repository.Interfaces\MikMak.Repository.Interfaces.csproj">
       <Project>{7C623D40-51F5-47BF-A2FE-CBAA94FDFF0D}</Project>

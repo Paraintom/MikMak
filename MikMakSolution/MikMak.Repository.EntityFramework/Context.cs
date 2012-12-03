@@ -1,18 +1,14 @@
 ﻿namespace MikMak.Repository.EntityFramework
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Data.Entity;
-    using MikMak.Game.Entities;
     using System.Data.Common;
+    using System.Data.Entity;
+    using MikMak.DomainModel.Entities;
 
     public class Context: DbContext
     {
 
-        public DbSet<Gamer> Gamers { get; set; }
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Battle> Battles { get; set; }
 
         public Context(DbConnection connection) : base(connection, false) { }
     }
