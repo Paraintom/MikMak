@@ -31,6 +31,8 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         [AcceptVerbs("GET")]
         public string Connect(string login, string password)
         {
+            HackJsonp();
+
             string toReturn = string.Empty;
             try
             {
@@ -41,6 +43,12 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 toReturn = ex.Message;
             }
             return toReturn;
+        }
+
+        private void HackJsonp()
+        {
+            var negotiator = Configuration.Services.GetContentNegotiator();
+            var negotiatorResult = negotiator.Negotiate(typeof(string), Request, Configuration.Formatters);
         } 
         #endregion
 
