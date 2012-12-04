@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Linq;
-using MikMak.Commons;
+using MikMak.DomainModel.Entities;
 using MikMak.Interfaces;
 using System.ComponentModel;
 
 namespace Morpion
 {
-    public class MorpionManager : IGame
+    public class MorpionManager : IGameServices
     {
-        private IPersistenceManager dao = new SavedGamesDAO();
-        private static int counter = 0;
-
-        public GridState GetState(string gameId)
-        {
-            return dao.GetState(gameId);
-        }
-
-        public GridState Play(string gameId, Move move)
-        {
-            var currentState = dao.GetState(gameId);
+        public Grid Play(Grid currentState, Move move)
+        {            
             //0-Game already finished, no more move
             if (currentState.CurrentMessage.Id == (int)ClassicMessage.GameFinished)
             {
@@ -54,11 +45,10 @@ namespace Morpion
                 currentState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
                 currentState.CurrentMessage = Message.GetMessage((currentState.NextPlayerToPlay == 2) ? MorpionMessage.J2 : MorpionMessage.J1);
             }
-            dao.UpdateState(gameId, currentState);
             return currentState;
         }
 
-        private bool IsFinished(GridState currentState, Pawn newPawn)
+        private bool IsFinished(Grid currentState, Pawn newPawn)
         {
             bool ligneFull = currentState.PawnLocations.Where(o => o.Coord.y == newPawn.Coord.y && o.Name == newPawn.Name).Count() == 3;
             bool colonneFull = currentState.PawnLocations.Where(o => o.Coord.x == newPawn.Coord.x && o.Name == newPawn.Name).Count() == 3;
@@ -67,26 +57,21 @@ namespace Morpion
             return ligneFull || colonneFull || firstDiag || secondDiag;
         }
 
-        public string GetNewGame()
+        public Grid GetNewGame()
         {
-            // Ok, it is hardcore, but at least sufficient from now.
-            lock(dao){
-                string gameId = DateTime.Now.Ticks.ToString() + counter;
-                counter++;
-                dao.CreateGame(gameId, GetNewGameGridState(), new System.Collections.Generic.List<int>() {339, 440 });
-                return gameId;
-            }
+            return GetNewGameGridState();         
         }
-        private static GridState GetNewGameGridState()
+
+        private static Grid GetNewGameGridState()
         {
-            return new GridState()
+            return new Grid()
             {
                 CurrentMessage = Message.GetMessage(MorpionMessage.NewGame),
                 IsGridShifted = false,
                 MoveNumber = 1,
                 NextPlayerToPlay = 1,
                 NumberColumns = 3,
-                NumberLines = 3
+                NumberLines = 3                
             };
         }
 
@@ -98,11 +83,11 @@ namespace Morpion
 
     public static class MyExtensionMethods
     {
-        public static bool IsInFirstDiag(this Point point)
+        public static bool IsInFirstDiag(this Coord point)
         {
             return point.x == point.y;
         }
-        public static bool IsInSecondDiag(this Point point)
+        public static bool IsInSecondDiag(this Coord point)
         {
             return point.x == 4 - point.y;
         }
