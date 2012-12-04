@@ -42,5 +42,15 @@
         /// Give a message.  
         /// </summary>        
         public Message CurrentMessage { get; set; }
+
+        /// <summary>
+        /// Give the information on if we should persist the state or not
+        /// </summary>
+        /// <param name="oldState"></param>
+        /// <returns></returns>
+        public bool DeservePersistence(Grid oldState)
+        {
+            return this.NextPlayerToPlay != oldState.NextPlayerToPlay;
+        }
     }
 }

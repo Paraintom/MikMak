@@ -5,12 +5,16 @@ using System.Text;
 using MikMak.DomainModel.Entities;
 using MikMak.Main.InternalInterfaces;
 using MikMak.Interfaces;
+using MikMak.Repository.Interfaces;
 
 namespace MikMak.Main.GamesManagement
 {
     public class GameManager : IGamesManager
     {
         private ITypeGameMapping typeMapping;
+        private IPlayerInBattleRepository repoPlayerInBattle;
+        private IPlayerRepository repoPlayer;
+        private IBattleRepository repoBattle;
         private Random ran;
 
         public GameManager()
@@ -22,15 +26,28 @@ namespace MikMak.Main.GamesManagement
 
         public Grid Play(PlayerInBattle playerInBattle, Move move)
         {
-            var game = typeMapping.GetGame(playerInBattle.Battle.GameType);
-            return game.Play(playerInBattle.Battle.GameId, move);
+            // 1- We play the move
+            var currentBattle = playerInBattle.Battle;
+            var game = typeMapping.GetGame(currentBattle.GameType);
+            var newState = game.Play(currentBattle.CurrentState, move);
+
+            // 2- If the grid has change, we persit the new state
+            var oldState = currentBattle.CurrentState;
+            currentBattle.CurrentState = newState;
+            if (newState.DeservePersistence(oldState))
+            {
+                repoBattle.Update(playerInBattle.Battle);
+            }
+
+            // 3- We return the new state to the client
+            return newState;
         }
 
         public PlayerInBattle GetNewGame(Player firstPlayer, int gameType, List<Player> opponents)
         {
             // 1-Create The game
             var game = typeMapping.GetGame(gameType);
-            string gameId = game.GetNewGame();
+            Grid currentState = game.GetNewGame();
 
             // 2-Preparing listOfPlayers
             var listPlayers = opponents.Select(p=>p.PlayerId).ToList();
@@ -46,12 +63,25 @@ namespace MikMak.Main.GamesManagement
                     GameType = gameType,
                     GameTypeString = game.ToString(),
                     LastUpdate = DateTime.Now,
-                    Players = listPlayers
+                    Players = listPlayers,
+                    CurrentState = currentState
                 },
                 Player = firstPlayer,
                 PlayerNumber = 1
             };
+
+            repoPlayerInBattle.Persist(toReturn);
             return toReturn;
+        }
+
+        public List<PlayerInBattle> GetAllBattles(Player player)
+        {
+            return repoPlayerInBattle.Get(player.PlayerId);
+        }
+
+        public PlayerInBattle GetParticipation(Player player, string gameId)
+        {
+            return repoPlayerInBattle.Get(gameId, player.PlayerId);
         }
 
         private string GetElapsedSecondsSinceLastNewYear()
@@ -62,12 +92,6 @@ namespace MikMak.Main.GamesManagement
             long elapsedTicks = currentDate.Ticks - centuryBegin.Ticks;
             TimeSpan elapsedSpan = new TimeSpan(elapsedTicks);
             return elapsedSpan.TotalSeconds.ToString();
-        }
-
-        public Grid GetState(Battle battle)
-        {
-            var game = typeMapping.GetGame(battle.GameType);
-            return game.GetState(battle.GameId);
         }
     }
 }

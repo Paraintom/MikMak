@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBattleRepository.cs" />
     <Compile Include="IPlayerInBattleRepository.cs" />
     <Compile Include="IPlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,14 +18,14 @@
         /// Return the gameId of a new game
         /// </summary>
         /// <returns>A gameId of a new Game</returns>
-        string GetNewGame();
+        Grid GetNewGame();
 
         /// <summary>
         /// Return the State of the game witch id is gameId 
         /// </summary>
         /// <param name="gameId">The gameId</param>
         /// <returns>The current state</returns>
-        Grid GetState(string gameId);       
+        //Grid GetState(string gameId);       
 
         /// <summary>
         /// Play a move for a gameID
@@ -33,9 +33,9 @@
         /// <param name="gameId">The gameId</param>
         /// <param name="move">The move played</param>
         /// <returns>The next game state</returns>
-        Grid Play(string gameId, Move move);
+        Grid Play(Grid game, Move move);
 
         ///???
-        List<Battle> GetAllGames(Player player);
+        //List<Battle> GetAllGames(Player player);
     }
 }

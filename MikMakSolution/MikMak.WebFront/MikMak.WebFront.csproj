@@ -295,9 +295,9 @@
       <Project>{A47E2E33-851F-411C-8654-833C0F729A69}</Project>
       <Name>MikMak.DomainModel.Services.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MikMak.Repository.Interfaces\MikMak.Repository.Interfaces.csproj">
-      <Project>{7C623D40-51F5-47BF-A2FE-CBAA94FDFF0D}</Project>
-      <Name>MikMak.Repository.Interfaces</Name>
+    <ProjectReference Include="..\MikMak.Main\MikMak.Main.csproj">
+      <Project>{D02AE43B-D6A0-4013-A893-E06846923615}</Project>
+      <Name>MikMak.Main</Name>
     </ProjectReference>
     <ProjectReference Include="..\MikMakCommons\MikMakCommons.csproj">
       <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>

@@ -21,11 +21,11 @@ namespace MikMak.Interfaces
         PlayerInBattle GetNewGame(Player firstPlayer, int gameType, List<Player> opponents);
 
         /// <summary>
-        /// Return the State of the battle 
+        /// Get access to all current battles of a player
         /// </summary>
-        /// <param name="battle">the battle</param>
-        /// <returns>The current game state</returns>
-        Grid GetState(Battle battle);       
+        /// <param name="player">The player</param>
+        /// <returns>All the current Battles</returns>
+        List<PlayerInBattle> GetAllBattles(Player player);
 
         /// <summary>
         /// Play a move durring a session
@@ -34,5 +34,13 @@ namespace MikMak.Interfaces
         /// <param name="move">The move played</param>
         /// <returns>The new game state</returns>
         Grid Play(PlayerInBattle player, Move move);
+
+        /// <summary>
+        /// Get the participation of a player in a game
+        /// </summary>
+        /// <param name="player">The player</param>
+        /// <param name="gameId">The corresponding PlayerInBattle object, null if not exist</param>
+        /// <returns></returns>
+        PlayerInBattle GetParticipation(Player player, string gameId);
     }
 }

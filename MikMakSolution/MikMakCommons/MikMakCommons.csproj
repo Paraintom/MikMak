@@ -42,8 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\MyConfiguration.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
-    <Compile Include="Interfaces\IPersistenceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

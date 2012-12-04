@@ -1,4 +1,5 @@
-﻿using MikMak.Infrastructure.Ressource;
+﻿using System;
+using MikMak.Infrastructure.Ressource;
 using MikMak.Repository.Interfaces;
 
 namespace MikMak.Repository.EntityFramework
@@ -10,25 +11,35 @@ namespace MikMak.Repository.EntityFramework
     public class PlayerRepository : IPlayerRepository
     {
         private Context _Context;
+        private object internalLock = new object();
 
         public PlayerRepository(Context context)
         {
             _Context = context;
         }
 
-        public string CreatePlayer(Player player)
+        public Player CreatePlayer(string login, string password)
         {
-            string errorMsg = string.Empty;
-            if (_Context.Players.Any(g => g.Login == player.Login))
+            if (_Context.Players.Any(g => g.Login == login))
             {
-                errorMsg = Error.LOGIN_ALREADY_EXISTS;
+                throw new Exception(Error.LOGIN_ALREADY_EXISTS);
             }
             else
             {
-                _Context.Players.Add(player);
-                _Context.SaveChanges();
+                lock (internalLock)
+                {
+                    Player newPlayer = new Player
+                    {
+                        Login = login,
+                        Password = password,
+                        // Auto Increment managment, Carefull, need the lock!
+                        PlayerId = _Context.Players.Count() + 1
+                    };
+                    _Context.Players.Add(newPlayer);
+                    _Context.SaveChanges();
+                    return newPlayer;
+                }
             }
-            return errorMsg;
         }
 
         public Player Get(string login)

@@ -8,9 +8,10 @@ namespace MikMak.Repository.Interfaces
 {
     public interface IPlayerInBattleRepository
     {
-        void CreateLink(string battleId, List<int> players);
+        //void CreateLink(string battleId, List<int> players);
+        void Persist(PlayerInBattle playersInBattle);
 
-        List<PlayerInBattle> Get(string battleId);
+        List<PlayerInBattle> Get(int playerId);
 
         PlayerInBattle Get(string battleId, int playerId);
     }

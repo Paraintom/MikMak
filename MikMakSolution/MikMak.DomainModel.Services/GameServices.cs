@@ -3,7 +3,7 @@ using MikMak.Interfaces;
 
 namespace MikMak.DomainModel.Services
 {
-    public class GameServices : IGameServices
+    public class GameServices //: IGameServices
     {
         //private ITypeGameMapping typeMapping;
         //private ILinkPlayersGames linkManager;

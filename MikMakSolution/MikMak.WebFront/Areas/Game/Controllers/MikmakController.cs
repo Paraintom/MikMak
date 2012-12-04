@@ -6,18 +6,17 @@ using System.Net.Http;
 using System.Web.Http;
 using MikMak.DomainModel.Entities;
 using MikMak.Interfaces;
-using MikMak.Repository.Interfaces;
 using MikMak.WebFront.Sessions;
+using MikMak.Main;
 
 namespace MikMak.WebFront.Areas.Game.Controllers
 {
     public class MikmakController : ApiController
     {
         //TODO : to initialise and USE!!!
-        private IPlayerRepository playerRepo;
-        private IPlayerInBattleRepository playerInBattleRepo;
-        private ISessionManager sessionManager;
+        private IPlayerManager playerManager;
         private IGamesManager gameManager;
+        private ISessionManager sessionManager;
 
         public MikmakController(){
         }
@@ -52,7 +51,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 var session = sessionManager.GetSession(sessionId);
-                return playerInBattleRepo.Get(session.PlayerInBattle.Battle.GameId).Select(o=>o.Battle).ToList();
+                return gameManager.GetAllBattles(session.PlayerInBattle.Player).Select(o => o.Battle).ToList();
             }
             catch(Exception){
                 // J'ai pas trouvé mieux POUR l'instant.
@@ -93,7 +92,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 // 2-Check valid opponents
                 List<Player> allOpponents = new List<Player>();
                 foreach(string opp in opponents){
-                    var player = playerRepo.Get(opp);
+                    var player = playerManager.Get(opp);
                     if(!allOpponents.Contains(player)){
                         allOpponents.Add(player);
                     }
@@ -109,7 +108,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 // 4-Return result
                 return new GridExtented(){
                     sessionId = newSession.Id,
-                    state = gameManager.GetState(newGame.Battle)
+                    state = newGame.Battle.CurrentState
                 };
             }
             catch (Exception)
@@ -132,7 +131,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 // 2-Return result
                 return new GridExtented(){
                     sessionId = session.Id,
-                    state = gameManager.GetState(session.PlayerInBattle.Battle)
+                    state = session.PlayerInBattle.Battle.CurrentState
                 };
             }
             catch(Exception){

@@ -23,12 +23,17 @@ namespace MikMak.Repository.EntityFramework
             throw new NotImplementedException();
         }
 
-        public List<DomainModel.Entities.PlayerInBattle> Get(string battleId)
+        public List<DomainModel.Entities.PlayerInBattle> Get(int playerId)
         {
             throw new NotImplementedException();
         }
 
         public DomainModel.Entities.PlayerInBattle Get(string battleId, int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Persist(DomainModel.Entities.PlayerInBattle playersInBattle)
         {
             throw new NotImplementedException();
         }

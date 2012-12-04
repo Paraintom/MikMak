@@ -6,10 +6,12 @@ using MikMak.DomainModel.Entities;
 
 namespace MikMak.Repository.Interfaces
 {
-    public interface IPlayerRepository
+    public interface IBattleRepository
     {
-        Player CreatePlayer(string login, string password);
+        string CreateBattle(Battle battle);
 
-        Player Get(string login);
+        Battle Get(string gameId);
+
+        void Update(Battle battle);
     }
 }

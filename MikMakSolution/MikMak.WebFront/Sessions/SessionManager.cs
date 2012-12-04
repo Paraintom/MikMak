@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using MikMak.DomainModel.Entities;
-using MikMak.Repository.Interfaces;
+using MikMak.Interfaces;
 using MikMak.Configuration;
 
 namespace MikMak.WebFront.Sessions
@@ -20,13 +20,13 @@ namespace MikMak.WebFront.Sessions
         private object internalLock = new object();
         private Dictionary<string, Session> allSessions = new Dictionary<string, Session>();
         private Timer cleanUpTimer;
-        private IPlayerRepository daoPlayer;
-        private IPlayerInBattleRepository daoPlayerInBattle;
+        private IPlayerManager daoPlayer;
+        private IGamesManager daoGame;
 
-        public SessionManager(IPlayerRepository daoPlayer, IPlayerInBattleRepository daoPlayerInBattle)
+        public SessionManager(IPlayerManager daoPlayer, IGamesManager daoGame)
         {
             this.daoPlayer = daoPlayer;
-            this.daoPlayerInBattle = daoPlayerInBattle;
+            this.daoGame = daoGame;
             cleanUpTimer = new Timer(numberOfMillisecondsBetweenCleanup);
             cleanUpTimer.Elapsed += CleanUpTimer_Elapsed;
             cleanUpTimer.AutoReset = true;
@@ -93,7 +93,7 @@ namespace MikMak.WebFront.Sessions
 
         public Session GetSession(Session otherSession, string gameId)
         {
-            var gameOverview = this.daoPlayerInBattle.Get(gameId, otherSession.PlayerInBattle.Player.PlayerId);
+            var gameOverview = this.daoGame.GetParticipation(otherSession.PlayerInBattle.Player, gameId);
             if (gameOverview == null)
             {
                 throw new InvalidCredentialException(InvalidCredentialEnum.PlayerNotInvolvedInGame);
@@ -108,21 +108,6 @@ namespace MikMak.WebFront.Sessions
             Add(session);
             return session;
         }
-
-        //public Session GetSession(Session otherSession, string gameId, int gameType, int playerNumber)
-        //{
-        //    var session = new Session
-        //    {
-        //        GameId = gameId,
-        //        GameType = gameType,
-        //        Id = Guid.NewGuid().ToString(),
-        //        MaxValidity = DateTime.UtcNow.AddHours(numberOfHourBeforeTimeOut),
-        //        PlayerId = otherSession.PlayerId,
-        //        PlayerNumber = playerNumber
-        //    };
-        //    Add(session);
-        //    return session;
-        //}
 
         private void Add(Session session)
         {
