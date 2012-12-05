@@ -8,6 +8,8 @@ using MikMak.DomainModel.Entities;
 using MikMak.Interfaces;
 using MikMak.WebFront.Sessions;
 using MikMak.Main;
+using MikMak.Main.PlayerManagement;
+using MikMak.Main.GamesManagement;
 
 namespace MikMak.WebFront.Areas.Game.Controllers
 {
@@ -16,9 +18,16 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         //TODO : to initialise and USE!!!
         private IPlayerManager playerManager;
         private IGamesManager gameManager;
-        private ISessionManager sessionManager;
+        private static ISessionManager sessionManager;
 
-        public MikmakController(){
+        public MikmakController()
+        {
+            playerManager = new PlayerManager();
+            gameManager = GameManager.GetInstance();
+            if (sessionManager == null)
+            {
+                sessionManager = new SessionManager(playerManager, gameManager);
+            }
         }
 
         #region Connection : Connect
@@ -37,6 +46,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 var firstSession = sessionManager.GetSession(login, password);
+                toReturn = firstSession.Id;
             }
             catch (Exception ex)
             {
@@ -45,17 +55,38 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             return toReturn;
         }
 
-        private void HackJsonp()
+         /// <summary>
+        /// Connection to a specific Game
+        /// </summary>
+        /// <param name="sessionId">A valid session</param>
+        /// <param name="gameId">the gameId</param>
+        /// <returns>a sessionId string</returns>
+        [AcceptVerbs("GET")]
+        public string ConnectToGame(string sessionId, string gameId)
         {
-            var negotiator = Configuration.Services.GetContentNegotiator();
-            var negotiatorResult = negotiator.Negotiate(typeof(string), Request, Configuration.Formatters);
-        } 
+            HackJsonp();
+
+            string toReturn = string.Empty;
+            try
+            {
+                var session = sessionManager.GetSession(sessionId);
+                var newSession = sessionManager.GetSession(session, gameId);
+                toReturn = newSession.Id;
+            }
+            catch (Exception ex)
+            {
+                toReturn = ex.Message;
+            }
+            return toReturn;
+        }
         #endregion
 
         #region Show list of battles : GetListBattles
         [AcceptVerbs("GET")]
         public List<Battle> GetListBattles(string sessionId)
         {
+            HackJsonp();
+
             try
             {
                 var session = sessionManager.GetSession(sessionId);
@@ -115,8 +146,8 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
                 // 4-Return result
                 return new GridExtented(){
-                    sessionId = newSession.Id,
-                    state = newGame.Battle.CurrentState
+                    SessionId = newSession.Id,
+                    State = newGame.Battle.CurrentState
                 };
             }
             catch (Exception)
@@ -130,6 +161,32 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         [AcceptVerbs("GET")]
         public GridExtented GetGrid(string sessionId)
         {
+            HackJsonp();
+            try
+            {
+                // 1-Check valid session
+                var session = sessionManager.GetSession(sessionId);
+
+                // 2-Return result
+                return new GridExtented()
+                {
+                    SessionId = session.Id,
+                    State = session.PlayerInBattle.Battle.CurrentState
+                };
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [AcceptVerbs("GET")]
+        public GridExtented GetGrid(string sessionId, string gameId)
+        {
+            HackJsonp();
+
+            var newSession = this.ConnectToGame(sessionId, gameId);
+            sessionId = newSession;
 
             try
             {
@@ -137,12 +194,14 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 var session = sessionManager.GetSession(sessionId);
 
                 // 2-Return result
-                return new GridExtented(){
-                    sessionId = session.Id,
-                    state = session.PlayerInBattle.Battle.CurrentState
+                return new GridExtented()
+                {
+                    SessionId = session.Id,
+                    State = session.PlayerInBattle.Battle.CurrentState
                 };
             }
-            catch(Exception){
+            catch (Exception)
+            {
                 throw;
             }
         } 
@@ -152,6 +211,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         [AcceptVerbs("GET")]
         public GridExtented Play(string sessionId, int x, int y)
         {
+            HackJsonp();
             try
             {
                 // 1-Check valid session
@@ -175,8 +235,8 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 // 2-Return result
                 return new GridExtented()
                 {
-                    sessionId = session.Id,
-                    state = newState
+                    SessionId = session.Id,
+                    State = newState
                 };
             }
             catch (Exception)
@@ -187,5 +247,10 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         
         #endregion
 
+        private void HackJsonp()
+        {
+            var negotiator = Configuration.Services.GetContentNegotiator();
+            var negotiatorResult = negotiator.Negotiate(typeof(string), Request, Configuration.Formatters);
+        } 
     }
 }

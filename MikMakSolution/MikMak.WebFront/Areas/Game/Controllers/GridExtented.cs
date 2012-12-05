@@ -8,7 +8,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 {
     public class GridExtented
     {
-        public string sessionId { get; set; }
-        public Grid state { get; set; }
+        public string SessionId { get; set; }
+        public Grid State { get; set; }
     }
 }

@@ -63,9 +63,11 @@ namespace MikMak.Main.GamesManagement
             }
 
             List<string> allAssembliesToLoad = GetAllFilesToLoad(path);
+
             foreach (string assemblyPath in allAssembliesToLoad)
             {
-                var assembly = Assembly.LoadFrom(assemblyPath);
+                //var assembly = Assembly.LoadFrom(assemblyPath);
+                Assembly assembly = Assembly.Load(AssemblyName.GetAssemblyName(assemblyPath));
                 Type typeMatch = null;
                 foreach (Type currentType in assembly.GetTypes())
                 {

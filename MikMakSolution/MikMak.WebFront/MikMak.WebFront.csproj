@@ -177,6 +177,7 @@
     <Compile Include="Sessions\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MikMakHTML5\Client_html5_MikMak.html" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -233,6 +234,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="MikMakHTML5\jcanvas.js" />
+    <Content Include="MikMakHTML5\jquery.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1.min.js" />

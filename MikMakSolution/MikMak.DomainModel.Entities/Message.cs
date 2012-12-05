@@ -27,6 +27,8 @@ namespace MikMak.DomainModel.Entities
         Default,
         [Description("Move ok.")]
         MoveOk,
+        [Description("It is your turn.")]
+        YourTurn,
         [Description("Invalid move, It is not your turn.")]
         NotYourTurn,
         [Description("Invalid move, Position not empty.")]

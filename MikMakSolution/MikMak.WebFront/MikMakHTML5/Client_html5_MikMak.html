@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<title>MikMak Wrapper</title>
+
+</head>
+
+<body>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jcanvas.js"></script>
+<script type="application/javascript">
+
+//CONSTANTES!!
+var pixelByLine = 40;
+var borderPixel = 3;
+var rootpath="http://127.0.0.1:33226/api/";
+var sessionId = 'notSet';
+
+// ************  Connection ****************
+
+function connect()
+{
+	login= document.forms["connectionForm"].elements["login"].value;
+	mdp= document.forms["connectionForm"].elements["mdp"].value;
+	query = "Connect?login="+login+"&password="+mdp;
+	queryService(query,onConnect);
+}
+
+var onConnect=function(data)
+{	
+	if((data.split("-").length ) == 5){	
+		setOutput('You are connected');
+		hideById('formConnect');
+		sessionId = data;
+		query = "GetListBattles?sessionId="+data;
+		queryService(query,onListGameReceived);
+	}
+	else{
+		sessionId = 'notSet';
+		setOutput(data);
+	}
+}
+
+// ************  Game list retrieving ****************
+var onListGameReceived=function(data)
+{
+	if(typeof data.ExceptionMessage != 'undefined'){	
+		setOutput(data.ExceptionMessage);
+	}
+	else
+	{
+		for (var i = 0; i < data.length; i++) {
+			element = data[i];
+			//writeObj(element);
+			addToListGame(element);
+		}
+		//jQuery.each(data, addToListGame);
+		setOutput('Battle(s) received...'+data.length);
+	}
+}
+
+var addToListGame=function(data)
+{
+    var newSpan = document.createElement('span');
+    // add the class to the 'spam'
+    newSpan.setAttribute('class', 'gameItem');
+    newSpan.setAttribute('onclick', 'onGameSelected("'+data.GameId+'")');
+	newSpan.innerHTML = data.GameId+'<br>';
+    document.getElementById('allGames').appendChild(newSpan);	
+}
+
+// ************  Game selection ****************
+var onGameSelected=function(gameId)
+{
+	setOutput('Battle selected '+gameId+', connecting to game...');
+	query = "ConnectToGame?sessionId="+sessionId+"&gameId="+gameId;
+	queryService(query,onGameSessionReceived);
+}
+
+var onGameSessionReceived=function(data)
+{
+	if(typeof data.ExceptionMessage != 'undefined'){	
+		setOutput(data.ExceptionMessage);
+	}
+	else
+	{
+		if((data.split("-").length ) == 5){
+			hideById('allGames');
+			sessionId = data;
+			query = "GetGrid?sessionId="+sessionId;
+			queryService(query,onGridReceived);
+		}
+		else{
+			setOutput(data);
+		}
+	}
+}
+
+// ************  Grid Received ****************
+var onGridReceived=function(data)
+{
+	if(typeof data.ExceptionMessage != 'undefined'){	
+		setOutput(data.ExceptionMessage);
+	}
+	else
+	{	
+		writeObj(data);
+		var grid = data.State;
+		var numLines = grid.NumberLines;
+		var numCol = grid.NumberColumns;
+		//Draw Canvas
+		drawCanvas(numLines,numCol);
+		//Draw Pawns
+		var pawns = data.State.PawnLocations;
+		for (var i = 0; i < pawns.length; i++) {
+			element = pawns[i];
+			//writeObj(element);
+			drawLetter(element.Name,element.Coord.x,element.Coord.y);
+		}
+		
+		
+		setOutput(grid.CurrentMessage.Information);
+	}
+}
+// Helpers
+function writeObj(obj, message) {
+  if (!message) { message = obj; }
+  var details = "*****************" + "\n" + message + "\n";
+  var fieldContents;
+  for (var field in obj) {
+    fieldContents = obj[field];
+    if (typeof(fieldContents) == "function") {
+      fieldContents = "(function)";
+    }
+    details += "  " + field + ": " + fieldContents + "\n";
+  }
+  console.log(details);
+}
+
+function hideById(id) {
+	document.getElementById(id).style.display = 'none';
+}
+
+function setOutput(text)
+{
+	document.getElementById("output").innerHTML = text;
+}
+
+
+function queryService(query, callBack)
+{
+	$.ajax(
+		{
+			url: rootpath+query,
+			dataType: 'jsonp',
+			success: callBack,
+			error:OnError
+		}
+	);
+}
+
+var OnError = function (event, jqXHR, ajaxSettings, thrownError) {
+    alert('[event:' + event + '], [jqXHR:' + jqXHR + '], [ajaxSettings:' + ajaxSettings + '], [thrownError:' + thrownError + '])');
+}
+
+</script>
+
+<span id="formConnect">
+	<form method="get" name="connectionForm" onSubmit="connect(); return false;">  
+		<label for="login">Login: <span class="required">*</span></label>  
+		<input type="text" id="login" name="login" value="tom" placeholder="JohnDoe" required="required" autofocus="autofocus" />  
+		
+		<label for="mdp">Password: <span class="required">*</span></label>  
+		<input type="password" id="mdp" name="mdp" value="tom" placeholder="password" required="required" />  
+		
+		<input type="submit" value="Connect" id="submit-button" />  
+		<p id="req-field-desc"><span class="required">*</span> indicates a required field</p>  
+	</form> 
+</span>
+
+<span id="allGames">
+</span>
+
+<span id="output">Empty</span>
+</body>
+
+</html>

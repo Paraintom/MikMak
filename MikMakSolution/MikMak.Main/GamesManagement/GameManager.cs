@@ -6,6 +6,7 @@ using MikMak.DomainModel.Entities;
 using MikMak.Main.InternalInterfaces;
 using MikMak.Interfaces;
 using MikMak.Repository.Interfaces;
+using MikMak.Mock;
 
 namespace MikMak.Main.GamesManagement
 {
@@ -16,12 +17,20 @@ namespace MikMak.Main.GamesManagement
         private IPlayerRepository repoPlayer;
         private IBattleRepository repoBattle;
         private Random ran;
+        private static GameManager instance = new GameManager();
 
-        public GameManager()
+        private GameManager()
         {
             // TODO Logs. (UNITY)
+            repoPlayer = new MockPlayerRepository();
+            repoPlayerInBattle = new MockPlayerInBattleRepository();
             typeMapping = new TypeGameMappingByReflection();
             ran = new Random();
+        }
+
+        public static GameManager GetInstance()
+        {
+            return instance;
         }
 
         public Grid Play(PlayerInBattle playerInBattle, Move move)
