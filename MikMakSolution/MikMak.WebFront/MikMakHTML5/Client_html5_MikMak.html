@@ -73,10 +73,32 @@ var onListGameReceived=function(data)
 			//writeObj(element);
 			addToListGame(element,listBattleSpan);
 		}
-		setSpan('mainArea', listBattleSpan);	
-		//jQuery.each(data, addToListGame);
+		setSpan('mainArea', listBattleSpan);
+		
+		//Create Game
+		
+		var inputLogin = document.createElement('input');		
+		inputLogin.setAttribute('placeholder', 'opponent login');
+		inputLogin.setAttribute('id', 'opponentLogin');
+		inputLogin.setAttribute('type', 'text');
+		addSpan('mainArea', inputLogin);
+		
+		var buttonCreateGame = document.createElement('input');		
+		buttonCreateGame.setAttribute('type', 'button');
+		buttonCreateGame.setAttribute('onclick', 'createGame()');
+		buttonCreateGame.value = 'Create new game';
+		addSpan('mainArea', buttonCreateGame);
+		
 		setOutput('Battle(s) received...'+data.length);
 	}
+}
+
+var createGame=function()
+{
+	var opponentLogin = document.getElementById('opponentLogin');	
+	setOutput('Creating game...');
+	query = "CreateBattle?sessionId="+sessionId+"&typeGame=1&opponent1="+opponentLogin;
+	queryService(query,onGridReceived);
 }
 
 var addToListGame=function(data,listBattleSpan)
@@ -162,6 +184,12 @@ function setSpan(name, content)
 	while( span.firstChild ) {
 		span.removeChild( span.firstChild );
 	}
+	addSpan(name,content);
+}
+
+function addSpan(name, content)
+{
+	var span = document.getElementById(name);
 	span.appendChild( content );
 }
 
