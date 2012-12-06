@@ -14,10 +14,12 @@
 
         /// <summary>
         /// Return a session from a sessionId.
+        /// Throw an exception if gameExpected = true and no game is found.
         /// </summary>
         /// <param name="sessionId">The sessionId</param>
+        /// <param name="gameExpected">If we expect to find a game in the session</param>
         /// <returns>The corresponding session</returns>
-        Session GetSession(string sessionId);
+        Session GetSession(string sessionId, bool gameExpected);
 
         /// <summary>
         /// Return a session for a gameId.

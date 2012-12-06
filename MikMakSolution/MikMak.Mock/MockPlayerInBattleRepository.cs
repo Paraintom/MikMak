@@ -8,7 +8,7 @@ using MikMak.DomainModel.Entities;
 namespace MikMak.Mock
 {
     public class MockPlayerInBattleRepository : IPlayerInBattleRepository
-    {
+    {        
         public void Persist(PlayerInBattle playersInBattle)
         {
             //Done :-)
@@ -48,8 +48,8 @@ namespace MikMak.Mock
                     GameType = 1,
                     GameTypeString = "MockTest",
                     Players = new List<int>(){
-                        playerId,
-                        playerId +40
+                        10,
+                        20
                     },
                     CurrentState = new Grid()
                     {
@@ -61,8 +61,11 @@ namespace MikMak.Mock
                         NextPlayerToPlay = 1,
                         PawnLocations = new List<Pawn>()
                         {
-                            new Pawn('x', 1,1),
-                            new Pawn('y', 2,2),
+                            new Pawn('B', 1,1),
+                            new Pawn('W', 2,2),
+                            new Pawn('B', 3,3),
+                            new Pawn('B', 2,3),
+                            new Pawn('W', 3,1),
                         }
                     }
                 },
@@ -72,7 +75,7 @@ namespace MikMak.Mock
                     Login = "tom",
                     Password = "tom"
                 },
-                PlayerNumber = 1
+                PlayerNumber = playerId ==20 ? 2 : 1
             };
         }
     }

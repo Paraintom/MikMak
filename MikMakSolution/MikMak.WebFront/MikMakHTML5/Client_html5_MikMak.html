@@ -17,8 +17,23 @@
 var pixelByLine = 40;
 var borderPixel = 3;
 var rootpath="http://127.0.0.1:33226/api/";
-var sessionId = 'notSet';
 
+
+// ************  SessionId Managment ****************
+var sessionIdNotSet = 'notSet';
+var sessionId = sessionIdNotSet;
+
+var setSessionId=function(data)
+{	
+	sessionId = data;
+	if(sessionId == sessionIdNotSet){
+		setOutput('Disconnected');
+	}
+	else
+	{
+		setFooter('You are connected, sessionId = '+sessionId);	
+	}
+}
 // ************  Connection ****************
 
 function connect()
@@ -31,15 +46,14 @@ function connect()
 
 var onConnect=function(data)
 {	
-	if((data.split("-").length ) == 5){	
-		setOutput('You are connected');
+	if((data.split("-").length ) == 5){
 		hideById('formConnect');
-		sessionId = data;
+		setSessionId(data);
 		query = "GetListBattles?sessionId="+data;
 		queryService(query,onListGameReceived);
 	}
 	else{
-		sessionId = 'notSet';
+		setSessionId('notSet');
 		setOutput(data);
 	}
 }
@@ -51,52 +65,36 @@ var onListGameReceived=function(data)
 		setOutput(data.ExceptionMessage);
 	}
 	else
-	{
+	{	
+		var listBattleSpan = document.createElement('span');
+		listBattleSpan.setAttribute('id', 'listBattle');
 		for (var i = 0; i < data.length; i++) {
 			element = data[i];
 			//writeObj(element);
-			addToListGame(element);
+			addToListGame(element,listBattleSpan);
 		}
+		setSpan('mainArea', listBattleSpan);	
 		//jQuery.each(data, addToListGame);
 		setOutput('Battle(s) received...'+data.length);
 	}
 }
 
-var addToListGame=function(data)
+var addToListGame=function(data,listBattleSpan)
 {
     var newSpan = document.createElement('span');
     // add the class to the 'spam'
     newSpan.setAttribute('class', 'gameItem');
     newSpan.setAttribute('onclick', 'onGameSelected("'+data.GameId+'")');
 	newSpan.innerHTML = data.GameId+'<br>';
-    document.getElementById('allGames').appendChild(newSpan);	
+    listBattleSpan.appendChild(newSpan);	
 }
 
 // ************  Game selection ****************
 var onGameSelected=function(gameId)
 {
 	setOutput('Battle selected '+gameId+', connecting to game...');
-	query = "ConnectToGame?sessionId="+sessionId+"&gameId="+gameId;
-	queryService(query,onGameSessionReceived);
-}
-
-var onGameSessionReceived=function(data)
-{
-	if(typeof data.ExceptionMessage != 'undefined'){	
-		setOutput(data.ExceptionMessage);
-	}
-	else
-	{
-		if((data.split("-").length ) == 5){
-			hideById('allGames');
-			sessionId = data;
-			query = "GetGrid?sessionId="+sessionId;
-			queryService(query,onGridReceived);
-		}
-		else{
-			setOutput(data);
-		}
-	}
+	query = "GetGrid?sessionId="+sessionId+"&gameId="+gameId;
+	queryService(query,onGridReceived);
 }
 
 // ************  Grid Received ****************
@@ -107,7 +105,8 @@ var onGridReceived=function(data)
 	}
 	else
 	{	
-		writeObj(data);
+		//writeObj(data);
+		setSessionId(data.SessionId);
 		var grid = data.State;
 		var numLines = grid.NumberLines;
 		var numCol = grid.NumberColumns;
@@ -146,9 +145,25 @@ function hideById(id) {
 
 function setOutput(text)
 {
-	document.getElementById("output").innerHTML = text;
+	setElementText("output",text);
+}
+function setFooter(text)
+{
+	setElementText("footer",text);
+}
+function setElementText(id, text)
+{
+	document.getElementById(id).innerHTML = text;
 }
 
+function setSpan(name, content)
+{
+	var span = document.getElementById(name);
+	while( span.firstChild ) {
+		span.removeChild( span.firstChild );
+	}
+	span.appendChild( content );
+}
 
 function queryService(query, callBack)
 {
@@ -161,30 +176,34 @@ function queryService(query, callBack)
 		}
 	);
 }
-
 var OnError = function (event, jqXHR, ajaxSettings, thrownError) {
     alert('[event:' + event + '], [jqXHR:' + jqXHR + '], [ajaxSettings:' + ajaxSettings + '], [thrownError:' + thrownError + '])');
 }
 
 </script>
 
-<span id="formConnect">
-	<form method="get" name="connectionForm" onSubmit="connect(); return false;">  
-		<label for="login">Login: <span class="required">*</span></label>  
-		<input type="text" id="login" name="login" value="tom" placeholder="JohnDoe" required="required" autofocus="autofocus" />  
-		
-		<label for="mdp">Password: <span class="required">*</span></label>  
-		<input type="password" id="mdp" name="mdp" value="tom" placeholder="password" required="required" />  
-		
-		<input type="submit" value="Connect" id="submit-button" />  
-		<p id="req-field-desc"><span class="required">*</span> indicates a required field</p>  
-	</form> 
+
+<span id="mainArea">
+	<span id="formConnect">
+		<form method="get" name="connectionForm" onSubmit="connect(); return false;">  
+			<label for="login">Login: <span class="required">*</span></label>  
+			<input type="text" id="login" name="login" value="tom" placeholder="JohnDoe" required="required" autofocus="autofocus" />  
+			
+			<label for="mdp">Password: <span class="required">*</span></label>  
+			<input type="password" id="mdp" name="mdp" value="tom" placeholder="password" required="required" />  
+			
+			<input type="submit" value="Connect" id="submit-button" />  
+			<p id="req-field-desc"><span class="required">*</span> indicates a required field</p>  
+		</form> 
+	</span>
 </span>
 
 <span id="allGames">
 </span>
-
-<span id="output">Empty</span>
+<br>
+Last Message : <span id="output">No message received</span>
+<br>
+<footer id="footer"> Welcome in our ligth-weigth client for online games!</footer>
 </body>
 
 </html>

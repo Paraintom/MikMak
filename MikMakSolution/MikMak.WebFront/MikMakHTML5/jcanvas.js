@@ -43,8 +43,8 @@ function drawCanvas(nbLin, nbCol)
 		drawLine(ctx,tab);
 	}		
 	canvas.id = "canvasGrid";
-	canvas.addEventListener("click", gridOnClick, false);
-	document.body.appendChild(canvas);
+	canvas.addEventListener("click", gridOnClick, false);	
+	setSpan('mainArea', canvas);
 }  
 
 function gridOnClick(e)
@@ -108,7 +108,7 @@ function drawLetter(name,x,y)
 	x=x-1;
 	y=y-1;
 	var context = canvas.getContext("2d");
-	console.log("drawletter "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);	
+	//console.log("drawletter "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);	
     context.font = "20pt Calibri,Geneva,Arial";	
     context.strokeText(name, 0*borderPixel+x*pixelBySquare+0.5*pixelBySquare, 0*borderPixel+ y*pixelBySquare+0.5*pixelBySquare);
 }

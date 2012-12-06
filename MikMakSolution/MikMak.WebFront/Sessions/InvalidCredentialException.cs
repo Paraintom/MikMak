@@ -36,6 +36,8 @@ namespace MikMak.WebFront.Sessions
         UnknownSession,
         [Description("Invalid game id")]
         PlayerNotInvolvedInGame,
+        [Description("Session not link to a game")]
+        SessionNotLinkWithBattle,
         [Description("Unknow raison")]
         UnknowRaison
     }

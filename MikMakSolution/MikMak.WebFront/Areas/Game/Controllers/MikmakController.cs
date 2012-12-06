@@ -69,7 +69,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             string toReturn = string.Empty;
             try
             {
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId,false);
                 var newSession = sessionManager.GetSession(session, gameId);
                 toReturn = newSession.Id;
             }
@@ -89,7 +89,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
             try
             {
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId, false);
                 return gameManager.GetAllBattles(session.PlayerInBattle.Player).Select(o => o.Battle).ToList();
             }
             catch(Exception){
@@ -126,7 +126,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 // 1-Check valid session
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId, false);
 
                 // 2-Check valid opponents
                 List<Player> allOpponents = new List<Player>();
@@ -165,7 +165,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 // 1-Check valid session
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId, true);
 
                 // 2-Return result
                 return new GridExtented()
@@ -191,7 +191,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 // 1-Check valid session
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId, true);
 
                 // 2-Return result
                 return new GridExtented()
@@ -215,7 +215,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 // 1-Check valid session
-                var session = sessionManager.GetSession(sessionId);
+                var session = sessionManager.GetSession(sessionId, true);
                 Move move = new Move()
                 {
                     PlayerNumber = session.PlayerInBattle.PlayerNumber,

@@ -74,7 +74,7 @@ namespace MikMak.WebFront.Sessions
             return session;
         }
 
-        public Session GetSession(string sessionId)
+        public Session GetSession(string sessionId, bool gameExpected)
         {
             lock (internalLock)
             {
@@ -82,6 +82,10 @@ namespace MikMak.WebFront.Sessions
                 //// Check session exist and not expired
                 if (this.allSessions.TryGetValue(sessionId, out result) && result.MaxValidity > DateTime.UtcNow)
                 {
+                    if (gameExpected && result.PlayerInBattle.Battle == null)
+                    {
+                        throw new InvalidCredentialException(InvalidCredentialEnum.SessionNotLinkWithBattle);
+                    }
                     return result;
                 }
                 else

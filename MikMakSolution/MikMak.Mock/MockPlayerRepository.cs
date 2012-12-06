@@ -26,6 +26,14 @@ namespace MikMak.Mock
 
         public static int GetPlayerId(string login)
         {
+            if (login == "tom")
+            {
+                return 10;
+            }
+            if (login == "oliv")
+            {
+                return 20;
+            }
             return login.Length + (int)login[1];
         }
     }
