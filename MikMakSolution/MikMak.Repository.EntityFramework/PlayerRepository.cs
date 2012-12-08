@@ -11,7 +11,6 @@ namespace MikMak.Repository.EntityFramework
     public class PlayerRepository : IPlayerRepository
     {
         private Context _Context;
-        private object internalLock = new object();
 
         public PlayerRepository(Context context)
         {
@@ -24,22 +23,14 @@ namespace MikMak.Repository.EntityFramework
             {
                 throw new Exception(Error.LOGIN_ALREADY_EXISTS);
             }
-            else
+            Player newPlayer = new Player
             {
-                lock (internalLock)
-                {
-                    Player newPlayer = new Player
-                    {
-                        Login = login,
-                        Password = password,
-                        // Auto Increment managment, Carefull, need the lock!
-                        PlayerId = _Context.Players.Count() + 1
-                    };
-                    _Context.Players.Add(newPlayer);
-                    _Context.SaveChanges();
-                    return newPlayer;
-                }
-            }
+                Login = login,
+                Password = password,
+            };
+            _Context.Players.Add(newPlayer);
+            _Context.SaveChanges();
+            return newPlayer;
         }
 
         public Player Get(string login)
