@@ -97,7 +97,7 @@ var createGame=function()
 {
 	var opponentLogin = document.getElementById('opponentLogin');	
 	setOutput('Creating game...');
-	query = "CreateBattle?sessionId="+sessionId+"&typeGame=1&opponent1="+opponentLogin;
+	query = "CreateBattle?sessionId="+sessionId+"&typeGame=1&opponent1="+opponentLogin.value;
 	queryService(query,onGridReceived);
 }
 

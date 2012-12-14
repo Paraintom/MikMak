@@ -11,7 +11,7 @@ namespace MikMak.Mock
     {
         public Player CreatePlayer(string login, string password)
         {
-            throw new NotImplementedException();
+            return Get(login);
         }
 
         public Player Get(string login)
@@ -34,7 +34,11 @@ namespace MikMak.Mock
             {
                 return 20;
             }
-            return login.Length + (int)login[1];
+            int h = 0;
+            for (int i = 0; i < login.Length; i++)
+                h += login[i] * 31 ^ login.Length - (i + 1);
+            return h;
         }
     }
+
 }
