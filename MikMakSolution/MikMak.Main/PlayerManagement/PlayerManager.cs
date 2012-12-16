@@ -30,5 +30,11 @@ namespace MikMak.Main.PlayerManagement
             var player = repoPlayer.Get(login);
             return player;
         }
+
+        public Player Get(int playerId)
+        {
+            var player = repoPlayer.Get(playerId);
+            return player;
+        }
     }
 }

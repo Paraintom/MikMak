@@ -11,5 +11,7 @@ namespace MikMak.Repository.Interfaces
         Player CreatePlayer(string login, string password);
 
         Player Get(string login);
+
+        Player Get(int playerId);
     }
 }

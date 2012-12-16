@@ -4,216 +4,27 @@
 <head>
 <meta charset="UTF-8" />
 <title>MikMak Wrapper</title>
-
 </head>
-
 <body>
-
 <script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="jcanvas.js"></script>
+<script type="text/javascript" src="MikMak.js"></script>
 <script type="application/javascript">
 
-//CONSTANTES!!
-var pixelByLine = 40;
-var borderPixel = 3;
-var rootpath="http://127.0.0.1:33226/api/";
-
-
-// ************  SessionId Managment ****************
-var sessionIdNotSet = 'notSet';
-var sessionId = sessionIdNotSet;
-
-var setSessionId=function(data)
-{	
-	sessionId = data;
-	if(sessionId == sessionIdNotSet){
-		setOutput('Disconnected');
-	}
-	else
-	{
-		setFooter('You are connected, sessionId = '+sessionId);	
-	}
-}
 // ************  Connection ****************
-
-function connect()
+function connectInit()
 {
 	login= document.forms["connectionForm"].elements["login"].value;
 	mdp= document.forms["connectionForm"].elements["mdp"].value;
-	query = "Connect?login="+login+"&password="+mdp;
-	queryService(query,onConnect);
+	connect(login,mdp);
+	//query = "Connect?login="+login+"&password="+mdp;
+	//queryService(query,onConnect);
 }
-
-var onConnect=function(data)
-{	
-	if((data.split("-").length ) == 5){
-		hideById('formConnect');
-		setSessionId(data);
-		query = "GetListBattles?sessionId="+data;
-		queryService(query,onListGameReceived);
-	}
-	else{
-		setSessionId('notSet');
-		setOutput(data);
-	}
-}
-
-// ************  Game list retrieving ****************
-var onListGameReceived=function(data)
-{
-	if(typeof data.ExceptionMessage != 'undefined'){	
-		setOutput(data.ExceptionMessage);
-	}
-	else
-	{	
-		var listBattleSpan = document.createElement('span');
-		listBattleSpan.setAttribute('id', 'listBattle');
-		for (var i = 0; i < data.length; i++) {
-			element = data[i];
-			//writeObj(element);
-			addToListGame(element,listBattleSpan);
-		}
-		setSpan('mainArea', listBattleSpan);
-		
-		//Create Game
-		
-		var inputLogin = document.createElement('input');		
-		inputLogin.setAttribute('placeholder', 'opponent login');
-		inputLogin.setAttribute('id', 'opponentLogin');
-		inputLogin.setAttribute('type', 'text');
-		addSpan('mainArea', inputLogin);
-		
-		var buttonCreateGame = document.createElement('input');		
-		buttonCreateGame.setAttribute('type', 'button');
-		buttonCreateGame.setAttribute('onclick', 'createGame()');
-		buttonCreateGame.value = 'Create new game';
-		addSpan('mainArea', buttonCreateGame);
-		
-		setOutput('Battle(s) received...'+data.length);
-	}
-}
-
-var createGame=function()
-{
-	var opponentLogin = document.getElementById('opponentLogin');	
-	setOutput('Creating game...');
-	query = "CreateBattle?sessionId="+sessionId+"&typeGame=1&opponent1="+opponentLogin.value;
-	queryService(query,onGridReceived);
-}
-
-var addToListGame=function(data,listBattleSpan)
-{
-    var newSpan = document.createElement('span');
-    // add the class to the 'spam'
-    newSpan.setAttribute('class', 'gameItem');
-    newSpan.setAttribute('onclick', 'onGameSelected("'+data.GameId+'")');
-	newSpan.innerHTML = data.GameId+'<br>';
-    listBattleSpan.appendChild(newSpan);	
-}
-
-// ************  Game selection ****************
-var onGameSelected=function(gameId)
-{
-	setOutput('Battle selected '+gameId+', connecting to game...');
-	query = "GetGrid?sessionId="+sessionId+"&gameId="+gameId;
-	queryService(query,onGridReceived);
-}
-
-// ************  Grid Received ****************
-var onGridReceived=function(data)
-{
-	if(typeof data.ExceptionMessage != 'undefined'){	
-		setOutput(data.ExceptionMessage);
-	}
-	else
-	{	
-		//writeObj(data);
-		setSessionId(data.SessionId);
-		var grid = data.State;
-		var numLines = grid.NumberLines;
-		var numCol = grid.NumberColumns;
-		//Draw Canvas
-		drawCanvas(numLines,numCol);
-		//Draw Pawns
-		var pawns = data.State.PawnLocations;
-		for (var i = 0; i < pawns.length; i++) {
-			element = pawns[i];
-			//writeObj(element);
-			drawLetter(element.Name,element.Coord.x,element.Coord.y);
-		}
-		
-		
-		setOutput(grid.CurrentMessage.Information);
-	}
-}
-// Helpers
-function writeObj(obj, message) {
-  if (!message) { message = obj; }
-  var details = "*****************" + "\n" + message + "\n";
-  var fieldContents;
-  for (var field in obj) {
-    fieldContents = obj[field];
-    if (typeof(fieldContents) == "function") {
-      fieldContents = "(function)";
-    }
-    details += "  " + field + ": " + fieldContents + "\n";
-  }
-  console.log(details);
-}
-
-function hideById(id) {
-	document.getElementById(id).style.display = 'none';
-}
-
-function setOutput(text)
-{
-	setElementText("output",text);
-}
-function setFooter(text)
-{
-	setElementText("footer",text);
-}
-function setElementText(id, text)
-{
-	document.getElementById(id).innerHTML = text;
-}
-
-function setSpan(name, content)
-{
-	var span = document.getElementById(name);
-	while( span.firstChild ) {
-		span.removeChild( span.firstChild );
-	}
-	addSpan(name,content);
-}
-
-function addSpan(name, content)
-{
-	var span = document.getElementById(name);
-	span.appendChild( content );
-}
-
-function queryService(query, callBack)
-{
-	$.ajax(
-		{
-			url: rootpath+query,
-			dataType: 'jsonp',
-			success: callBack,
-			error:OnError
-		}
-	);
-}
-var OnError = function (event, jqXHR, ajaxSettings, thrownError) {
-    alert('[event:' + event + '], [jqXHR:' + jqXHR + '], [ajaxSettings:' + ajaxSettings + '], [thrownError:' + thrownError + '])');
-}
-
 </script>
 
 
 <span id="mainArea">
 	<span id="formConnect">
-		<form method="get" name="connectionForm" onSubmit="connect(); return false;">  
+		<form method="get" name="connectionForm" onSubmit="connectInit(); return false;">  
 			<label for="login">Login: <span class="required">*</span></label>  
 			<input type="text" id="login" name="login" value="tom" placeholder="JohnDoe" required="required" autofocus="autofocus" />  
 			

@@ -162,6 +162,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Game\Controllers\BattleExtented.cs" />
     <Compile Include="Areas\Game\Controllers\GridExtented.cs" />
     <Compile Include="Areas\Game\Controllers\MikmakController.cs" />
     <Compile Include="Areas\Game\Controllers\SampleGameController.cs" />

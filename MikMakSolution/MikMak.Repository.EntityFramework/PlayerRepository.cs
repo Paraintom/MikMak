@@ -37,5 +37,10 @@ namespace MikMak.Repository.EntityFramework
         {
             throw new System.NotImplementedException();
         }
+
+        public Player Get(int playerId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

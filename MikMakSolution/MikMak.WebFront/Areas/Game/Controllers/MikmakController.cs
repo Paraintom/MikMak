@@ -96,14 +96,35 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
         #region Show list of battles : GetListBattles
         [AcceptVerbs("GET")]
-        public List<Battle> GetListBattles(string sessionId)
+        public List<BattleExtented> GetListBattles(string sessionId)
         {
             HackJsonp();
-
+            List<BattleExtented> toReturn = new List<BattleExtented>();
             try
             {
                 var session = sessionManager.GetSession(sessionId, false);
-                return gameManager.GetAllBattles(session.PlayerInBattle.Player).Select(o => o.Battle).ToList();
+                var allBattle = gameManager.GetAllBattles(session.PlayerInBattle.Player).Select(o => o.Battle).ToList();
+                foreach (var battle in allBattle)
+                {
+                    List<Player> playersInGame = new List<Player>();
+                    BattleExtented battleEx = new BattleExtented()
+                    {
+                        Battle = battle
+                    };
+                    foreach (int playerId in battle.Players)
+                    {
+                        var player = playerManager.Get(playerId);
+                        playersInGame.Add(new Player()
+                        {
+                            Login = player.Login,
+                            PlayerId = player.PlayerId
+                        }
+                        );
+                    }
+                    battleEx.InGame = playersInGame;
+                    toReturn.Add(battleEx);
+                }
+                return toReturn;
             }
             catch(Exception){
                 // J'ai pas trouvé mieux POUR l'instant.

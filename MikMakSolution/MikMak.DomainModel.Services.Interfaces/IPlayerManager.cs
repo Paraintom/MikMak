@@ -25,5 +25,12 @@ namespace MikMak.Interfaces
         /// <param name="login">The login</param>
         /// <returns>The player</returns>
         Player Get(string login);
+
+        /// <summary>
+        /// Get a player from his playerId
+        /// </summary>
+        /// <param name="login">The playerId</param>
+        /// <returns>The player</returns>
+        Player Get(int playerId);
     }
 }
