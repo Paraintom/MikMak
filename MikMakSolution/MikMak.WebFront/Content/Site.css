@@ -1,40 +1,80 @@
-﻿body
+﻿/**********************************
+*             BODY
+***********************************/
+a:link {color: #FFFFFF;}
+a:visited {color: #FFFFFF;}
+a:active {color: #FFFFFF;}
+a {text-decoration: none;}
+
+body
 {
     margin: 0px;
-    background-color:#AAAAAA;    
+    background-color:#EEEEFF;    
 }
 
+/**********************************
+*             HEADER
+***********************************/
 #header-container
 {
     width:100%;
-    position: fixed;
-    top:0px;
-    background-color: Black;
+    background-color: #4B69A8;
+    color: White;
 }
 
 #header
 {
-    background-color:Red;
-    height : 100px;
+    background-color:#4B69A8;
+    height : 50px;
     width : 960px;
     margin: 0px auto;  
-    text-align: left;
-    font-size: 30pt;
-    top: 0px;
+    font-size: 30pt;  
 }
 
+#HomeTitle
+{
+float:left;
+margin-left:50px;
+}
+
+#LogOn
+{
+    font-size: 10pt;
+    float:right;
+    margin-top: 5px;
+}
+#PlayerMenu
+{
+    font-size: 10pt;
+    height: 20px;
+    width : 960px;
+    margin: 0px auto; 
+    display:block;
+}
+
+#PlayerMenu > div
+{
+    float:left;
+    margin-right:10px;
+}
+
+/**********************************
+*             MAIN CONTENT
+***********************************/
 #mainContent
 {   
-    height: 2000px;
+    height: 500px;
     width: 960px;
-    margin: 110px auto;
+    margin: 50px auto;
     border: 1px solid #CCC;
-    background-color: Gray;
+    background-color: #DEDEFF;
 }
 
 #footer
 {
     right: 0px;
+    width: 960px;
+    margin: 0px auto; 
 }
 
 .txtVeryBig

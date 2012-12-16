@@ -1,0 +1,13 @@
+﻿@{
+    MvcHtmlString link;
+    if(Request.IsAuthenticated)
+    {
+    
+        link=Html.ActionLink("[Log off]", "LogOff", "Account");   
+    }
+    else
+    {
+        link = Html.ActionLink("[Connexion]", "LogIn", "Account");   
+    }
+}
+@link
