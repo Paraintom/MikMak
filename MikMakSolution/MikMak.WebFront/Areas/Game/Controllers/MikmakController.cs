@@ -19,14 +19,23 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         private IPlayerManager playerManager;
         private IGamesManager gameManager;
         private static ISessionManager sessionManager;
+        private static string erreurConstructeur;
 
         public MikmakController()
         {
-            playerManager = new PlayerManager();
-            gameManager = GameManager.GetInstance();
-            if (sessionManager == null)
+            try
             {
-                sessionManager = new SessionManager(playerManager, gameManager);
+                playerManager = new PlayerManager();
+                gameManager = GameManager.GetInstance();
+                if (sessionManager == null)
+                {
+                    sessionManager = new SessionManager(playerManager, gameManager);
+                }
+                erreurConstructeur = "No error";
+            }
+            catch (Exception e)
+            {
+                erreurConstructeur = e.Message+" inner = "+e.InnerException.Message;
             }
         }
 
@@ -40,18 +49,22 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         [AcceptVerbs("GET")]
         public string Connect(string login, string password)
         {
-            HackJsonp();
-
             string toReturn = string.Empty;
-            try
-            {
-                var firstSession = sessionManager.GetSession(login, password);
-                toReturn = firstSession.Id;
+            try{
+                HackJsonp();
+
+                try
+                {
+                    var firstSession = sessionManager.GetSession(login, password);
+                    toReturn = firstSession.Id;
+                }
+                catch (Exception ex)
+                {
+                    toReturn = ex.Message + " erreurConstructeur " + erreurConstructeur;
+                }
+
             }
-            catch (Exception ex)
-            {
-                toReturn = ex.Message;
-            }
+            catch (Exception ex) { toReturn = ex.Message; }
             return toReturn;
         }
 
@@ -75,7 +88,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             }
             catch (Exception ex)
             {
-                toReturn = ex.Message;
+                toReturn = ex.Message + " erreurConstructeur "+erreurConstructeur;
             }
             return toReturn;
         }
@@ -150,9 +163,18 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                     State = newGame.Battle.CurrentState
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                var toReturn = e.Message + " erreurConstructeur " + erreurConstructeur;
+                return new GridExtented()
+                {
+                    SessionId = toReturn,
+                    State = new Grid()
+                    {
+                        NumberColumns = 5,
+                        NumberLines = 1
+                    }
+                };
             }
         } 
         #endregion

@@ -9,6 +9,18 @@ namespace MikMak.Mock
 {
     public class MockPlayerRepository : IPlayerRepository
     {
+        private static Dictionary<int, Player> allPlayers = new Dictionary<int, Player>();
+
+        private static MockPlayerRepository Instance;
+        public static MockPlayerRepository GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new MockPlayerRepository();
+            }
+            return Instance;
+        }
+
         public Player CreatePlayer(string login, string password)
         {
             return Get(login);
@@ -16,12 +28,27 @@ namespace MikMak.Mock
 
         public Player Get(string login)
         {
-            return new Player()
+            var p = new Player()
             {
                 Login = login,
                 Password = login,
                 PlayerId = GetPlayerId(login)
             };
+            if (!allPlayers.ContainsKey(p.PlayerId))
+            {
+                allPlayers.Add(p.PlayerId, p);
+            }
+            return p;
+        }
+
+        public Player Get(int id)
+        { 
+            Player p;
+            if (!allPlayers.TryGetValue(id, out p))
+            {
+                throw new Exception("player unknown!! id = "+id+" list size "+allPlayers.Count);
+            }
+            return p;
         }
 
         public static int GetPlayerId(string login)

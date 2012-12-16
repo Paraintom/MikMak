@@ -55,11 +55,35 @@ namespace MikMak.Main.GamesManagement
             return datas[typeGame];
         }
 
+        public string GetCurrentAssemblyPath()
+        {
+            string dllFilePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string directoryPath = System.IO.Path.GetDirectoryName(dllFilePath);
+            return directoryPath;
+        }
+
         private void Initialize()
         {
             if (!Directory.Exists(path))
             {
-                throw new ArgumentException("The folder in config does not exist");
+                string currentAssemblyPath = Path.Combine(GetCurrentAssemblyPath(), "../");
+                string specialPath = currentAssemblyPath+path;
+
+                if (!Directory.Exists(specialPath))
+                {
+                    int nbFolder = Directory.EnumerateDirectories(currentAssemblyPath).Count();
+                    int nbFile = Directory.EnumerateFiles(currentAssemblyPath).Count();
+                    int nbFiledll = Directory.EnumerateFiles(currentAssemblyPath, "*.dll").Count();
+
+                    var toAddStatic = new Morpion.MorpionManager();
+                    datas.Add(toAddStatic.GetGameType(), toAddStatic);
+                    return;
+                    //throw new ArgumentException(String.Format("The folder in config does not exist ({0}),spePatch={2}, current folder = {1}, nbFolder{3}, nbFile{4}, nbdll{5}", path, Environment.CurrentDirectory, specialPath,nbFolder,nbFile,nbFiledll));
+                }
+                else
+                {
+                    path = specialPath;
+                }
             }
 
             List<string> allAssembliesToLoad = GetAllFilesToLoad(path);

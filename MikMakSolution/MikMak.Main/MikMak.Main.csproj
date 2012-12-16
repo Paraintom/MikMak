@@ -76,6 +76,10 @@
       <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>
       <Name>MikMakCommons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Morpion\Morpion.csproj">
+      <Project>{C0B80D70-C0B5-4D73-8763-30F0EE73DD41}</Project>
+      <Name>Morpion</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
