@@ -10,6 +10,14 @@
     public class PlayerInBattle
     {
         /// <summary>
+        /// Gets or sets the player in battle id.
+        /// </summary>
+        /// <value>
+        /// The player in battle id.
+        /// </value>
+        public int PlayerInBattleId { get; set; }
+
+        /// <summary>
         /// Player number in the game, by convention start at 1.
         /// 0 = not defined
         /// </summary>

@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Connectez-vous</h2>
+@using (Html.BeginForm())
+{
+<table>
+<tr><td>@Html.Label("Login: ")</td><td>@Html.TextBox("username")</td></tr>
+<tr><td>@Html.Label("Password: ")</td><td>@Html.TextBox("password")</td></tr>
+</table>
+<input type="submit" value="Envoyer" />
+    }

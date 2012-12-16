@@ -6,15 +6,15 @@ using System.Web.Mvc;
 
 namespace MikMak.WebFront.Controllers
 {
-    public class HomeController : Controller
+    public class PlayerRoomController : Controller
     {
+        //
+        // GET: /PlayerRoom/
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Modifiez ce modèle pour dynamiser votre application ASP.NET MVC.";
-
             return View();
         }
 
-       
     }
 }

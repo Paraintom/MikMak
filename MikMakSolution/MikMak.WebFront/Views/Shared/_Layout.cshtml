@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{    
+    MvcHtmlString PlayerMenu = MvcHtmlString.Empty;
+     if (Request.IsAuthenticated)
+     {
+         PlayerMenu = Html.Partial("~/Views/PlayerRoom/_PlayerMenu.cshtml");
+     }    
+}
+<!DOCTYPE html>
 <html lang="fr">
     <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,13 +19,16 @@
     <body>
     <div id="header-container">
          <div id="header">
-            Mi<span class="txtVeryBig">K</span>Ma<span class="txtBig">K</span>
+            <div id="HomeTitle"><a href=@Url.Action("Index", "Home", null)>MikMak</a></div>
+            <div id="LogOn"> @Html.Partial("_LogUser")</div>      
          </div>
-    </div>
+         @PlayerMenu         
+    </div>       
         <div id="mainContent">
                 @RenderBody()
+       
         </div>
-        <div id="footer">
+         <div id="footer">
         developpé par Oliv et Tom, de la Oliv et Tom Company
         </div>
 
