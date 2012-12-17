@@ -66,6 +66,16 @@ namespace MikMak.Mock
                 h += login[i] * 31 ^ login.Length - (i + 1);
             return h;
         }
+
+        #region IPlayerRepository Membres
+
+
+        public Player LogInPlayer(string login, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 
 }
