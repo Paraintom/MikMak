@@ -252,26 +252,46 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
         #region Play a move : Play
         [AcceptVerbs("GET")]
-        public GridExtented Play(string sessionId, int x, int y)
+        public GridExtented Play(string sessionId, int x1, int y1)
+        {
+            var tuple = new Tuple<int, int>(x1, y1);
+            return Play(sessionId, new List<Tuple<int, int>>() { tuple });
+        }
+
+        [AcceptVerbs("GET")]
+        public GridExtented Play(string sessionId, int x1, int y1, int x2, int y2)
+        {
+            var tuple = new Tuple<int, int>(x1, y1);
+            var tupleBis = new Tuple<int, int>(x2, y2);
+            return Play(sessionId, new List<Tuple<int, int>>() { tuple, tupleBis });
+        }
+
+        private GridExtented Play(string sessionId, List<Tuple<int,int>> allPositions)
         {
             HackJsonp();
             try
             {
                 // 1-Check valid session
                 var session = sessionManager.GetSession(sessionId, true);
+
+                var positions = new List<Pawn>();
+                foreach (var item in allPositions)
+	            {
+		            positions.Add(new Pawn(){
+                            Coord = new Coord(){
+                                x = item.Item1,
+                                y = item.Item2
+                            },
+                            Name = "?",
+                            Player = session.PlayerInBattle.Player
+                    });
+	            }
+
+
                 Move move = new Move()
                 {
                     PlayerNumber = session.PlayerInBattle.PlayerNumber,
-                    Positions = new List<Pawn>(){
-                        new Pawn(){
-                            Coord = new Coord(){
-                                x = x,
-                                y = y
-                            },
-                            Name = '?',
-                            Player = session.PlayerInBattle.Player
-                        }                        
-                    }
+                    Positions = positions
                 };
                 var newState = gameManager.Play(session.PlayerInBattle, move);
 

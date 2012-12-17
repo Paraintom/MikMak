@@ -9,7 +9,7 @@
         /// <summary>
         /// Could be 'Q' for Queen, as it could be 'B' for black...        
         /// </summary>
-        public char Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// There is two Queen, give the pawn's owner number
@@ -18,7 +18,7 @@
 
         public Coord Coord { get; set; }
 
-        public Pawn(char name, int x, int y): this()
+        public Pawn(string name, int x, int y) : this()
         {
             this.Name = name;
             Coord.x = x;

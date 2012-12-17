@@ -1,7 +1,9 @@
 
 var pixelByLine = 40;
 var borderPixel = 3;
-var rootpath="http://127.0.0.1:33226/api/";
+var maxClick;
+var allClick;
+var rootpath="http://localhost:33226/api/";
 
 // ************  SessionId Managment ****************
 var sessionIdNotSet = 'notSet';
@@ -67,6 +69,7 @@ var onListGameReceived=function(data)
 		
 		var inputLogin = document.createElement('input');		
 		inputLogin.setAttribute('placeholder', 'opponent login');
+		inputLogin.setAttribute('value', 'oliv');
 		inputLogin.setAttribute('id', 'opponentLogin');
 		inputLogin.setAttribute('type', 'text');
 		addSpan('mainArea', inputLogin);
@@ -75,8 +78,10 @@ var onListGameReceived=function(data)
 		buttonCreateGame.setAttribute('type', 'button');
 		buttonCreateGame.setAttribute('onclick', 'createGame()');
 		buttonCreateGame.value = 'Create new game';*/
-		var buttonCreateGame = createButton('createGame()', 'Create new game');
+		var buttonCreateGame = createButton('createGame(1)', 'Create new Tic tac toe game');
 		addSpan('mainArea', buttonCreateGame);
+		var buttonCreateGame2 = createButton('createGame(2)', 'Create new Chess game');
+		addSpan('mainArea', buttonCreateGame2);
 		
 		setOutput('number of Battle received : '+data.length);
 	}
@@ -90,11 +95,11 @@ var createButton=function(action, text){
 	return buttonCreateGame;
 }
 
-var createGame=function()
+var createGame=function(type)
 {
 	var opponentLogin = document.getElementById('opponentLogin');	
 	setOutput('Creating game...');
-	query = "CreateBattle?sessionId="+sessionId+"&typeGame=1&opponent1="+opponentLogin.value;
+	query = "CreateBattle?sessionId="+sessionId+"&typeGame="+type+"&opponent1="+opponentLogin.value;
 	queryService(query,onGridReceived);
 }
 
@@ -135,9 +140,11 @@ var onGridReceived=function(data)
 	}
 	else
 	{	
-		//writeObj(data);
+		//writeObj(data);		
 		setSessionId(data.SessionId);
 		var grid = data.State;
+		maxClick = grid.MoveNumber;
+		allClick = new Array();
 		var numLines = grid.NumberLines;
 		var numCol = grid.NumberColumns;
 		//Draw Canvas
@@ -227,7 +234,7 @@ var OnError = function (event, jqXHR, ajaxSettings, thrownError) {
 /*! jcanvas v1.0.0 | Tom from Oliv&Tom Corp. */
 
 var borderPixel = 3;
-var pixelBySquare = 150;
+var pixelBySquare = 80;
 var canvas;
 
 function drawCanvas(nbLin, nbCol)
@@ -278,9 +285,24 @@ function gridOnClick(e)
 	var cell = getCursorPosition(e);
 	var x =cell.column+1;
 	var y = cell.row+1;
-	query = "Play?sessionId="+sessionId+"&x="+x+"&y="+y;
-	setOutput(x+' '+y)
-	queryService(query,onGridReceived);	
+	var tab = new Array();
+	tab.push(x);
+	tab.push(y);
+	allClick.push(tab);
+	
+	if(allClick.length != maxClick){
+		setOutput('Click recorded : '+allClick.length+' on '+maxClick);
+	}
+	else
+	{
+		query = "Play?sessionId="+sessionId;
+		for(var i=0;i<allClick.length;i++)
+		{			
+			query+="&x"+(i+1)+"="+allClick[i][0]+"&y"+(i+1)+"="+allClick[i][1];
+		}
+		queryService(query,onGridReceived);
+		allClick = new Array();
+	}
 }
 
 function getCursorPosition(e) {

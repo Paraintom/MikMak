@@ -3,15 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C0B80D70-C0B5-4D73-8763-30F0EE73DD41}</ProjectGuid>
+    <ProjectGuid>{FC92B966-54DD-4D18-8D22-7EE13817399E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Morpion</RootNamespace>
-    <AssemblyName>Morpion</AssemblyName>
+    <RootNamespace>Chess.Test</RootNamespace>
+    <AssemblyName>Chess.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,29 +33,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MorpionManager.cs" />
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseMovementTests.cs" />
+    <Compile Include="BishopTests.cs" />
+    <Compile Include="PawnTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BoardTests.cs" />
+    <Compile Include="RookTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj">
-      <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
-      <Name>MikMak.DomainModel.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MikMak.DomainModel.Services.Interfaces\MikMak.DomainModel.Services.Interfaces.csproj">
-      <Project>{A47E2E33-851F-411C-8654-833C0F729A69}</Project>
-      <Name>MikMak.DomainModel.Services.Interfaces</Name>
+    <ProjectReference Include="..\Chess.Model\Chess.Model.csproj">
+      <Project>{04199042-768D-4996-B504-513732F30BAF}</Project>
+      <Name>Chess.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

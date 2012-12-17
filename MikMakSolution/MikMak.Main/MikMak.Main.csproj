@@ -52,6 +52,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\antdimot-chess-movement-validator-d417221\ChessService\ChessService.csproj">
+      <Project>{2BD16FF4-D305-4E19-93A4-747D5F80DE07}</Project>
+      <Name>ChessService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj">
       <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
       <Name>MikMak.DomainModel.Entities</Name>

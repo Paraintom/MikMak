@@ -31,7 +31,7 @@ namespace Morpion
                 return currentState;
             }
             //3-Case Ok, 
-            var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? 'B' : 'W', choosenX, choosenY);
+            var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? "B" : "W", choosenX, choosenY);
             currentState.PawnLocations.Add(PawnToAdd);
             if (IsFinished(currentState, PawnToAdd))
             {

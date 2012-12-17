@@ -40,6 +40,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Infrastructure.Injec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Mock", "MikMak.Mock\MikMak.Mock.csproj", "{1ABF78F1-DD59-4110-972B-39C9851C699F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessService", "antdimot-chess-movement-validator-d417221\ChessService\ChessService.csproj", "{2BD16FF4-D305-4E19-93A4-747D5F80DE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Model", "antdimot-chess-movement-validator-d417221\Chess.Model\Chess.Model.csproj", "{04199042-768D-4996-B504-513732F30BAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +182,26 @@ Global
 		{1ABF78F1-DD59-4110-972B-39C9851C699F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1ABF78F1-DD59-4110-972B-39C9851C699F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1ABF78F1-DD59-4110-972B-39C9851C699F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2BD16FF4-D305-4E19-93A4-747D5F80DE07}.Release|x86.ActiveCfg = Release|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{04199042-768D-4996-B504-513732F30BAF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
