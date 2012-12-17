@@ -2,13 +2,24 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Connectez-vous</h2>
-@using (Html.BeginForm())
-{
-<table>
-<tr><td>@Html.Label("Login: ")</td><td>@Html.TextBox("username")</td></tr>
-<tr><td>@Html.Label("Password: ")</td><td>@Html.TextBox("password")</td></tr>
-</table>
-<input type="submit" value="Envoyer" />
-    }
+    @using (Html.BeginForm())
+{    
+<div class="row">
+    <div class="span5 offset3">
+        <div class="row">
+	      <div class="span2">@Html.Label("Login: ")</div>
+          <div class="span3">@Html.TextBox("username")</div>	
+	    </div>
+         <div class="row">
+	      <div class="span2">@Html.Label("Password: ")</div>
+          <div class="span3">@Html.TextBox("password")</div>	
+	    </div>
+        <div class="row">
+	      <div class="span2 offset3">
+            <button class="btn btn-primary" type="submit">Envoyer <i class="icon-white icon-ok-sign"></i></button>
+          </div>
+	    </div>
+    </div>
+    <div class="span4"></div>
+</div>
+}

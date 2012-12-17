@@ -187,6 +187,14 @@
     <Content Include="Global.asax" />
     <Content Include="MikMakHTML5\jcanvas.js" />
     <Content Include="MikMakHTML5\jquery.js" />
+    <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1.min.js" />
