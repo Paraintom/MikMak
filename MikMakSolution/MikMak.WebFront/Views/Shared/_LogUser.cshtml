@@ -1,13 +1,33 @@
 ﻿@{
-    MvcHtmlString link;
+   /* MvcHtmlString logInOff;
+    MvcHtmlString linkToMyRoom=MvcHtmlString.Empty;
     if(Request.IsAuthenticated)
     {
-    
-        link=Html.ActionLink("[Log off]", "LogOff", "Account");   
+        MvcHtmlString.Create("<li>");
+        logInOff = Html.ActionLink("[Log off]", "LogOff", "Account");
+        linkToMyRoom = Html.ActionLink("My Account", "Index", "PlayerRoom");   
     }
     else
     {
-        link = Html.ActionLink("[Connexion]", "LogIn", "Account");   
-    }
+        logInOff = Html.ActionLink("[Connexion]", "LogIn", "Account");   
+    }*/
 }
-@link
+ <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="@Url.Action("Index", "Home", null)">MikMaK</a>
+          <div class="nav-collapse">
+            <ul class="nav">          
+             @if (Request.IsAuthenticated)
+             {
+                 this.WriteLiteral("<li>" + Html.ActionLink("My Account", "Index", "PlayerRoom").ToHtmlString() + "</li>");
+                 this.WriteLiteral("<li>" + Html.ActionLink("[Log off]", "LogOff", "Account").ToHtmlString() + "</li>");
+             }
+             else{
+                 this.WriteLiteral("<li>" + Html.ActionLink("[Connexion]", "LogIn", "Account").ToHtmlString() + "</li>");
+             }             
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+</div>

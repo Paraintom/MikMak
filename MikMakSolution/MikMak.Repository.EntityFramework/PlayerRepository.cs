@@ -7,14 +7,21 @@ namespace MikMak.Repository.EntityFramework
     using System.Linq;
 
     using MikMak.DomainModel.Entities;
+    using System.Data;
+    using System.Data.Common;
 
     public class PlayerRepository : IPlayerRepository
     {
         private Context _Context;
 
-        public PlayerRepository(Context context)
+        public PlayerRepository(IDbConnection connection)
         {
-            _Context = context;
+            DbConnection connec = connection as DbConnection;
+            if (connec == null)
+            {
+                throw new Exception("Incorrect connection");
+            }
+            _Context = new Context(connec);
         }
 
         public Player CreatePlayer(string login, string password)
@@ -41,6 +48,11 @@ namespace MikMak.Repository.EntityFramework
         public Player Get(int playerId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Player LogInPlayer(string login, string password)
+        {
+            return _Context.Players.FirstOrDefault(o => o.Login == login && o.Password == password);
         }
     }
 }

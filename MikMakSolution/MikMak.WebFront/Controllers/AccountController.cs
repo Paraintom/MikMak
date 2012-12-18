@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MikMak.Infrastructure.InjectionDependancy;
+using MikMak.Repository.Interfaces;
+using MikMak.DomainModel.Entities;
 
 namespace MikMak.WebFront.Controllers
 {
@@ -17,15 +20,15 @@ namespace MikMak.WebFront.Controllers
         [HttpPost]
         public ActionResult LogIn(string username, string password)
         {
-            if (username != password)
+
+            IPlayerRepository playerRepo = ServiceLocator.GetInstance<IPlayerRepository>();
+            Player player = playerRepo.LogInPlayer(username, password);
+            if (player == null)
             {
                 return View();
             }
-            // Open session for 30 min!
-            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket("Tom",false,30);
-
-            string encTicket = FormsAuthentication.Encrypt(authTicket);
-            this.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
+            this.AutentificateUser(player);
+           
 
             return RedirectToAction("Index","PlayerRoom",null);
         }
@@ -35,6 +38,28 @@ namespace MikMak.WebFront.Controllers
             FormsAuthentication.SignOut();
 
             return RedirectToAction("Index","Home",null);
+        }
+
+        public ActionResult NewAccount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult NewAccount(string username, string password)
+        {
+            IPlayerRepository playerRepo = ServiceLocator.GetInstance<IPlayerRepository>();
+            Player player = playerRepo.CreatePlayer(username, password);
+            this.AutentificateUser(player);
+            return RedirectToAction("Index", "PlayerRoom", null);
+        }
+
+
+        private void AutentificateUser(Player player)
+        {
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(player.PlayerId.ToString(), false, 30);
+            string encTicket = FormsAuthentication.Encrypt(authTicket);
+            this.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
         }
 
     }

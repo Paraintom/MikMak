@@ -1,88 +1,16 @@
-﻿/**********************************
-*             BODY
-***********************************/
-a:link {color: #FFFFFF;}
-a:visited {color: #FFFFFF;}
-a:active {color: #FFFFFF;}
-a {text-decoration: none;}
-
-body
+﻿body 
+	{
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    }
+	  
+	[class*="span"] 
+	{
+		 background-color: ligthgrey;
+		 border-radius: 5px 5px 5px 5px;
+		 text-align: center;
+	}
+	
+.row
 {
-    margin: 0px;
-    background-color:#EEEEFF;    
-}
-
-/**********************************
-*             HEADER
-***********************************/
-#header-container
-{
-    width:100%;
-    background-color: #4B69A8;
-    color: White;
-}
-
-#header
-{
-    background-color:#4B69A8;
-    height : 50px;
-    width : 960px;
-    margin: 0px auto;  
-    font-size: 30pt;  
-}
-
-#HomeTitle
-{
-float:left;
-margin-left:50px;
-}
-
-#LogOn
-{
-    font-size: 10pt;
-    float:right;
-    margin-top: 5px;
-}
-#PlayerMenu
-{
-    font-size: 10pt;
-    height: 20px;
-    width : 960px;
-    margin: 0px auto; 
-    display:block;
-}
-
-#PlayerMenu > div
-{
-    float:left;
-    margin-right:10px;
-}
-
-/**********************************
-*             MAIN CONTENT
-***********************************/
-#mainContent
-{   
-    height: 500px;
-    width: 960px;
-    margin: 50px auto;
-    border: 1px solid #CCC;
-    background-color: #DEDEFF;
-}
-
-#footer
-{
-    right: 0px;
-    width: 960px;
-    margin: 0px auto; 
-}
-
-.txtVeryBig
-{   
-    font-size: 50pt;
-}
-
-.txtBig
-{   
-    font-size: 35pt;
+    text-align:left;
 }

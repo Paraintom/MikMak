@@ -13,5 +13,7 @@ namespace MikMak.Repository.Interfaces
         Player Get(string login);
 
         Player Get(int playerId);
+
+        Player LogInPlayer(string login, string password);
     }
 }
