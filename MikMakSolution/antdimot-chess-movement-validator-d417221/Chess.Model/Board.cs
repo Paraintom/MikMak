@@ -13,6 +13,12 @@ namespace Chess.Model
         };
         public static Char[] Columns_Inv = new Char[] {'P', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
 
+        public Tuple<char, int> EnPassant
+        {
+            get;
+            set;
+        }
+
         // piece position status on board
         private Piece[,] _pieces;
 
@@ -82,9 +88,24 @@ namespace Chess.Model
             SetPiece<King>( ChessColor.Black, 'E', 8 );
         }
 
-        public Piece GetPiece( char column, int row )
+        private Piece TryGetPiece(int column, int row)
         {
-            return _pieces[row - 1, Columns[column] ];
+            if (column < 1 || column > 8 || row < 1 || row > 8)
+            {
+                return null;
+            }
+            else
+            {
+                return GetPiece(column, row);
+            }
+        }
+        public Piece GetPiece(int column, int row)
+        {
+            return GetPiece(Columns_Inv[column], row);
+        }
+        public Piece GetPiece(char column, int row)
+        {
+            return _pieces[row - 1, Columns[column]];
         }
 
         // piece factory
@@ -128,7 +149,18 @@ namespace Chess.Model
                 return result;
             }
 
-            var targetPiece = GetPiece( targetColumn, targetRow );
+            Piece targetPiece = null;
+            var isEnPassant = EnPassant != null && selectPiece is Pawn && targetColumn == EnPassant.Item1 && targetRow == EnPassant.Item2;
+            if (!isEnPassant)
+            {
+                targetPiece = GetPiece(targetColumn, targetRow);
+            }
+            else
+            {
+                targetPiece = GetPiece(targetColumn, row);
+            }
+
+
 
             // check it is a valid movement for piece (rules piece validator)
             if( !selectPiece.IsValidMovement(
@@ -172,6 +204,18 @@ namespace Chess.Model
             if( result.Ate )
             {
                 result.AtePiece = targetPiece;
+            }
+
+
+            // set EnPassant Information
+            EnPassant = null;
+            if ((selectPiece is Pawn) && (Math.Abs(row - targetRow) == 2))
+            {
+                //En passant possibilities
+                if (TryGetPiece(Columns[targetColumn], targetRow) != null || TryGetPiece(Columns[targetColumn] + 2, targetRow) != null)
+                {
+                    EnPassant = new Tuple<char, int>(targetColumn, (targetRow + row) / 2);
+                }
             }
 
             // change position of piece

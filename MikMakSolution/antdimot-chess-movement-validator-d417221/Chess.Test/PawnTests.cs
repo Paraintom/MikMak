@@ -104,5 +104,46 @@ namespace Chess.Test
 
             Assert.IsFalse( result.IsSuccess, result.Description );
         }
+
+        [TestMethod]
+        public void MovePiece_WihoutEatSetEnPassant_Success()
+        {
+            var board = Board.GetNewBoard();
+            Assert.IsNull(board.EnPassant, "Initialisation should not start with en passant position");
+
+            board.SetPiece<Pawn>(ChessColor.White, 'A', 2);
+            board.SetPiece<Pawn>(ChessColor.Black, 'B', 4);
+
+            var result = board.MovePiece('A', 2, 'A', 4);
+            Assert.IsNotNull(board.EnPassant, "Should detect en passant posibility");
+            Assert.AreEqual('A', board.EnPassant.Item1);
+            Assert.AreEqual(3, board.EnPassant.Item2);
+
+            result = board.MovePiece('B', 4, 'B', 5);
+            Assert.IsNotNull(board.EnPassant, "Bad move should not erase the en passant info");
+
+            result = board.MovePiece('B', 4, 'B', 3);
+            Assert.IsNull(board.EnPassant, "En passant position finished");
+            Assert.IsTrue(result.IsSuccess, result.Description);
+        }
+
+        [TestMethod]
+        public void MovePiece_WihEatEnPassant_Success()
+        {
+            var board = Board.GetNewBoard();
+            Assert.IsNull(board.EnPassant, "Initialisation should not start with en passant position");
+
+            board.EnPassant = new Tuple<char, int>('A', 3);
+            board.SetPiece<Pawn>(ChessColor.White, 'A', 4);
+            board.SetPiece<Pawn>(ChessColor.Black, 'B', 4);
+
+            var result = board.MovePiece('B', 4, 'A', 3);
+            Assert.IsTrue(result.IsSuccess, result.Description);
+            Assert.IsTrue(result.Ate, "has eaten en passant!");
+
+            Assert.IsNotNull(result.AtePiece, "AtePiece property was not set correctly");
+            Assert.IsInstanceOfType(result.AtePiece, typeof(Pawn), "AtePiece property was not set correctly");
+            Assert.IsNull(board.EnPassant, "Good move should  erase the en passant info");
+        }
     }
 }

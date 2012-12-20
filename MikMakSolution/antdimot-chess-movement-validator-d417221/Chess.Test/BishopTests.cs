@@ -48,5 +48,20 @@ namespace Chess.Test
 
             Assert.IsFalse( result.IsSuccess, result.Description );
         }
+
+        [TestMethod]
+        [Ignore]
+        public void MovePiece_ButKingEchec_Success()
+        {
+            var board = Board.GetNewBoard();
+
+            board.SetPiece<Bishop>(ChessColor.White, 'D', 5);
+            board.SetPiece<King>(ChessColor.White, 'D', 4);
+            board.SetPiece<Queen>(ChessColor.Black, 'D', 6);
+
+            var result = board.MovePiece('D', 5, 'A', 2);
+
+            Assert.IsFalse(result.IsSuccess, result.Description);
+        }
     }
 }

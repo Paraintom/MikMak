@@ -50,6 +50,21 @@ namespace ChessService
             int x_end = move.Positions[1].Coord.x;
             int y_end = move.Positions[1].Coord.y;
             Board b = GenerateBoardFromGrid(currentState);
+            Piece p = b.GetPiece(x_init, y_init);
+
+            if (p == null)
+            {
+                currentState.CurrentMessage = Message.GetMessage(ChessMessage.NoPawnHere);
+                return currentState;
+            }
+
+            if (IsGoodColor(p.ChessColor, move.PlayerNumber))
+            {
+                currentState.CurrentMessage = Message.GetMessage(ChessMessage.NotYourPawn);
+                return currentState;
+            }
+
+
             var result = b.MovePiece(x_init, y_init, x_end, y_end);
             var newState = GetGridFromBoard(b);
             if (result.IsSuccess)
@@ -59,12 +74,28 @@ namespace ChessService
                     Id = 30,
                     Information = result.Description
                 };
+
+                newState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
+                newState.CurrentMessage = Message.GetMessage((currentState.NextPlayerToPlay == 2) ? ChessMessage.J2 : ChessMessage.J1);
             }
             else
             {
                 newState.CurrentMessage = Message.GetMessage(ChessMessage.InvalidMove);
             }
             return newState;
+        }
+
+        private bool IsGoodColor(ChessColor chessColor, int p)
+        {
+            switch (chessColor)
+            {
+                case ChessColor.White :
+                    return (p ==1);
+                case ChessColor.Black :
+                    return (p ==2);
+                default :
+                    return false;
+            }
         }
 
 
@@ -138,6 +169,10 @@ namespace ChessService
             NotEnoughMove = 203,
             [Description("Invalid Move")]
             InvalidMove = 204,
+            [Description("No pawn here")]
+            NoPawnHere = 205,
+            [Description("Not your pawn")]
+            NotYourPawn = 206,
         }
     }
 }
