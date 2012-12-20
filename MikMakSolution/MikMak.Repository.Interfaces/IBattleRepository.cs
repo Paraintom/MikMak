@@ -8,10 +8,6 @@ namespace MikMak.Repository.Interfaces
 {
     public interface IBattleRepository
     {
-        string CreateBattle(Battle battle);
-
-        Battle Get(string gameId);
-
         void Update(Battle battle);
     }
 }

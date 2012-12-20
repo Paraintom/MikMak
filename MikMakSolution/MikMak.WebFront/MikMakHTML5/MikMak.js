@@ -69,7 +69,6 @@ var onListGameReceived=function(data)
 		
 		var inputLogin = document.createElement('input');		
 		inputLogin.setAttribute('placeholder', 'opponent login');
-		inputLogin.setAttribute('value', 'oliv');
 		inputLogin.setAttribute('id', 'opponentLogin');
 		inputLogin.setAttribute('type', 'text');
 		addSpan('mainArea', inputLogin);

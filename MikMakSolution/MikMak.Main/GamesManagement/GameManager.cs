@@ -45,7 +45,8 @@ namespace MikMak.Main.GamesManagement
             currentBattle.CurrentState = newState;
             if (newState.DeservePersistence(oldState))
             {
-                repoBattle.Update(playerInBattle.Battle);
+                //See what we want to do....
+                //repoBattle.Update(playerInBattle.Battle);
             }
 
             // 3- We return the new state to the client
