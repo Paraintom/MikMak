@@ -144,6 +144,7 @@ namespace Chess.Test
             Assert.IsNotNull(result.AtePiece, "AtePiece property was not set correctly");
             Assert.IsInstanceOfType(result.AtePiece, typeof(Pawn), "AtePiece property was not set correctly");
             Assert.IsNull(board.EnPassant, "Good move should  erase the en passant info");
+            Assert.IsNull(board.GetPiece('A', 4), "The Pawn has been eaten");
         }
     }
 }

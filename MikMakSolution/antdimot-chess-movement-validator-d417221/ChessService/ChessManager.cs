@@ -11,6 +11,8 @@ namespace ChessService
 {
     public class ChessManager : IGameServices
     {
+        public const string EnPassantSpecialName = "ep";
+
         public int GetGameType()
         {
             return 2;
@@ -67,6 +69,7 @@ namespace ChessService
 
             var result = b.MovePiece(x_init, y_init, x_end, y_end);
             var newState = GetGridFromBoard(b);
+            newState.NextPlayerToPlay = currentState.NextPlayerToPlay;
             if (result.IsSuccess)
             {
                 newState.CurrentMessage = new Message()
@@ -115,10 +118,25 @@ namespace ChessService
         private Board GenerateBoardFromGrid(Grid currentState)
         {
             Board b = new Board(false);
+            //0 Special Pawn
+
             foreach (Pawn pawn in currentState.PawnLocations)
             {
-                var p = GetPiece(pawn);
-                b.putPiece(p, Board.Columns_Inv[pawn.Coord.x], pawn.Coord.y);
+                if(pawn.Coord.x < 1 || pawn.Coord.y < 1){
+                    //Special Pawn!
+                    if (pawn.Name == EnPassantSpecialName)
+                    {
+                        b.EnPassant = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
+                    }
+                    else
+                    {
+                        throw new Exception(String.Format("Piece Unknown ({0}) or badly located: [{1},{2}]" , pawn.Name, pawn.Coord.x, pawn.Coord.y));
+                    }
+                }
+                else{
+                    var p = GetPiece(pawn);
+                    b.PutPiece(p, Board.Columns_Inv[pawn.Coord.x], pawn.Coord.y);
+                }
             }
             return b;
         }
@@ -152,6 +170,11 @@ namespace ChessService
                         toReturn.Add(toAdd);
                     }
                 }
+            }
+            if (b.EnPassant != null)
+            {
+                Pawn enPassant = new Pawn(EnPassantSpecialName, -(Board.Columns[b.EnPassant.Item1] + 1), -(b.EnPassant.Item2));
+                toReturn.Add(enPassant);
             }
             return toReturn;
         }

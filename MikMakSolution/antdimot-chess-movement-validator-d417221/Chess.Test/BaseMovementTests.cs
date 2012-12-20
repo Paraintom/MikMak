@@ -23,5 +23,19 @@ namespace Chess.Test
 
             Assert.IsFalse( result.IsSuccess, result.Description );
         }
+
+        [TestMethod]
+        public void MovePiece_MakeKingChess_Error()
+        {
+            var board = Board.GetNewBoard();
+
+            board.SetPiece<King>(ChessColor.White, 'A', 1);
+            board.SetPiece<Pawn>(ChessColor.White, 'B', 2);
+            board.SetPiece<Queen>(ChessColor.Black, 'D', 4);
+
+            var result = board.MovePiece('B', 2, 'B', 3);
+
+            Assert.IsFalse(result.IsSuccess, result.Description);
+        }
     }
 }

@@ -107,17 +107,51 @@ namespace Chess.Model
         {
             return _pieces[row - 1, Columns[column]];
         }
+        public Tuple<int, int> GetFirstPosition(Piece p)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Piece currentPiece = _pieces[i, j];
+                    if (_pieces[i, j] != null && currentPiece.GetType() == p.GetType() && currentPiece.ChessColor == p.ChessColor)
+                    {
+                        return new Tuple<int, int>(i + 1, j + 1);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
+        public List<Tuple<int, int>> GetAllPieces(ChessColor color)
+        {
+            List<Tuple<int, int>> result = new List<Tuple<int, int>>();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Piece currentPiece = _pieces[i, j];
+                    if (_pieces[i, j] != null && currentPiece.ChessColor == color)
+                    {
+                        result.Add(new Tuple<int, int>(i + 1, j + 1));
+                    }
+                }
+            }
+            return result;
+        }
 
         // piece factory
         public void SetPiece<T>( ChessColor color, char column, int row ) where T : Piece 
         {
             var piece = Activator.CreateInstance( typeof( T ), color ) as Piece;
 
-            putPiece( piece, column, row );
+            PutPiece( piece, column, row );
         }
 
         // set piece at position
-        public void putPiece( Piece piece, char column, int row )
+        public void PutPiece( Piece piece, char column, int row )
         {
             _pieces[row - 1, Columns[column]] = piece;
         }
@@ -127,24 +161,35 @@ namespace Chess.Model
         {
             _pieces[row - 1, Columns[column]] = null;
         }
+        #region Move Piece
 
         // try to do a movement of piece
         public MovementResult MovePiece(int column, int row, int targetColumn, int targetRow)
         {
-            return MovePiece(Columns_Inv[column], row, Columns_Inv[targetColumn], targetRow);
+            return MovePiece(column, row, targetColumn, targetRow, false);
         }
 
-        public MovementResult MovePiece( char column, int row, char targetColumn, int targetRow )
+        public MovementResult MovePiece(char column, int row, char targetColumn, int targetRow)
+        {
+            return MovePiece(column, row, targetColumn, targetRow, false);
+        }
+
+        public MovementResult MovePiece(int column, int row, int targetColumn, int targetRow, bool forTest)
+        {
+            return MovePiece(Columns_Inv[column], row, Columns_Inv[targetColumn], targetRow, forTest);
+        }
+
+        private MovementResult MovePiece(char column, int row, char targetColumn, int targetRow, bool forTest)
         {
             MovementResult result = new MovementResult();
 
-            var selectPiece = GetPiece( column, row );
+            var selectPiece = GetPiece(column, row);
 
             // check if there is a piece at start position
-            if( selectPiece == null )
+            if (selectPiece == null)
             {
                 result.IsSuccess = false;
-                result.Description = String.Format( "No piece is present at position {0}{1}", column, row.ToString() );
+                result.Description = String.Format("No piece is present at position {0}{1}", column, row.ToString());
 
                 return result;
             }
@@ -163,45 +208,51 @@ namespace Chess.Model
 
 
             // check it is a valid movement for piece (rules piece validator)
-            if( !selectPiece.IsValidMovement(
-                ( targetPiece != null && !selectPiece.ChessColor.Equals( targetPiece.ChessColor ) ),
-                row - 1, Columns[column], targetRow - 1, Columns[targetColumn] ) )
+            if (!selectPiece.IsValidMovement(
+                (targetPiece != null && !selectPiece.ChessColor.Equals(targetPiece.ChessColor)),
+                row - 1, Columns[column], targetRow - 1, Columns[targetColumn]))
             {
                 result.IsSuccess = false;
                 result.Description =
-                    String.Format( "The {0} {1} at position {2}{3} cannot move to {4}{5}",
+                    String.Format("The {0} {1} at position {2}{3} cannot move to {4}{5}",
                     selectPiece.ChessColor.ToString(), selectPiece.GetType().Name,
-                    column, row.ToString(), targetColumn, targetRow.ToString() );
+                    column, row.ToString(), targetColumn, targetRow.ToString());
 
                 return result;
             }
 
             // check if the path is free if piece is not a knight
-            if( !(selectPiece is Knight) && !checkIfPathIsFree( column, row, targetColumn, targetRow ) )
+            if (!(selectPiece is Knight) && !checkIfPathIsFree(column, row, targetColumn, targetRow))
             {
                 result.IsSuccess = false;
                 result.Description =
-                    String.Format( "The path from {0}{1} to {2}{3} for {4}{5} is not free.",
+                    String.Format("The path from {0}{1} to {2}{3} for {4}{5} is not free.",
                      column, row.ToString(), targetColumn, targetRow.ToString(),
-                     selectPiece.ChessColor.ToString(), selectPiece.GetType().Name );
+                     selectPiece.ChessColor.ToString(), selectPiece.GetType().Name);
 
                 return result;
             }
 
             // check if target position there is already present a piece with same color
-            if( targetPiece != null && selectPiece.ChessColor.Equals( targetPiece.ChessColor ) )
+            if (targetPiece != null && selectPiece.ChessColor.Equals(targetPiece.ChessColor))
             {
                 result.IsSuccess = false;
                 result.Description =
-                    String.Format( "There is already present a {0} piece at position {1}{2}",
-                    selectPiece.ChessColor.ToString(), targetColumn, targetRow );
+                    String.Format("There is already present a {0} piece at position {1}{2}",
+                    selectPiece.ChessColor.ToString(), targetColumn, targetRow);
 
                 return result;
             }
 
+            //En passant done
+            if (isEnPassant && !forTest)
+            {
+                clearBoardPosition(targetColumn, row);
+            }
+
             // set result information after ate
-            result.Ate = ( targetPiece != null && !selectPiece.ChessColor.Equals( targetPiece.ChessColor ) );
-            if( result.Ate )
+            result.Ate = (targetPiece != null && !selectPiece.ChessColor.Equals(targetPiece.ChessColor));
+            if (result.Ate)
             {
                 result.AtePiece = targetPiece;
             }
@@ -212,17 +263,62 @@ namespace Chess.Model
             if ((selectPiece is Pawn) && (Math.Abs(row - targetRow) == 2))
             {
                 //En passant possibilities
-                if (TryGetPiece(Columns[targetColumn], targetRow) != null || TryGetPiece(Columns[targetColumn] + 2, targetRow) != null)
+                var pieceLeft = TryGetPiece(Columns[targetColumn], targetRow);
+                var pieceRigth = TryGetPiece(Columns[targetColumn] + 2, targetRow);
+                if ((pieceLeft != null && pieceLeft.ChessColor != selectPiece.ChessColor && pieceLeft is Pawn)
+                    ||
+                    (pieceRigth != null && pieceRigth.ChessColor != selectPiece.ChessColor && pieceRigth is Pawn))
                 {
                     EnPassant = new Tuple<char, int>(targetColumn, (targetRow + row) / 2);
                 }
             }
 
             // change position of piece
-            putPiece( selectPiece, targetColumn, targetRow );
-            clearBoardPosition( column, row );
+            if (!forTest)
+            {
+                PutPiece(selectPiece, targetColumn, targetRow);
+                clearBoardPosition(column, row);
+                // check if the move does not make our king in chess
+                Tuple<char, int> pieceWitchMakeChess = CheckKingEchec(selectPiece.ChessColor);
+                if (pieceWitchMakeChess != null)
+                {
+                    //RollBack 
+                    if (!forTest)
+                    {
+                        PutPiece(selectPiece, column, row);
+                        clearBoardPosition(targetColumn, targetRow);
+                    }
+
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("Your king is in echec from the piece {0} ({1}{2}).",
+                        selectPiece.GetType().Name, pieceWitchMakeChess.Item1, pieceWitchMakeChess.Item2);
+
+                    return result;
+                }
+
+            }
+
 
             return result;
+        }
+
+        #endregion
+
+        private Tuple<char, int> CheckKingEchec(ChessColor chessColor)
+        {
+            Tuple<int, int> currentPosition = GetFirstPosition(new King(chessColor));
+            if (currentPosition == null)
+            {
+                return null;
+            }
+            int currentRow = currentPosition.Item1;
+            int currentColumn = currentPosition.Item2;
+
+            var otherPieces = GetAllPieces(chessColor == ChessColor.White ? ChessColor.Black : ChessColor.White);
+            var result_int = otherPieces.Where(o=> this.MovePiece(o.Item2, o.Item1, currentColumn,currentRow, true).IsSuccess).FirstOrDefault();
+
+            return result_int == null ? null :new Tuple<char, int>(Columns_Inv[result_int.Item1], result_int.Item2);
         }
 
         // check if the path for select piece is free
