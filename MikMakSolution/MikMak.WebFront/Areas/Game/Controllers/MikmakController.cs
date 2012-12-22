@@ -111,9 +111,9 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                     {
                         Battle = battle
                     };
-                    foreach (int playerId in battle.Players)
+                    foreach (Player player in battle.Players)
                     {
-                        var player = playerManager.Get(playerId);
+                        //var player = playerManager.Get(player.playerId);
                         playersInGame.Add(new Player()
                         {
                             Login = player.Login,

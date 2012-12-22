@@ -60,8 +60,8 @@ namespace MikMak.Main.GamesManagement
             Grid currentState = game.GetNewGame();
 
             // 2-Preparing listOfPlayers
-            var listPlayers = opponents.Select(p=>p.PlayerId).ToList();
-            listPlayers.Insert(0, firstPlayer.PlayerId);
+            var listPlayers = opponents; //.Select(p=>p.PlayerId).ToList();
+            listPlayers.Insert(0, firstPlayer);
             
             // 2-Link the players Id with player numbers
             PlayerInBattle toReturn = new PlayerInBattle()

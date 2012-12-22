@@ -20,7 +20,6 @@ namespace MikMak.WebFront.Controllers
         [HttpPost]
         public ActionResult LogIn(string username, string password)
         {
-
             IPlayerRepository playerRepo = ServiceLocator.GetInstance<IPlayerRepository>();
             Player player = playerRepo.LogInPlayer(username, password);
             if (player == null)

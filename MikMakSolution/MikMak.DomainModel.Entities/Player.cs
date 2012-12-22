@@ -1,4 +1,5 @@
-﻿namespace MikMak.DomainModel.Entities
+﻿using System.Collections.Generic;
+namespace MikMak.DomainModel.Entities
 {
 
     /// <summary>
@@ -20,5 +21,7 @@
         /// password
         /// </summary>
         public string Password { get; set; }
+
+        public virtual ICollection<Battle> Battles { get; set; }
     }
 }

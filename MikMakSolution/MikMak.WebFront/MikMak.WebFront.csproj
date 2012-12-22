@@ -167,6 +167,7 @@
     <Compile Include="Areas\Game\Controllers\MikmakController.cs" />
     <Compile Include="Areas\Game\Controllers\SampleGameController.cs" />
     <Compile Include="Areas\Game\GameAreaRegistration.cs" />
+    <Compile Include="Common\Context.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerRoomController.cs" />
@@ -193,6 +194,7 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="MikMakHTML5\MikMak.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jquery\jquery-1.7.1-vsdoc.js" />
@@ -242,6 +244,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\img\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +295,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\NewAccount.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\PlayerRoom\Games.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

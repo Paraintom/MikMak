@@ -8,6 +8,9 @@
     /// </summary>
     public class Battle
     {
+
+        public int BattleId { get; set; }
+
         /// <summary>
         /// Unique id for a game
         /// </summary>
@@ -36,7 +39,7 @@
         /// <summary>
         /// List of all other players id involved
         /// </summary>
-        public List<int> Players { get; set; }
+        public virtual ICollection<Player> Players { get; set; }
 
         /// <summary>
         /// The current grid

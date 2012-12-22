@@ -12,12 +12,26 @@ namespace MikMak.Repository.EntityFramework
     using System.Text;
 
     using MikMak.Repository.Interfaces;
+    using System.Data;
+    using System.Data.Common;
 
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
     public class PlayerInBattleRepository : IPlayerInBattleRepository
     {
+        private Context _context;
+
+        public PlayerInBattleRepository(IDbConnection connection)
+        {
+            DbConnection connec = connection as DbConnection;
+            if (connec == null)
+            {
+                throw new Exception("Incorrect connection");
+            }
+            _context = new Context(connec);
+        }
+
         public void CreateLink(string battleId, List<int> players)
         {
             throw new NotImplementedException();
