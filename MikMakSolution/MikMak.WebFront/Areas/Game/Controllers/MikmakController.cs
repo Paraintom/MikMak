@@ -19,7 +19,6 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         private IPlayerManager playerManager;
         private IGamesManager gameManager;
         private static ISessionManager sessionManager;
-        private static string erreurConstructeur;
 
         public MikmakController()
         {
@@ -31,11 +30,10 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 {
                     sessionManager = new SessionManager(playerManager, gameManager);
                 }
-                erreurConstructeur = "No error";
             }
             catch (Exception e)
             {
-                erreurConstructeur = e.Message+" inner = "+e.InnerException.Message;
+                throw e;
             }
         }
 
@@ -50,25 +48,18 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         public string Connect(string login, string password)
         {
             string toReturn = string.Empty;
-            try{
+            try
+            {
                 HackJsonp();
-
-                try
-                {
-                    var firstSession = sessionManager.GetSession(login, password);
-                    toReturn = firstSession.Id;
-                }
-                catch (Exception ex)
-                {
-                    toReturn = ex.Message + " erreurConstructeur " + erreurConstructeur;
-                }
+                var firstSession = sessionManager.GetSession(login, password);
+                toReturn = firstSession.Id;
 
             }
-            catch (Exception ex) { toReturn = ex.Message; }
+            catch (Exception ex) { throw ex; }
             return toReturn;
         }
 
-         /// <summary>
+        /// <summary>
         /// Connection to a specific Game
         /// </summary>
         /// <param name="sessionId">A valid session</param>
@@ -82,13 +73,13 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             string toReturn = string.Empty;
             try
             {
-                var session = sessionManager.GetSession(sessionId,false);
+                var session = sessionManager.GetSession(sessionId, false);
                 var newSession = sessionManager.GetSession(session, gameId);
                 toReturn = newSession.Id;
             }
             catch (Exception ex)
             {
-                toReturn = ex.Message + " erreurConstructeur "+erreurConstructeur;
+                throw ex;
             }
             return toReturn;
         }
@@ -126,11 +117,13 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 }
                 return toReturn;
             }
-            catch(Exception){
+            catch (Exception e)
+            {
                 // J'ai pas trouvé mieux POUR l'instant.
-                throw;
-            }            
-        } 
+                // Hello, je suis repassé par là, en fait c'est pas mal, non?
+                throw  e;
+            }
+        }
         #endregion
 
         #region Create a new battle : CreateBattle
@@ -164,12 +157,15 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
                 // 2-Check valid opponents
                 List<Player> allOpponents = new List<Player>();
-                foreach(string opp in opponents){
+                foreach (string opp in opponents)
+                {
                     var player = playerManager.Get(opp);
-                    if(!allOpponents.Contains(player)){
+                    if (!allOpponents.Contains(player))
+                    {
                         allOpponents.Add(player);
                     }
-                    else{
+                    else
+                    {
                         throw new ArgumentException("You specified a login twice");
                     }
                 }
@@ -179,7 +175,8 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 var newSession = sessionManager.GetSession(session, newGame.Battle.GameId);
 
                 // 4-Return result
-                return new GridExtented(){
+                return new GridExtented()
+                {
                     SessionId = newSession.Id,
                     State = newGame.Battle.CurrentState
                 };
@@ -197,7 +194,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                     }
                 };
             }
-        } 
+        }
         #endregion
 
         #region Get grid state : GetGrid
@@ -247,7 +244,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             {
                 throw;
             }
-        } 
+        }
         #endregion
 
         #region Play a move : Play
@@ -266,7 +263,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             return Play(sessionId, new List<Tuple<int, int>>() { tuple, tupleBis });
         }
 
-        private GridExtented Play(string sessionId, List<Tuple<int,int>> allPositions)
+        private GridExtented Play(string sessionId, List<Tuple<int, int>> allPositions)
         {
             HackJsonp();
             try
@@ -276,17 +273,18 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
                 var positions = new List<Pawn>();
                 foreach (var item in allPositions)
-	            {
-		            positions.Add(new Pawn(){
-                            Coord = new Coord(){
-                                x = item.Item1,
-                                y = item.Item2
-                            },
-                            Name = "?",
-                            Player = session.PlayerInBattle.Player
+                {
+                    positions.Add(new Pawn()
+                    {
+                        Coord = new Coord()
+                        {
+                            x = item.Item1,
+                            y = item.Item2
+                        },
+                        Name = "?",
+                        Player = session.PlayerInBattle.Player
                     });
-	            }
-
+                }
 
                 Move move = new Move()
                 {
@@ -307,13 +305,13 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 throw;
             }
         }
-        
+
         #endregion
 
         private void HackJsonp()
         {
             var negotiator = Configuration.Services.GetContentNegotiator();
             var negotiatorResult = negotiator.Negotiate(typeof(string), Request, Configuration.Formatters);
-        } 
+        }
     }
 }

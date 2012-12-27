@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainModel", "DomainModel"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataPersistence", "DataPersistence", "{457AE0C0-6474-4809-A4CD-D1A1AFAF2D8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{457AE0C0-6474-4809-A4CD-D1A1AFAF2999}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.Infrastructure.Ressource", "MikMak.Infrastructure.Ressource\MikMak.Infrastructure.Ressource.csproj", "{FA721A05-AABD-4896-A7EB-D1BE51D100D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikMak.DomainModel.Entities", "MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj", "{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}"
