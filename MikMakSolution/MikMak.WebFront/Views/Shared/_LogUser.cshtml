@@ -21,6 +21,7 @@
              @if (Request.IsAuthenticated)
              {
                  this.WriteLiteral("<li>" + Html.ActionLink("My Account", "Index", "PlayerRoom").ToHtmlString() + "</li>");
+                 this.WriteLiteral("<li>" + Html.ActionLink("Games", "Games", "PlayerRoom").ToHtmlString() + "</li>");
                  this.WriteLiteral("<li>" + Html.ActionLink("[Log off]", "LogOff", "Account").ToHtmlString() + "</li>");
              }
              else{

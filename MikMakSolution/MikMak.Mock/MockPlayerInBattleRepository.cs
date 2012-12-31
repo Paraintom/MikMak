@@ -14,16 +14,16 @@ namespace MikMak.Mock
         public void Persist(PlayerInBattle playersInBattle)
         {
             int i = 1;
-            foreach (int playerId in playersInBattle.Battle.Players)
+            foreach (Player player in playersInBattle.Battle.Players)
             {
                 playersInBattle = new PlayerInBattle()
                 {
                     Battle = playersInBattle.Battle,
-                    Player = MockPlayerRepository.GetInstance().Get(playerId),
+                    Player = MockPlayerRepository.GetInstance().Get(player.PlayerId),
                     PlayerNumber = i
                 };
-                
-                Tuple<int, string> toPersist = new Tuple<int, string>(playerId, playersInBattle.Battle.GameId);
+
+                Tuple<int, string> toPersist = new Tuple<int, string>(player.PlayerId, playersInBattle.Battle.GameId);
                 i++;
                 datas[toPersist] = playersInBattle;                
             }

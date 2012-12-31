@@ -3,9 +3,9 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
     }
 	  
-	[class*="span"] 
+	[class*="row"] 
 	{
-		 background-color: ligthgrey;
+		 background-color: LightBlue;
 		 border-radius: 5px 5px 5px 5px;
 		 text-align: center;
 	}

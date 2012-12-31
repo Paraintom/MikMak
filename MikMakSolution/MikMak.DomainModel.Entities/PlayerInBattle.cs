@@ -9,6 +9,11 @@
     /// </summary>
     public class PlayerInBattle
     {
+        public int BattleId { get; set; }
+        public int PlayerId { get; set; }
+
+
+
         /// <summary>
         /// Gets or sets the player in battle id.
         /// </summary>

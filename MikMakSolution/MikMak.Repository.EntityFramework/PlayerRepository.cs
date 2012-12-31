@@ -12,7 +12,7 @@ namespace MikMak.Repository.EntityFramework
 
     public class PlayerRepository : IPlayerRepository
     {
-        private Context _Context;
+        private Context _context;
 
         public PlayerRepository(IDbConnection connection)
         {
@@ -21,12 +21,12 @@ namespace MikMak.Repository.EntityFramework
             {
                 throw new Exception("Incorrect connection");
             }
-            _Context = new Context(connec);
+            _context = new Context(connec);
         }
 
         public Player CreatePlayer(string login, string password)
         {
-            if (_Context.Players.Any(g => g.Login == login))
+            if (_context.Players.Any(g => g.Login == login))
             {
                 throw new Exception(Error.LOGIN_ALREADY_EXISTS);
             }
@@ -35,8 +35,8 @@ namespace MikMak.Repository.EntityFramework
                 Login = login,
                 Password = password,
             };
-            _Context.Players.Add(newPlayer);
-            _Context.SaveChanges();
+            _context.Players.Add(newPlayer);
+            _context.SaveChanges();
             return newPlayer;
         }
 
@@ -47,12 +47,15 @@ namespace MikMak.Repository.EntityFramework
 
         public Player Get(int playerId)
         {
-            throw new System.NotImplementedException();
+            return _context.Players.FirstOrDefault(o => o.PlayerId == playerId);
         }
 
         public Player LogInPlayer(string login, string password)
-        {
-            return _Context.Players.FirstOrDefault(o => o.Login == login && o.Password == password);
+        {           
+            return _context.Players.FirstOrDefault(o => o.Login == login && o.Password == password);
         }
+
+
+
     }
 }
