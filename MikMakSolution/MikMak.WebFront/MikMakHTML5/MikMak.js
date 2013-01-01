@@ -356,6 +356,22 @@ function drawLetter(name,x,y)
 	y=y-1;
 	var context = canvas.getContext("2d");
 	//console.log("drawletter "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);	
-    context.font = "20pt Calibri,Geneva,Arial";	
-    context.strokeText(name, 0*borderPixel+x*pixelBySquare+0.5*pixelBySquare, 0*borderPixel+ y*pixelBySquare+0.5*pixelBySquare);
+	if(name.charAt(0) == '1' || name.charAt(0) == '0'){
+		// Scale the image to span the entire 500 x 500 canvas.
+		var myImg = new Image();
+		myImg.src = 'ChessGif/'+name+'.gif';
+		
+
+		myImg.onload = function() {
+			context.drawImage(myImg, borderPixel/2 + x*pixelBySquare, borderPixel/2 + y*pixelBySquare, pixelBySquare - borderPixel, pixelBySquare - borderPixel);
+		};
+		//myImg.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+		//context.drawImage(myImg, 0*borderPixel+x*pixelBySquare+0.5*pixelBySquare,0*borderPixel+ y*pixelBySquare+0.5*pixelBySquare, 0.5*pixelBySquare, 0);		
+        //context.drawImage(myImg, borderPixel + x*pixelBySquare, borderPixel + y*pixelBySquare, pixelBySquare - borderPixel, pixelBySquare - borderPixel);
+	}
+	else
+	{	
+		context.font = "20pt Calibri,Geneva,Arial";	
+		context.strokeText(name, 0*borderPixel+x*pixelBySquare+0.5*pixelBySquare, 0*borderPixel+ y*pixelBySquare+0.5*pixelBySquare);
+	}
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Chess.Model.Pieces
 {
-    public class King : Piece
+    public class King : Piece, IHasAlreadyMoved
     {
         public King( ChessColor color ) : base( color )
         {
@@ -52,6 +52,22 @@ namespace Chess.Model.Pieces
                         m => m.EndX == m.StartX,
                         m => m.EndY == m.StartY - 1
                         ) );
+            //Castling rules
+            Rules.Add(new Rule(
+                        m => m.EndX == m.StartX - 2,
+                        m => m.EndY == m.StartY
+                        ));
+
+            Rules.Add(new Rule(
+                        m => m.EndX == m.StartX + 2,
+                        m => m.EndY == m.StartY
+                        ));
+        }
+
+        public bool HasAlreadyMoved
+        {
+            get;
+            set;
         }
     }
 }

@@ -183,7 +183,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             }
             catch (Exception e)
             {
-                var toReturn = e.Message + " erreurConstructeur " + erreurConstructeur;
+                var toReturn = e.Message;
                 return new GridExtented()
                 {
                     SessionId = toReturn,

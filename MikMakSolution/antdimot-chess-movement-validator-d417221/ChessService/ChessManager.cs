@@ -12,6 +12,7 @@ namespace ChessService
     public class ChessManager : IGameServices
     {
         public const string EnPassantSpecialName = "ep";
+        public const string HaveAlreadyMovedSpecialName = "am";
 
         public int GetGameType()
         {
@@ -118,8 +119,8 @@ namespace ChessService
         private Board GenerateBoardFromGrid(Grid currentState)
         {
             Board b = new Board(false);
+            List<Tuple<char, int>> HaveAlreadyMoved = new List<Tuple<char, int>>();
             //0 Special Pawn
-
             foreach (Pawn pawn in currentState.PawnLocations)
             {
                 if(pawn.Coord.x < 1 || pawn.Coord.y < 1){
@@ -127,6 +128,11 @@ namespace ChessService
                     if (pawn.Name == EnPassantSpecialName)
                     {
                         b.EnPassant = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
+                    }
+                    if (pawn.Name == HaveAlreadyMovedSpecialName)
+                    {
+                        var hasAlreadyMoved = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
+                        HaveAlreadyMoved.Add(hasAlreadyMoved);
                     }
                     else
                     {
@@ -137,6 +143,11 @@ namespace ChessService
                     var p = GetPiece(pawn);
                     b.PutPiece(p, Board.Columns_Inv[pawn.Coord.x], pawn.Coord.y);
                 }
+            }
+            foreach (var hasAlreadyMoved in HaveAlreadyMoved)
+            {
+                var piece = b.GetPiece(hasAlreadyMoved.Item1, hasAlreadyMoved.Item2);
+                ((IHasAlreadyMoved)piece).HasAlreadyMoved = true;
             }
             return b;
         }
@@ -168,6 +179,14 @@ namespace ChessService
                         Piece p = board[i, j];
                         Pawn toAdd = GetPawn(p, j, i);
                         toReturn.Add(toAdd);
+                        if (p is IHasAlreadyMoved && ((IHasAlreadyMoved)p).HasAlreadyMoved)
+                        {
+                            Pawn infoHasAlreadyMoved = GetPawn(p, j, i);
+                            infoHasAlreadyMoved.Coord.x = -infoHasAlreadyMoved.Coord.x;
+                            infoHasAlreadyMoved.Coord.y = -infoHasAlreadyMoved.Coord.y;
+                            infoHasAlreadyMoved.Name = HaveAlreadyMovedSpecialName;
+                            toReturn.Add(infoHasAlreadyMoved);
+                        }
                     }
                 }
             }

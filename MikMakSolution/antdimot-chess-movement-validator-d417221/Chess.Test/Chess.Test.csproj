@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BaseMovementTests.cs" />
     <Compile Include="BishopTests.cs" />
+    <Compile Include="KingTests.cs" />
     <Compile Include="PawnTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoardTests.cs" />

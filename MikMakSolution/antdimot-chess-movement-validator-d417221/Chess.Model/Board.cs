@@ -146,7 +146,6 @@ namespace Chess.Model
         public void SetPiece<T>( ChessColor color, char column, int row ) where T : Piece 
         {
             var piece = Activator.CreateInstance( typeof( T ), color ) as Piece;
-
             PutPiece( piece, column, row );
         }
 
@@ -273,6 +272,69 @@ namespace Chess.Model
                 }
             }
 
+            //Castling rules
+            bool isCastling = false;
+            if ((selectPiece is King) && Math.Abs(Columns[column] - Columns[targetColumn]) == 2)
+            {
+                //1-The king should not have moved yet
+                var king = (King)selectPiece;
+                if (king.HasAlreadyMoved || !(column == 'E' && (row == 1 || row == 8)))
+                {
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("You cannot do the Castling because your king has already moved.");
+                    return result;
+                }
+                //2-The Rook should not have moved yet either
+                var rookColumn = (targetColumn == 'G') ? 'H' : 'A';
+                var pieceFound = GetPiece(rookColumn, targetRow);
+                if (pieceFound == null || pieceFound.ChessColor != king.ChessColor || !(pieceFound is Rook))
+                {
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("You cannot do the Castling because there is no Rook at position {0}{1}.",rookColumn,targetRow);
+                    return result;
+                }
+
+                var goodRook = (Rook)pieceFound;
+
+                if (goodRook.HasAlreadyMoved)
+                {
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("You cannot do the Castling as your rook has already moved at position {0}{1}.", rookColumn, targetRow);
+                    return result;
+                }
+                //3-The King should not be chess or passing on a echec position
+                var canMoveOnTheKing = CheckKingEchec(king.ChessColor);
+                if (canMoveOnTheKing != null)
+                {
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("You cannot do the Castling because you are echec {0}{1}.", canMoveOnTheKing.Item1, canMoveOnTheKing.Item2);
+                    return result;
+                }
+
+                //4-Can do one step :
+                var oneStepColumn = (targetColumn == 'G') ? 'F' : 'D';
+                var canDoOne = this.MovePiece(column, row, oneStepColumn, targetRow);
+                if (!canDoOne.IsSuccess)
+                {
+                    result.IsSuccess = false;
+                    result.Description =
+                        String.Format("You cannot do the Castling because you would be echec at the position {0}{1}.", oneStepColumn, targetRow);
+                    return result;
+                }
+                else
+                {
+                    //One step is posible, so rollback, and test two step :
+                    PutPiece(king, column, row);
+                    clearBoardPosition(oneStepColumn, row);
+                    king.HasAlreadyMoved = false;
+                    isCastling = true;
+                }     
+            }
+
             // change position of piece
             if (!forTest)
             {
@@ -283,6 +345,7 @@ namespace Chess.Model
                 if (pieceWitchMakeChess != null)
                 {
                     //RollBack 
+                    //supprimer le if suivant qui est inutile; ce test est fait 5 lignes plus haut...
                     if (!forTest)
                     {
                         PutPiece(selectPiece, column, row);
@@ -297,9 +360,20 @@ namespace Chess.Model
                     return result;
                 }
 
+                if (selectPiece is IHasAlreadyMoved)
+                {
+                    ((IHasAlreadyMoved)selectPiece).HasAlreadyMoved = true;
+                    //TODO : Move the rook in case of castling
+                    if (isCastling)
+                    {
+                        var rookColumnOrigin = (targetColumn == 'G') ? 'H' : 'A';
+                        var rookColumnTarget = (targetColumn == 'G') ? 'F' : 'D';
+                        var pieceFound = GetPiece(rookColumnOrigin, row);
+                        PutPiece(pieceFound, rookColumnTarget, row);
+                        clearBoardPosition(rookColumnOrigin, row);
+                    }
+                }
             }
-
-
             return result;
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Chess.Model.Pieces
 {
-    public class Rook : Piece
+    public class Rook : Piece, IHasAlreadyMoved
     {
         public Rook( ChessColor color ) : base( color )
         {
@@ -20,6 +20,12 @@ namespace Chess.Model.Pieces
             Rules.Add( new Rule(
                       m => m.EndY == m.StartY
                       ) );
+        }
+
+        public bool HasAlreadyMoved
+        {
+            get;
+            set;
         }
     }
 }

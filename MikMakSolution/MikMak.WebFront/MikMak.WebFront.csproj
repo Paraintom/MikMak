@@ -183,6 +183,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\compactSQL.sdf" />
+    <Content Include="MikMakHTML5\ChessGif\0Bishop.gif" />
+    <Content Include="MikMakHTML5\ChessGif\0King.gif" />
+    <Content Include="MikMakHTML5\ChessGif\0Knight.gif" />
+    <Content Include="MikMakHTML5\ChessGif\0Pawn.gif" />
+    <Content Include="MikMakHTML5\ChessGif\0Queen.gif" />
+    <Content Include="MikMakHTML5\ChessGif\0Rook.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1Bishop.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1King.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1Knight.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1Pawn.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1Queen.gif" />
+    <Content Include="MikMakHTML5\ChessGif\1Rook.gif" />
     <Content Include="MikMakHTML5\Client_html5_MikMak.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
