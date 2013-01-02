@@ -79,6 +79,8 @@ namespace MikMak.Main.GamesManagement
                     datas.Add(toAddStatic.GetGameType(), toAddStatic);
                     var toAddStatic2 = new ChessService.ChessManager();
                     datas.Add(toAddStatic2.GetGameType(), toAddStatic2);
+                    var toAddStatic3 = new ConnectFour.ConnectFourManager();
+                    datas.Add(toAddStatic3.GetGameType(), toAddStatic3);
                     return;
                     //throw new ArgumentException(String.Format("The folder in config does not exist ({0}),spePatch={2}, current folder = {1}, nbFolder{3}, nbFile{4}, nbdll{5}", path, Environment.CurrentDirectory, specialPath,nbFolder,nbFile,nbFiledll));
                 }

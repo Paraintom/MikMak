@@ -81,6 +81,8 @@ var onListGameReceived=function(data)
 		addSpan('mainArea', buttonCreateGame);
 		var buttonCreateGame2 = createButton('createGame(2)', 'Create new Chess game');
 		addSpan('mainArea', buttonCreateGame2);
+		var buttonCreateGame3 = createButton('createGame(3)', 'Create new Connect Four game');
+		addSpan('mainArea', buttonCreateGame3);
 		
 		setOutput('number of Battle received : '+data.length);
 	}
@@ -132,6 +134,8 @@ var refreshCurrentGame=function()
 }
 
 // ************  Grid Received ****************
+
+var numLines;
 var onGridReceived=function(data)
 {
 	if(typeof data.ExceptionMessage != 'undefined'){	
@@ -144,7 +148,7 @@ var onGridReceived=function(data)
 		var grid = data.State;
 		maxClick = grid.MoveNumber;
 		allClick = new Array();
-		var numLines = grid.NumberLines;
+		numLines = grid.NumberLines;
 		var numCol = grid.NumberColumns;
 		//Draw Canvas
 		drawCanvas(numLines,numCol);
@@ -282,8 +286,8 @@ function drawCanvas(nbLin, nbCol)
 function gridOnClick(e)
 {
 	var cell = getCursorPosition(e);
-	var x =cell.column+1;
-	var y = cell.row+1;
+	var x = cell.column + 1;
+	var y = numLines - cell.row;
 	var tab = new Array();
 	tab.push(x);
 	tab.push(y);
@@ -353,7 +357,7 @@ function drawCircle(name,x,y)
 function drawLetter(name,x,y)
 {
 	x=x-1;
-	y=y-1;
+	y= numLines -y;
 	var context = canvas.getContext("2d");
 	//console.log("drawletter "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);	
 	if(name.charAt(0) == '1' || name.charAt(0) == '0'){
