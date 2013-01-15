@@ -345,11 +345,14 @@ namespace Chess.Model
                 if (pieceWitchMakeChess != null)
                 {
                     //RollBack 
-                    //supprimer le if suivant qui est inutile; ce test est fait 5 lignes plus haut...
-                    if (!forTest)
+                    PutPiece(selectPiece, column, row);
+                    clearBoardPosition(targetColumn, targetRow);
+                    if (result.Ate == true)
                     {
-                        PutPiece(selectPiece, column, row);
-                        clearBoardPosition(targetColumn, targetRow);
+                        var pieceEaten = result.AtePiece;
+                        this.PutPiece(pieceEaten, targetColumn, targetRow);
+                        result.AtePiece = null;
+                        result.Ate = false;
                     }
 
                     result.IsSuccess = false;

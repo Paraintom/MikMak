@@ -57,6 +57,7 @@ namespace ConnectFour
             //3-Case Ok, 
             var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? "R" : "Y", choosenX, indice +1);
             currentState.PawnLocations.Add(PawnToAdd);
+            currentState.LastMove = move;
             if (IsFinished(currentState, PawnToAdd))
             {
                 //3-1 Case Ok + finished

@@ -33,6 +33,7 @@ namespace Morpion
             //3-Case Ok, 
             var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? "B" : "W", choosenX, choosenY);
             currentState.PawnLocations.Add(PawnToAdd);
+            currentState.LastMove = move;
             if (IsFinished(currentState, PawnToAdd))
             {
                 //3-1 Case Ok + finished

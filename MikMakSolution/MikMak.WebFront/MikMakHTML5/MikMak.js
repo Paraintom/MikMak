@@ -3,7 +3,9 @@ var pixelByLine = 40;
 var borderPixel = 3;
 var maxClick;
 var allClick;
+//Local only : 
 var rootpath="http://localhost:33226/api/";
+//var rootpath="http://mikmak.azurewebsites.net/api/";
 
 // ************  SessionId Managment ****************
 var sessionIdNotSet = 'notSet';

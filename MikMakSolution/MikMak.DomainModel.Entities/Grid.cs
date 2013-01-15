@@ -44,6 +44,11 @@
         public Message CurrentMessage { get; set; }
 
         /// <summary>
+        /// Give the last move played.  
+        /// </summary>        
+        public Move LastMove { get; set; }
+
+        /// <summary>
         /// Give the information on if we should persist the state or not
         /// </summary>
         /// <param name="oldState"></param>

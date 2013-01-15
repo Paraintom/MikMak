@@ -80,6 +80,7 @@ namespace ChessService
                 };
 
                 newState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
+                newState.LastMove = move;
                 newState.CurrentMessage = Message.GetMessage((currentState.NextPlayerToPlay == 2) ? ChessMessage.J2 : ChessMessage.J1);
             }
             else

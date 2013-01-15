@@ -37,5 +37,27 @@ namespace Chess.Test
 
             Assert.IsFalse(result.IsSuccess, result.Description);
         }
+
+        [TestMethod]
+        public void MovePiece_MakeKingChess_DoesNotEatBugFix()
+        {
+            var board = Board.GetNewBoard();
+
+            board.SetPiece<King>(ChessColor.White, 'A', 1);
+            board.SetPiece<Pawn>(ChessColor.White, 'B', 2);
+            board.SetPiece<Pawn>(ChessColor.White, 'D', 2);
+            board.SetPiece<Queen>(ChessColor.Black, 'D', 4);
+            board.SetPiece<King>(ChessColor.Black, 'A', 3);
+
+            var pawn = board.AllPieces()[1, 3];
+            Assert.IsNotNull(pawn);
+            Assert.AreEqual(Chess.Model.ChessColor.White, pawn.ChessColor);
+            var result = board.MovePiece('D', 4, 'D', 2);
+
+            Assert.IsFalse(result.IsSuccess, result.Description);
+            pawn = board.AllPieces()[1, 3];
+            Assert.IsNotNull(pawn);
+            Assert.AreEqual(Chess.Model.ChessColor.White,pawn.ChessColor);
+        }
     }
 }
