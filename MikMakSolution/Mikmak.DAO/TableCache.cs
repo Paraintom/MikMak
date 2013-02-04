@@ -24,14 +24,8 @@ namespace MikMak.DAO
             try
             {
                     SqlConnectionStringBuilder connString1Builder = new SqlConnectionStringBuilder(connectionString);
-                    //connString1Builder.DataSource = "tcp:yf10cy0ner.database.windows.net,1433";
-                    //connString1Builder.InitialCatalog = "MikMakDB";
                     connString1Builder.Encrypt = true;
                     connString1Builder.TrustServerCertificate = false;
-                    //connString1Builder.UserID = "MikMak_User1987@yf10cy0ner";
-                    //connString1Builder.Password = "Olive&Tom";
-                    //connString1Builder.MultipleActiveResultSets = true;
-
                     MyConnection = new SqlConnection(connString1Builder.ToString());
                 MyConnection.Open();
                 LoadFromDatabase();
