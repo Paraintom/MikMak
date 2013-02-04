@@ -140,8 +140,8 @@ var refreshCurrentGame=function()
 var numLines;
 var onGridReceived=function(data)
 {
-	if(typeof data.ExceptionMessage != 'undefined'){	
-		setOutput(data.ExceptionMessage);
+	if(typeof data.ExceptionMessage != 'undefined' || data.SessionId == 'Player unknown'){	
+		setOutput('Player unknown');
 	}
 	else
 	{	
