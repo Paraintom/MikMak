@@ -26,33 +26,16 @@ namespace MikMak.DAO
         {
             try
             {
-                if (connectionString.Contains("Data Source"))
+                MyConnection = new SqlCeConnection(connectionString);
+                if (!hasUpgradeBeenTested)
                 {
-                    MyConnection = new SqlCeConnection(connectionString);
-                    if (!hasUpgradeBeenTested)
+                    try
                     {
-                        try
-                        {
-                            var b = new SqlCeEngine(MyConnection.ConnectionString);
-                            b.Upgrade();
-                        }
-                        catch (SqlCeException) { }
-                        hasUpgradeBeenTested = true;
+                        var b = new SqlCeEngine(MyConnection.ConnectionString);
+                        b.Upgrade();
                     }
-                }
-                else
-                {
-                    SqlConnectionStringBuilder connString1Builder;
-                    connString1Builder = new SqlConnectionStringBuilder();
-                    connString1Builder.DataSource = "tcp:yf10cy0ner.database.windows.net,1433";
-                    connString1Builder.InitialCatalog = "MikMakDB";
-                    connString1Builder.Encrypt = true;
-                    connString1Builder.TrustServerCertificate = false;
-                    connString1Builder.UserID = "MikMak_User1987@yf10cy0ner";
-                    connString1Builder.Password = "Olive&Tom";
-                    connString1Builder.MultipleActiveResultSets = true;
-
-                    MyConnection = new SqlConnection(connString1Builder.ToString());
+                    catch (SqlCeException) { }
+                    hasUpgradeBeenTested = true;
                 }
                 MyConnection.Open();
                 LoadFromDatabase();
