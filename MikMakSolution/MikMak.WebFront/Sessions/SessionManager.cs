@@ -95,7 +95,7 @@ namespace MikMak.WebFront.Sessions
             }
         }
 
-        public Session GetSession(Session otherSession, string gameId)
+        public Session GetSession(Session otherSession, int gameId)
         {
             var gameOverview = this.daoGame.GetParticipation(otherSession.PlayerInBattle.Player, gameId);
             if (gameOverview == null)

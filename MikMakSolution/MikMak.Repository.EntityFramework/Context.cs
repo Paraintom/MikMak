@@ -16,15 +16,15 @@
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Battle>()
-                                .HasMany(p=> p.Players)
-                                .WithMany(t =>t.Battles)
-                                .Map(m =>
-                                    {
-                                        m.ToTable("PlayerInBattle");
-                                        m.MapLeftKey("BattleId");
-                                        m.MapRightKey("PlayerId");
-                                    });
+            //modelBuilder.Entity<Battle>()
+            //                    .HasMany(p=> p.Players)
+            //                    .WithMany(t =>t.Battles)
+            //                    .Map(m =>
+            //                        {
+            //                            m.ToTable("PlayerInBattle");
+            //                            m.MapLeftKey("BattleId");
+            //                            m.MapRightKey("PlayerId");
+            //                        });
         }
 
     }

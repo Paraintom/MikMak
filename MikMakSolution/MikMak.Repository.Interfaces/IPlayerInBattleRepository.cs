@@ -13,6 +13,6 @@ namespace MikMak.Repository.Interfaces
 
         List<PlayerInBattle> Get(int playerId);
 
-        PlayerInBattle Get(string battleId, int playerId);
+        PlayerInBattle Get(int battleId, int playerId);
     }
 }

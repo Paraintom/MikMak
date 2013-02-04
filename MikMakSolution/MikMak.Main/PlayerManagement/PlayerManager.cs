@@ -5,7 +5,7 @@ using System.Text;
 using MikMak.Interfaces;
 using MikMak.Repository.Interfaces;
 using MikMak.DomainModel.Entities;
-using MikMak.Mock;
+using MikMak.DAO;
 
 namespace MikMak.Main.PlayerManagement
 {
@@ -16,7 +16,7 @@ namespace MikMak.Main.PlayerManagement
         public PlayerManager()
         {
             //Todo injecter repo!!
-            repoPlayer = new MockPlayerRepository();
+            repoPlayer = PlayerDao.GetInstance();
         }
 
         public Player GetNewPlayer(string login, string password)

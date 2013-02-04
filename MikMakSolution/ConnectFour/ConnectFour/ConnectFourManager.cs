@@ -45,17 +45,17 @@ namespace ConnectFour
             }
 
             var choosenX = move.Positions[0].Coord.x;
-            var indice = currentState.PawnLocations.Where(o => o.Coord.x == choosenX).Count();
+            var indice = maxPawnInColumns - currentState.PawnLocations.Where(o => o.Coord.x == choosenX).Count();
             
             //2-Column full
-            if (indice == maxPawnInColumns)
+            if (indice == 0)
             {
                 currentState.CurrentMessage = Message.GetMessage(ConnectFourMessage.ColumnFull);
                 return currentState;
             }
 
             //3-Case Ok, 
-            var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? "R" : "Y", choosenX, indice +1);
+            var PawnToAdd = new Pawn(move.PlayerNumber == 1 ? "R" : "Y", choosenX, indice);
             currentState.PawnLocations.Add(PawnToAdd);
             currentState.LastMove = move;
             if (IsFinished(currentState, PawnToAdd))

@@ -53,9 +53,9 @@
         /// </summary>
         /// <param name="oldState"></param>
         /// <returns></returns>
-        public bool DeservePersistence(Grid oldState)
+        public bool DeservePersistence(int oldPlayerToPlay)
         {
-            return this.NextPlayerToPlay != oldState.NextPlayerToPlay;
+            return this.NextPlayerToPlay != oldPlayerToPlay;
         }
     }
 }

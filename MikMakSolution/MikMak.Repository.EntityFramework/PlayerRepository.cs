@@ -50,10 +50,10 @@ namespace MikMak.Repository.EntityFramework
             return _context.Players.FirstOrDefault(o => o.PlayerId == playerId);
         }
 
-        public Player LogInPlayer(string login, string password)
-        {           
-            return _context.Players.FirstOrDefault(o => o.Login == login && o.Password == password);
-        }
+        //public Player LogInPlayer(string login, string password)
+        //{           
+        //    return _context.Players.FirstOrDefault(o => o.Login == login && o.Password == password);
+        //}
 
 
 

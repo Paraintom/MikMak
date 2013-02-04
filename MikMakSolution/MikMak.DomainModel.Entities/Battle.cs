@@ -8,13 +8,10 @@
     /// </summary>
     public class Battle
     {
-
-        public int BattleId { get; set; }
-
         /// <summary>
         /// Unique id for a game
         /// </summary>
-        public string GameId { get; set; }
+        public int BattleId { get; set; }
 
         /// <summary>
         /// GameType id, can be used for statistiques
@@ -39,7 +36,7 @@
         /// <summary>
         /// List of all other players id involved
         /// </summary>
-        public virtual ICollection<Player> Players { get; set; }
+        public virtual ICollection<int> Players { get; set; }
 
         /// <summary>
         /// The current grid

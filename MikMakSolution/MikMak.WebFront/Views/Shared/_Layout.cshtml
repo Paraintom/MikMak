@@ -1,34 +1,14 @@
-﻿@{    
-    MvcHtmlString PlayerMenu = MvcHtmlString.Empty;
-     if (Request.IsAuthenticated)
-     {
-         PlayerMenu = Html.Partial("~/Views/PlayerRoom/_PlayerMenu.cshtml");
-     }    
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
     <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - MikMak.azure.com</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/bootstrap")
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>MikMak.azure.com</title>
     </head>
     <body>
-
-   @Html.Partial("_LogUser")   
-
-<div class="container">
-        @RenderBody()
-    <div class="row">
-	  <div class="span12">developpé par Oliv et Tom, de la Oliv et Tom Company</div>
-    </div>
-</div>
-
-        @Scripts.Render("~/bundles/jquery")  
-        @Scripts.Render("~/bundles/bootstrap")      
-        @RenderSection("scripts", required: false)
+        <div class="container">
+            <div class="row">
+	          <div class="span12">developpé par Oliv et Tom, de la Oliv et Tom Company</div>
+            </div>
+        </div>
     </body>
 </html>

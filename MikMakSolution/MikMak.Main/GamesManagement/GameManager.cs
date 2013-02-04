@@ -6,7 +6,7 @@ using MikMak.DomainModel.Entities;
 using MikMak.Main.InternalInterfaces;
 using MikMak.Interfaces;
 using MikMak.Repository.Interfaces;
-using MikMak.Mock;
+using MikMak.DAO;
 
 namespace MikMak.Main.GamesManagement
 {
@@ -15,15 +15,15 @@ namespace MikMak.Main.GamesManagement
         private ITypeGameMapping typeMapping;
         private IPlayerInBattleRepository repoPlayerInBattle;
         private IPlayerRepository repoPlayer;
-        private IBattleRepository repoBattle;
+
         private Random ran;
         private static GameManager instance = new GameManager();
 
         private GameManager()
         {
             // TODO Logs. (UNITY)
-            repoPlayer = new MockPlayerRepository();
-            repoPlayerInBattle = new MockPlayerInBattleRepository();
+            repoPlayer = PlayerDao.GetInstance();
+            repoPlayerInBattle = PlayerInBattleDao.GetInstance();
             typeMapping = new TypeGameMappingByReflection();
             ran = new Random();
         }
@@ -38,15 +38,15 @@ namespace MikMak.Main.GamesManagement
             // 1- We play the move
             var currentBattle = playerInBattle.Battle;
             var game = typeMapping.GetGame(currentBattle.GameType);
+            var oldState = currentBattle.CurrentState.NextPlayerToPlay;
             var newState = game.Play(currentBattle.CurrentState, move);
 
-            // 2- If the grid has change, we persit the new state
-            var oldState = currentBattle.CurrentState;
+            // 2- If the grid has change, we persit the new state            
             currentBattle.CurrentState = newState;
             if (newState.DeservePersistence(oldState))
             {
                 //See what we want to do....
-                //repoBattle.Update(playerInBattle.Battle);
+                repoPlayerInBattle.Persist(playerInBattle);
             }
 
             // 3- We return the new state to the client
@@ -60,8 +60,8 @@ namespace MikMak.Main.GamesManagement
             Grid currentState = game.GetNewGame();
 
             // 2-Preparing listOfPlayers
-            var listPlayers = opponents; //.Select(p=>p.PlayerId).ToList();
-            listPlayers.Insert(0, firstPlayer);
+            var listPlayers = opponents.Select(p=>p.PlayerId).ToList();
+            listPlayers.Insert(0, firstPlayer.PlayerId);
             
             // 2-Link the players Id with player numbers
             PlayerInBattle toReturn = new PlayerInBattle()
@@ -69,7 +69,7 @@ namespace MikMak.Main.GamesManagement
                 Battle = new Battle
                 {
                     CreationTime = DateTime.Now,
-                    GameId = String.Format("{0}_{1}_{2}_{3}", game.GetGameType(), firstPlayer.PlayerId, GetElapsedSecondsSinceLastNewYear(), ran.Next(99)),
+                    BattleId = Math.Abs((int)DateTime.Now.Ticks),//String.Format("{0}_{1}_{2}_{3}", game.GetGameType(), firstPlayer.PlayerId, GetElapsedSecondsSinceLastNewYear(), ran.Next(99)),
                     GameType = gameType,
                     GameTypeString = game.ToString(),
                     LastUpdate = DateTime.Now,
@@ -89,7 +89,7 @@ namespace MikMak.Main.GamesManagement
             return repoPlayerInBattle.Get(player.PlayerId);
         }
 
-        public PlayerInBattle GetParticipation(Player player, string gameId)
+        public PlayerInBattle GetParticipation(Player player, int gameId)
         {
             return repoPlayerInBattle.Get(gameId, player.PlayerId);
         }

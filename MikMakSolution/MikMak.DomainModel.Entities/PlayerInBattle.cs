@@ -9,18 +9,13 @@
     /// </summary>
     public class PlayerInBattle
     {
-        public int BattleId { get; set; }
-        public int PlayerId { get; set; }
-
-
-
         /// <summary>
         /// Gets or sets the player in battle id.
         /// </summary>
         /// <value>
         /// The player in battle id.
         /// </value>
-        public int PlayerInBattleId { get; set; }
+        //public int PlayerInBattleId { get; set; }
 
         /// <summary>
         /// Player number in the game, by convention start at 1.

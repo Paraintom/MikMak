@@ -41,6 +41,6 @@ namespace MikMak.Interfaces
         /// <param name="player">The player</param>
         /// <param name="gameId">The corresponding PlayerInBattle object, null if not exist</param>
         /// <returns></returns>
-        PlayerInBattle GetParticipation(Player player, string gameId);
+        PlayerInBattle GetParticipation(Player player, int gameId);
     }
 }

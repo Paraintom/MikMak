@@ -21,7 +21,5 @@ namespace MikMak.DomainModel.Entities
         /// password
         /// </summary>
         public string Password { get; set; }
-
-        public virtual ICollection<Battle> Battles { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="PlayerInBattleRepository.cs" company="RFLEX Progiciel">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace MikMak.Repository.EntityFramework
+﻿namespace MikMak.Repository.EntityFramework
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +26,7 @@ namespace MikMak.Repository.EntityFramework
             _context = new Context(connec);
         }
 
-        public void CreateLink(string battleId, List<int> players)
+        public void CreateLink(int battleId, List<int> players)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +36,7 @@ namespace MikMak.Repository.EntityFramework
             throw new NotImplementedException();
         }
 
-        public DomainModel.Entities.PlayerInBattle Get(string battleId, int playerId)
+        public DomainModel.Entities.PlayerInBattle Get(int battleId, int playerId)
         {
             throw new NotImplementedException();
         }

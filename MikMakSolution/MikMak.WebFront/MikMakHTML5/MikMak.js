@@ -111,8 +111,8 @@ var addToListGame=function(data,listBattleSpan)
     var newSpan = document.createElement('span');
     // add the class to the 'span'
     newSpan.setAttribute('class', 'gameItem');
-    newSpan.setAttribute('onclick', 'onGameSelected("'+data.Battle.GameId+'")');
-	newSpan.innerHTML = 'GameId ='+data.Battle.GameId+', Game type ='+data.Battle.GameTypeString+', CreationTime='+new Date(data.Battle.CreationTime).toString("yyyy-MM-dd HH:mm:ss")+', Last Update='+new Date(data.Battle.LastUpdate).toString("yyyy-MM-dd HH:mm:ss")+', opponents :';
+    newSpan.setAttribute('onclick', 'onGameSelected('+data.Battle.BattleId+')');
+	newSpan.innerHTML = 'BattleId ='+data.Battle.BattleId+', Game type ='+data.Battle.GameTypeString+', CreationTime='+new Date(data.Battle.CreationTime).toString("yyyy-MM-dd HH:mm:ss")+', Last Update='+new Date(data.Battle.LastUpdate).toString("yyyy-MM-dd HH:mm:ss")+', opponents :';
 	
 	for (var i = 0; i < data.InGame.length; i++) {	
 		newSpan.innerHTML += data.InGame[i].Login+',';
@@ -122,10 +122,10 @@ var addToListGame=function(data,listBattleSpan)
 }
 
 // *****************  Game selection ****************
-var onGameSelected=function(gameId)
+var onGameSelected=function(BattleId)
 {
-	setOutput('Battle selected '+gameId+', connecting to game...');
-	query = "GetGrid?sessionId="+sessionId+"&gameId="+gameId;
+	setOutput('Battle selected '+BattleId+', connecting to game...');
+	query = "GetGrid?sessionId="+sessionId+"&battleId="+BattleId;
 	queryService(query,onGridReceived);
 }
 var refreshCurrentGame=function()
@@ -289,7 +289,7 @@ function gridOnClick(e)
 {
 	var cell = getCursorPosition(e);
 	var x = cell.column + 1;
-	var y = numLines - cell.row;
+	var y = cell.row +1;
 	var tab = new Array();
 	tab.push(x);
 	tab.push(y);
@@ -359,7 +359,7 @@ function drawCircle(name,x,y)
 function drawLetter(name,x,y)
 {
 	x=x-1;
-	y= numLines -y;
+	y=y-1;
 	var context = canvas.getContext("2d");
 	//console.log("drawletter "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);	
 	if(name.charAt(0) == '1' || name.charAt(0) == '0'){

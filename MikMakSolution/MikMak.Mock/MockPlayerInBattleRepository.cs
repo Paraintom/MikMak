@@ -9,21 +9,21 @@ namespace MikMak.Mock
 {
     public class MockPlayerInBattleRepository : IPlayerInBattleRepository
     {
-        private static Dictionary<Tuple<int, string>, PlayerInBattle> datas = new Dictionary<Tuple<int, string>, PlayerInBattle>();
+        private static Dictionary<Tuple<int, int>, PlayerInBattle> datas = new Dictionary<Tuple<int, int>, PlayerInBattle>();
 
         public void Persist(PlayerInBattle playersInBattle)
         {
             int i = 1;
-            foreach (Player player in playersInBattle.Battle.Players)
+            foreach (int currentPlayerId in playersInBattle.Battle.Players)
             {
                 playersInBattle = new PlayerInBattle()
                 {
                     Battle = playersInBattle.Battle,
-                    Player = MockPlayerRepository.GetInstance().Get(player.PlayerId),
+                    Player = MockPlayerRepository.GetInstance().Get(currentPlayerId),
                     PlayerNumber = i
                 };
 
-                Tuple<int, string> toPersist = new Tuple<int, string>(player.PlayerId, playersInBattle.Battle.GameId);
+                Tuple<int, int> toPersist = new Tuple<int, int>(currentPlayerId, playersInBattle.Battle.BattleId);
                 i++;
                 datas[toPersist] = playersInBattle;                
             }
@@ -42,7 +42,7 @@ namespace MikMak.Mock
             return toReturn;
         }
 
-        public PlayerInBattle Get(string battleId, int playerId)
+        public PlayerInBattle Get(int battleId, int playerId)
         {
             foreach (var item in datas)
             {

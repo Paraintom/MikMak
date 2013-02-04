@@ -60,13 +60,33 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         }
 
         /// <summary>
+        /// Create a new player
+        /// </summary>
+        /// <param name="login">the login</param>
+        /// <param name="password">the password</param>
+        /// <returns>a sessionId string</returns>
+        [AcceptVerbs("GET")]
+        public string CreatePlayer(string login, string password)
+        {
+            string toReturn = string.Empty;
+            try
+            {
+                HackJsonp();
+                var player = playerManager.GetNewPlayer(login,password);
+                toReturn = sessionManager.GetSession(login, password).Id;
+            }
+            catch (Exception ex) { throw ex; }
+            return toReturn;
+        }
+
+        /// <summary>
         /// Connection to a specific Game
         /// </summary>
         /// <param name="sessionId">A valid session</param>
-        /// <param name="gameId">the gameId</param>
+        /// <param name="battleId">the battleId</param>
         /// <returns>a sessionId string</returns>
         [AcceptVerbs("GET")]
-        public string ConnectToGame(string sessionId, string gameId)
+        public string ConnectToGame(string sessionId, int battleId)
         {
             HackJsonp();
 
@@ -74,7 +94,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
             try
             {
                 var session = sessionManager.GetSession(sessionId, false);
-                var newSession = sessionManager.GetSession(session, gameId);
+                var newSession = sessionManager.GetSession(session, battleId);
                 toReturn = newSession.Id;
             }
             catch (Exception ex)
@@ -102,13 +122,13 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                     {
                         Battle = battle
                     };
-                    foreach (Player player in battle.Players)
+                    foreach (int playerId in battle.Players)
                     {
-                        //var player = playerManager.Get(player.playerId);
+                        var player = playerManager.Get(playerId);
                         playersInGame.Add(new Player()
                         {
                             Login = player.Login,
-                            PlayerId = player.PlayerId
+                            PlayerId = playerId
                         }
                         );
                     }
@@ -160,6 +180,11 @@ namespace MikMak.WebFront.Areas.Game.Controllers
                 foreach (string opp in opponents)
                 {
                     var player = playerManager.Get(opp);
+                    if (player == null)
+                    {
+                        throw new ArgumentException("Player unknown");
+                    }
+
                     if (!allOpponents.Contains(player))
                     {
                         allOpponents.Add(player);
@@ -172,7 +197,7 @@ namespace MikMak.WebFront.Areas.Game.Controllers
 
                 // 3-Create new game
                 var newGame = gameManager.GetNewGame(session.PlayerInBattle.Player, typeGame, allOpponents);
-                var newSession = sessionManager.GetSession(session, newGame.Battle.GameId);
+                var newSession = sessionManager.GetSession(session, newGame.Battle.BattleId);
 
                 // 4-Return result
                 return new GridExtented()
@@ -221,11 +246,11 @@ namespace MikMak.WebFront.Areas.Game.Controllers
         }
 
         [AcceptVerbs("GET")]
-        public GridExtented GetGrid(string sessionId, string gameId)
+        public GridExtented GetGrid(string sessionId, int battleId)
         {
             HackJsonp();
 
-            var newSession = this.ConnectToGame(sessionId, gameId);
+            var newSession = this.ConnectToGame(sessionId, battleId);
             sessionId = newSession;
 
             try

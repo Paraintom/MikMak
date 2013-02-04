@@ -22,13 +22,13 @@
         Session GetSession(string sessionId, bool gameExpected);
 
         /// <summary>
-        /// Return a session for a gameId.
+        /// Return a session for a battleId.
         /// </summary>
         /// <param name="otherSession">other validSession</param>
-        /// <param name="gameId">GameId that we want to connect</param>
+        /// <param name="battleId">battleId that we want to connect</param>
         /// <returns></returns>
-        Session GetSession(Session otherSession, string gameId);
+        Session GetSession(Session otherSession, int battleId);
 
-        //Session GetSession(Session otherSession, string gameId, int gameType, int playerNumber);
+        //Session GetSession(Session otherSession, string battleId, int gameType, int playerNumber);
     }
 }

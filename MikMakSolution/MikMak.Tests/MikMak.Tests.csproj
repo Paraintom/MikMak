@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D02AE43B-D6A0-4013-A893-E06846923615}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9FF31006-C931-4141-8E94-E8ED07FDA06B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MikMak.Main</RootNamespace>
-    <AssemblyName>MikMak.Main</AssemblyName>
+    <RootNamespace>MikMak.Tests</RootNamespace>
+    <AssemblyName>MikMak.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,9 +33,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MikMak.Tests.Tester</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,25 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GamesManagement\GameManager.cs" />
-    <Compile Include="GamesManagement\TypeGameMappingByReflection.cs" />
-    <Compile Include="InternalInterfaces\ILinkPlayersGames.cs" />
-    <Compile Include="InternalInterfaces\ITypeGameMapping.cs" />
-    <Compile Include="PlayerManagement\PlayerManager.cs" />
+    <Compile Include="Tester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\antdimot-chess-movement-validator-d417221\ChessService\ChessService.csproj">
-      <Project>{2BD16FF4-D305-4E19-93A4-747D5F80DE07}</Project>
-      <Name>ChessService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ConnectFour\ConnectFour\ConnectFour.csproj">
-      <Project>{8479F6AC-A1A8-4EE6-AF76-3AE032A3AB20}</Project>
-      <Name>ConnectFour</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mikmak.DAO.SqlCe\MikMak.DAO.SqlCe.csproj">
       <Project>{D669EBFC-B59B-4005-8D31-EF7F69E1576E}</Project>
       <Name>MikMak.DAO.SqlCe</Name>
@@ -68,28 +58,14 @@
       <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
       <Name>MikMak.DomainModel.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MikMak.DomainModel.Services.Interfaces\MikMak.DomainModel.Services.Interfaces.csproj">
-      <Project>{A47E2E33-851F-411C-8654-833C0F729A69}</Project>
-      <Name>MikMak.DomainModel.Services.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MikMak.Repository.EntityFramework\MikMak.Repository.EntityFramework.csproj">
-      <Project>{31631007-66D9-49B0-B0D5-1CCA15902F0A}</Project>
-      <Name>MikMak.Repository.EntityFramework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MikMak.Repository.Interfaces\MikMak.Repository.Interfaces.csproj">
       <Project>{7C623D40-51F5-47BF-A2FE-CBAA94FDFF0D}</Project>
       <Name>MikMak.Repository.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MikMakCommons\MikMakCommons.csproj">
-      <Project>{734C7FDE-FA2A-4B22-993E-2890243F3430}</Project>
-      <Name>MikMakCommons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Morpion\Morpion.csproj">
-      <Project>{C0B80D70-C0B5-4D73-8763-30F0EE73DD41}</Project>
-      <Name>Morpion</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -167,10 +167,6 @@
     <Compile Include="Areas\Game\Controllers\MikmakController.cs" />
     <Compile Include="Areas\Game\Controllers\SampleGameController.cs" />
     <Compile Include="Areas\Game\GameAreaRegistration.cs" />
-    <Compile Include="Common\Context.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PlayerRoomController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

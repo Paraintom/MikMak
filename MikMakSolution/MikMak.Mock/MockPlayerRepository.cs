@@ -70,10 +70,10 @@ namespace MikMak.Mock
         #region IPlayerRepository Membres
 
 
-        public Player LogInPlayer(string login, string password)
-        {
-            throw new NotImplementedException();
-        }
+        //public Player LogInPlayer(string login, string password)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
     }

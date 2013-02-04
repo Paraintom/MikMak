@@ -34,11 +34,6 @@ namespace MikMak.WebFront.Sessions
         ///// </summary>
         //public int GameType { get; set; }
 
-        ///// <summary>
-        ///// The unique id of the game
-        ///// </summary>
-        //public string GameId { get; set; }
-
         /// <summary>
         /// The player in battle if set, else null
         /// </summary>
