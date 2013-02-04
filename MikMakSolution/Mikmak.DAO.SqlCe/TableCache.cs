@@ -17,8 +17,7 @@ namespace MikMak.DAO
         private static bool hasUpgradeBeenTested = false;
 
         public TableCache()
-        : this(MyConfiguration.GetString("MikMakDbConnection", @"Data Source=|DataDirectory|\LocalDb.sdf"))
-            //: this(MyConfiguration.GetString("MikMakDbConnection", @"Server=tcp:yf10cy0ner.database.windows.net,1433;Database=MikMakDB;User ID=MikMak_User1987@yf10cy0ner;Password=Olive&Tom;Trusted_Connection=True;Encrypt=True;Connection Timeout=30;"))
+            : this(MyConfiguration.GetString("MikMakDbConnection", @"Data Source=|DataDirectory|\..\..\Mikmak.DAO.SqlCe\LocalDb.sdf"))            
         {
         }
         

@@ -178,7 +178,6 @@
     <Compile Include="Sessions\SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\compactSQL.sdf" />
     <Content Include="MikMakHTML5\ChessGif\0Bishop.gif" />
     <Content Include="MikMakHTML5\ChessGif\0King.gif" />
     <Content Include="MikMakHTML5\ChessGif\0Knight.gif" />
