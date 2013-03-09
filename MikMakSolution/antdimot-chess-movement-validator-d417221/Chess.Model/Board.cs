@@ -11,9 +11,21 @@ namespace Chess.Model
         public static Dictionary<char, int> Columns = new Dictionary<char, int>() {
                 { 'A', 0 }, { 'B', 1 }, { 'C', 2 }, { 'D', 3 }, { 'E', 4 }, { 'F', 5 }, { 'G', 6 }, { 'H', 7 }
         };
-        public static Char[] Columns_Inv = new Char[] {'P', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
+        public static Char[] Columns_Inv = new Char[] {'P', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };       
 
         public Tuple<char, int> EnPassant
+        {
+            get;
+            set;
+        }
+
+        public bool PawnPromoted
+        {
+            get;
+            set;
+        }
+
+        public ChessColor PawnPromotedColor
         {
             get;
             set;
@@ -86,6 +98,56 @@ namespace Chess.Model
             // set kings
             SetPiece<King>( ChessColor.White, 'E', 1 );
             SetPiece<King>( ChessColor.Black, 'E', 8 );
+        }
+
+        public Piece[] PawnPromotedChoice()
+        {
+            ChessColor color = PawnPromotedColor;
+            return new Piece[] { GetPiecePromoted(1, color), GetPiecePromoted(2, color), GetPiecePromoted(3, color), GetPiecePromoted(4, color) };
+        }
+
+        public Piece GetPiecePromoted(int choice,ChessColor color)
+        {
+            switch (choice)
+            {
+                case 1:
+                    return new Queen(color);
+                case 2:
+                    return new Rook(color);
+                case 3 :
+                    return new Bishop(color);
+                case 4 :
+                    return new Knight(color);
+            }
+            return new Queen(color);
+        }
+
+        public void SetPawnPromoted(int choice)
+        {
+            //Get pawn promoted
+            int y = 0, x = 0;
+            Piece pawnPromoted = null;
+            for (int i = 1; i < 9; i++)
+            {
+                var testHaut = TryGetPiece(i, 8);
+                if (testHaut != null && testHaut is Pawn)
+                {
+                    pawnPromoted = testHaut;
+                    y = 8;
+                    x = i;
+                    break;
+                }
+                var testBas = TryGetPiece(i, 1);
+                if (testBas != null && testBas is Pawn)
+                {
+                    pawnPromoted = testBas;
+                    y = 1;
+                    x = i;
+                    break;
+                }
+            }
+            clearBoardPosition(Columns_Inv[x], y);
+            PutPiece(GetPiecePromoted(choice, pawnPromoted.ChessColor), Columns_Inv[x], y);
         }
 
         private Piece TryGetPiece(int column, int row)
@@ -340,6 +402,14 @@ namespace Chess.Model
             {
                 PutPiece(selectPiece, targetColumn, targetRow);
                 clearBoardPosition(column, row);
+
+                //Pawn reach the opposite side, can be promoted
+                if (selectPiece is Pawn && (targetRow == 1 || targetRow == 8))
+                {
+                    PawnPromoted = true;
+                    PawnPromotedColor = selectPiece.ChessColor;
+                }
+
                 // check if the move does not make our king in chess
                 Tuple<char, int> pieceWitchMakeChess = CheckKingEchec(selectPiece.ChessColor);
                 if (pieceWitchMakeChess != null)
@@ -347,6 +417,7 @@ namespace Chess.Model
                     //RollBack 
                     PutPiece(selectPiece, column, row);
                     clearBoardPosition(targetColumn, targetRow);
+                    PawnPromoted = false;
                     if (result.Ate == true)
                     {
                         var pieceEaten = result.AtePiece;

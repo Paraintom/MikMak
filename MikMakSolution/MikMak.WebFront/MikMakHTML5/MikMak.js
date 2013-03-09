@@ -4,8 +4,8 @@ var borderPixel = 3;
 var maxClick;
 var allClick;
 //Local only : 
-var rootpath="http://localhost:33226/api/";
-//var rootpath="http://mikmak.azurewebsites.net/api/";
+//var rootpath="http://localhost:33226/api/";
+var rootpath="http://mikmak.azurewebsites.net/api/";
 
 // ************  SessionId Managment ****************
 var sessionIdNotSet = 'notSet';
@@ -159,7 +159,7 @@ var onGridReceived=function(data)
 		for (var i = 0; i < pawns.length; i++) {
 			element = pawns[i];
 			//writeObj(element);
-			drawLetter(element.Name,element.Coord.x,element.Coord.y);
+			drawLetter(element.Name,(numLines - element.Coord.x)+1,element.Coord.y);
 		}
 		
 		//addSpan('mainArea', '<br>');
@@ -260,7 +260,7 @@ function drawCanvas(nbLin, nbCol)
 	canvas.height = height * pixelBySquare;
 	
 	//On trace les lignes
-	for (i=1; i< height; i++)
+	for (i=0; i< height+1; i++)
 	{
 		var tab = new Array();
 		tab[0] = 0;
@@ -271,7 +271,7 @@ function drawCanvas(nbLin, nbCol)
 	}
 	
 	//On trace les colonnes
-	for (i=1; i< width; i++)
+	for (i=0; i< width+1; i++)
 	{
 		var tab = new Array();
 		tab[0] = i*pixelBySquare;
@@ -280,15 +280,34 @@ function drawCanvas(nbLin, nbCol)
 		tab[3] = height*pixelBySquare;
 		drawLine(ctx,tab);
 	}		
+	
+	for (i=0; i< height; i++)
+	{
+		for (j=0; j< width; j++)
+		{
+			if((i+j)%2 == 1){
+				drawSquare(ctx,squareColor, Math.floor(borderPixel/2) + j*pixelBySquare, Math.floor(borderPixel/2) + i*pixelBySquare, pixelBySquare - borderPixel/2);
+			}
+		}
+	}
 	canvas.id = "canvasGrid";
 	canvas.addEventListener("click", gridOnClick, false);	
 	setSpan('mainArea', canvas);
 }  
 
+var squareColor = '#7070B8';
+function drawSquare(context, colorSquare, x1, y1, length)
+{
+	//define the colour of the square
+	context.fillStyle = colorSquare;
+	// Draw the square
+	context.fillRect(x1,y1,length,length);	
+}
+
 function gridOnClick(e)
 {
 	var cell = getCursorPosition(e);
-	var x = cell.column + 1;
+	var x = numLines - cell.column;
 	var y = cell.row +1;
 	var tab = new Array();
 	tab.push(x);
@@ -342,18 +361,6 @@ function drawLine(context,tab)
 	 context.moveTo(tab[0],tab[1]);
 	 context.lineTo(tab[2],tab[3]);
 	 context.stroke(); 
-}  
-
-function drawCircle(name,x,y)
-{
-	var context = canvas.getContext("2d");
-	console.log("drawCircle "+name+" x "+x+" y "+y+" pixelBySquare"+pixelBySquare);
-	context.beginPath(); // Le cercle extérieur
-	context.lineWidth="20";
-	context.fillStyle="#FF4422"
-	context.arc(0*borderPixel+x*pixelBySquare+0.5*pixelBySquare,0*borderPixel+ y*pixelBySquare+0.5*pixelBySquare, 0.5*pixelBySquare, 0, Math.PI * 2); // Ici le calcul est simplifié
-	//context.stroke();
-	context.fill();
 }
 
 function drawLetter(name,x,y)
@@ -365,7 +372,7 @@ function drawLetter(name,x,y)
 	if(name.charAt(0) == '1' || name.charAt(0) == '0'){
 		// Scale the image to span the entire 500 x 500 canvas.
 		var myImg = new Image();
-		myImg.src = 'ChessGif/'+name+'.gif';
+		myImg.src = 'ChessGif/'+name+'.png';
 		
 
 		myImg.onload = function() {

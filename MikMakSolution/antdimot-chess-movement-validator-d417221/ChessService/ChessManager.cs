@@ -41,8 +41,9 @@ namespace ChessService
                 currentState.CurrentMessage = Message.GetMessage(ClassicMessage.NotYourTurn);
                 return currentState;
             }
-
-            if (move.Positions.Count != 2)
+            
+            //Not enough information for doing a move!
+            if (move.Positions.Count < 1)
             {
                 currentState.CurrentMessage = Message.GetMessage(ChessMessage.NotEnoughMove);
                 return currentState;
@@ -50,9 +51,27 @@ namespace ChessService
 
             int x_init = move.Positions[0].Coord.x;
             int y_init = move.Positions[0].Coord.y;
+            Board b = GenerateBoardFromGrid(currentState);
+
+            //Choice for promoted pawn is done
+            if (currentState.NumberLines == 9 && move.Positions.Count == 1)
+            {
+                b.SetPawnPromoted(x_init);
+                var finalState = GetGridFromBoard(b);
+                finalState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
+                finalState.LastMove = move;
+                return finalState;                
+            }
+
+            //Not enough information for doing a move!
+            if (move.Positions.Count != 2)
+            {
+                currentState.CurrentMessage = Message.GetMessage(ChessMessage.NotEnoughMove);
+                return currentState;
+            }
+
             int x_end = move.Positions[1].Coord.x;
             int y_end = move.Positions[1].Coord.y;
-            Board b = GenerateBoardFromGrid(currentState);
             Piece p = b.GetPiece(x_init, y_init);
 
             if (p == null)
@@ -61,7 +80,7 @@ namespace ChessService
                 return currentState;
             }
 
-            if (IsGoodColor(p.ChessColor, move.PlayerNumber))
+            if (!IsGoodColor(p.ChessColor, move.PlayerNumber))
             {
                 currentState.CurrentMessage = Message.GetMessage(ChessMessage.NotYourPawn);
                 return currentState;
@@ -73,19 +92,25 @@ namespace ChessService
             newState.NextPlayerToPlay = currentState.NextPlayerToPlay;
             if (result.IsSuccess)
             {
-                newState.CurrentMessage = new Message()
+                if (newState.NumberLines == 8)
                 {
-                    Id = 30,
-                    Information = result.Description
-                };
-
-                newState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
-                newState.LastMove = move;
-                newState.CurrentMessage = Message.GetMessage((currentState.NextPlayerToPlay == 2) ? ChessMessage.J2 : ChessMessage.J1);
+                    newState.NextPlayerToPlay = (currentState.NextPlayerToPlay == 1) ? 2 : 1;
+                    newState.LastMove = move;
+                    newState.CurrentMessage = Message.GetMessage((newState.NextPlayerToPlay == 2) ? ChessMessage.J2 : ChessMessage.J1);
+                }
+                else
+                {
+                    //If a pawn is at his last position, we can change it by what we want.
+                    //The 9th column is the choose.
+                    newState.NextPlayerToPlay = currentState.NextPlayerToPlay;
+                    newState.LastMove = move;
+                    newState.CurrentMessage = currentState.CurrentMessage;
+                }
             }
             else
             {
                 newState.CurrentMessage = Message.GetMessage(ChessMessage.InvalidMove);
+                newState.CurrentMessage.Information = result.Description;
             }
             return newState;
         }
@@ -94,16 +119,14 @@ namespace ChessService
         {
             switch (chessColor)
             {
-                case ChessColor.White :
-                    return (p ==1);
-                case ChessColor.Black :
-                    return (p ==2);
-                default :
+                case ChessColor.White:
+                    return (p == 1);
+                case ChessColor.Black:
+                    return (p == 2);
+                default:
                     return false;
             }
         }
-
-
 
         #region Helpers
 
@@ -130,19 +153,25 @@ namespace ChessService
                     {
                         b.EnPassant = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
                     }
-                    if (pawn.Name == HaveAlreadyMovedSpecialName)
-                    {
-                        var hasAlreadyMoved = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
-                        HaveAlreadyMoved.Add(hasAlreadyMoved);
-                    }
                     else
                     {
-                        throw new Exception(String.Format("Piece Unknown ({0}) or badly located: [{1},{2}]" , pawn.Name, pawn.Coord.x, pawn.Coord.y));
+                        if (pawn.Name == HaveAlreadyMovedSpecialName)
+                        {
+                            var hasAlreadyMoved = new Tuple<char, int>(Board.Columns_Inv[Math.Abs(pawn.Coord.x)], Math.Abs(pawn.Coord.y));
+                            HaveAlreadyMoved.Add(hasAlreadyMoved);
+                        }
+                        else
+                        {
+                            throw new Exception(String.Format("Piece Unknown ({0}) or badly located: [{1},{2}]", pawn.Name, pawn.Coord.x, pawn.Coord.y));
+                        }
                     }
                 }
                 else{
-                    var p = GetPiece(pawn);
-                    b.PutPiece(p, Board.Columns_Inv[pawn.Coord.x], pawn.Coord.y);
+                    if (pawn.Coord.x < 9 && pawn.Coord.y < 9)
+                    {
+                        var p = GetPiece(pawn);
+                        b.PutPiece(p, Board.Columns_Inv[pawn.Coord.x], pawn.Coord.y);
+                    }
                 }
             }
             foreach (var hasAlreadyMoved in HaveAlreadyMoved)
@@ -165,6 +194,14 @@ namespace ChessService
             };
 
             toReturn.PawnLocations = GetAllPieces(b);
+
+            if (b.PawnPromoted)
+            {
+                //We list the propositions :
+                toReturn.NumberLines = 9;
+                toReturn.MoveNumber = 1;
+            }
+
             return toReturn;
         }
         private List<Pawn> GetAllPieces(Board b)
@@ -195,6 +232,18 @@ namespace ChessService
             {
                 Pawn enPassant = new Pawn(EnPassantSpecialName, -(Board.Columns[b.EnPassant.Item1] + 1), -(b.EnPassant.Item2));
                 toReturn.Add(enPassant);
+            }
+
+            if (b.PawnPromoted)
+            {
+                //We list the propositions :
+                int currentColumn = 0;
+                foreach (Piece p in b.PawnPromotedChoice())
+                {
+                    Pawn PawnChoice = GetPawn(p, currentColumn, 8);
+                    toReturn.Add(PawnChoice);
+                    currentColumn++;
+                }
             }
             return toReturn;
         }

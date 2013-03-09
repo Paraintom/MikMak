@@ -5,9 +5,10 @@
 <meta charset="UTF-8" />
 <title>MikMak Wrapper</title>
 </head>
-<body>
+<body onload="connectIfCredential()">
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="MikMak.js"></script>
+<script type="text/javascript" src="Cookies.js"></script>
 <script type="application/javascript">
 
 // ************  Connection ****************
@@ -15,9 +16,20 @@ function connectInit()
 {
 	login= document.forms["connectionForm"].elements["login"].value;
 	mdp= document.forms["connectionForm"].elements["mdp"].value;
+	
+	setLoginCookie(login);
+	setPasswordCookie(mdp);
+	
 	connect(login,mdp);
-	//query = "Connect?login="+login+"&password="+mdp;
-	//queryService(query,onConnect);
+}
+
+function connectIfCredential()
+{
+	if(credentialAlreadySaved()){
+		login= getLoginCookie();
+		mdp= getPasswordCookie();
+		connect(login,mdp);
+	}
 }
 </script>
 
@@ -38,6 +50,9 @@ function connectInit()
 </span>
 
 <span id="allGames">
+</span>
+<span id="AuthManagment">
+	<br><button type="button" onclick="resetCookies();">Reset Credentials</button><br>
 </span>
 <br>
 Last Message : <span id="output">No message received</span>

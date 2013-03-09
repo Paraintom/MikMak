@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BaseMovementTests.cs" />
     <Compile Include="BishopTests.cs" />
+    <Compile Include="ServiceTests.cs" />
     <Compile Include="KingTests.cs" />
     <Compile Include="PawnTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,9 +55,21 @@
     <Compile Include="RookTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MikMak.DomainModel.Entities\MikMak.DomainModel.Entities.csproj">
+      <Project>{3F3F265F-82D8-4E4D-BE42-8AD7558575D4}</Project>
+      <Name>MikMak.DomainModel.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MikMak.DomainModel.Services.Interfaces\MikMak.DomainModel.Services.Interfaces.csproj">
+      <Project>{A47E2E33-851F-411C-8654-833C0F729A69}</Project>
+      <Name>MikMak.DomainModel.Services.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess.Model\Chess.Model.csproj">
       <Project>{04199042-768D-4996-B504-513732F30BAF}</Project>
       <Name>Chess.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChessService\ChessService.csproj">
+      <Project>{2BD16FF4-D305-4E19-93A4-747D5F80DE07}</Project>
+      <Name>ChessService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
